@@ -28,11 +28,11 @@
                 <div>
                     <h4 class="footer-title">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="menu.html">Menu</a></li>
-                        <li><a href="branches.html">Branches</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="about.php">About Us</a></li>
+                        <li><a href="menu.php">Menu</a></li>
+                        <li><a href="branches.php">Branches</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -40,10 +40,10 @@
                 <div>
                     <h4 class="footer-title">About</h4>
                     <ul class="footer-links">
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="offers.html">Offers</a></li>
-                        <li><a href="testimonials.html">Testimonials</a></li>
-                        <li><a href="catering.html">Catering & Events</a></li>
+                        <li><a href="gallery.php">Gallery</a></li>
+                        <li><a href="offers.php">Offers</a></li>
+                        <li><a href="testimonials.php">Testimonials</a></li>
+                        <li><a href="catering.php">Catering & Events</a></li>
                     </ul>
                 </div>
                 

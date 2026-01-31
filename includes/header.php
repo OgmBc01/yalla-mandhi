@@ -51,24 +51,24 @@ include 'functions.php'
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">Yalla <span>Al Mandhi</span></a>
+            <a href="index.php" class="logo">Yalla <span>Al Mandhi</span></a>
             
             <div class="nav-links">
-                <a href="index.html" class="nav-link active">Home</a>
+                <a href="index.php" class="nav-link active">Home</a>
                 
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">About Us</a>
                     <div class="dropdown-menu">
-                        <a href="about.html" class="dropdown-item">About Yalla Al Mandhi</a>
-                        <a href="gallery.html" class="dropdown-item">Gallery</a>
-                        <a href="offers.html" class="dropdown-item">Offers & Promotions</a>
-                        <a href="testimonials.html" class="dropdown-item">Testimonials</a>
+                        <a href="about.php" class="dropdown-item">About Yalla Al Mandhi</a>
+                        <a href="gallery.php" class="dropdown-item">Gallery</a>
+                        <a href="offers.php" class="dropdown-item">Offers & Promotions</a>
+                        <a href="testimonials.php" class="dropdown-item">Testimonials</a>
                     </div>
                 </div>
                 
-                <a href="menu.html" class="nav-link">Menu</a>
-                <a href="branches.html" class="nav-link">Branches</a>
-                <a href="contact.html" class="nav-link">Contact / Reservations</a>
+                <a href="menu.php" class="nav-link">Menu</a>
+                <a href="branches.php" class="nav-link">Branches</a>
+                <a href="contact.php" class="nav-link">Contact / Reservations</a>
             </div>
             
             <div class="mobile-toggle" id="mobileToggle">
