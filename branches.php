@@ -12,7 +12,7 @@ include 'includes/header.php';
                 <a href="#locations" class="btn btn-primary btn-lg">
                     <i class="bi bi-geo-alt"></i> View Locations
                 </a>
-                <a href="contact.html" class="btn btn-secondary btn-lg">
+                <a href="contact.php" class="btn btn-secondary btn-lg">
                     <i class="bi bi-calendar-check"></i> Reserve Table
                 </a>
             </div>
@@ -31,14 +31,14 @@ include 'includes/header.php';
             <!-- Branch Tabs -->
             <div class="branch-tab">
                 <div class="branch-tab-btn active" data-branch="al-barsha">
-                    <i class="bi bi-star-fill"></i> Al Barsha (Flagship)
+                    <i class="bi bi-star-fill"></i> D.I.P. (Flagship)
                 </div>
                 <div class="branch-tab-btn" data-branch="coming-soon">
                     <i class="bi bi-clock"></i> Coming Soon
                 </div>
             </div>
             
-            <!-- Al Barsha Branch Content -->
+            <!-- DIP Branch Content -->
             <div class="branch-content active" id="al-barsha-content">
                 <div class="branch-highlight">
                     <span class="section-subtitle" style="display: block; margin-bottom: 10px;">Flagship Branch</span>
@@ -162,7 +162,7 @@ include 'includes/header.php';
                                 <a href="https://goo.gl/maps/example" target="_blank" class="btn btn-primary">
                                     <i class="bi bi-geo-alt"></i> Get Directions
                                 </a>
-                                <a href="contact.html" class="btn btn-secondary">
+                                <a href="contact.php" class="btn btn-secondary">
                                     <i class="bi bi-calendar-check"></i> Reserve Table
                                 </a>
                                 <a href="https://wa.me/971503757274" target="_blank" class="btn btn-whatsapp">
@@ -304,7 +304,7 @@ include 'includes/header.php';
                                     <span>Marketing and operational support</span>
                                 </div>
                             </div>
-                            <a href="contact.html" class="btn btn-primary">
+                            <a href="contact.php" class="btn btn-primary">
                                 <i class="bi bi-briefcase"></i> Inquire About Franchising
                             </a>
                         </div>
@@ -326,11 +326,11 @@ include 'includes/header.php';
             <div class="text-center">
                 <h2 class="display-3 mb-4">Visit Us Today</h2>
                 <p class="lead mb-5">
-                    Experience authentic Yemani hospitality and cuisine at our Al Barsha branch.
+                    Experience authentic Yemani hospitality and cuisine at our D.I.P. branch.
                 </p>
                 
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="contact.html" class="btn btn-primary btn-lg">
+                    <a href="contact.php" class="btn btn-primary btn-lg">
                         <i class="bi bi-calendar-check"></i> Book Your Table
                     </a>
                     <a href="https://wa.me/971503757274" target="_blank" class="btn btn-whatsapp btn-lg">
@@ -369,6 +369,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

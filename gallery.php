@@ -199,10 +199,10 @@ include 'includes/header.php';
                 </p>
                 
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="menu.html" class="btn btn-primary btn-lg">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
                         <i class="bi bi-menu-button"></i> View Our Menu
                     </a>
-                    <a href="contact.html" class="btn btn-secondary btn-lg">
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
                         <i class="bi bi-calendar-check"></i> Book Your Visit
                     </a>
                 </div>
@@ -230,6 +230,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

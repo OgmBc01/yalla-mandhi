@@ -418,6 +418,297 @@ img {
   margin-bottom: 1rem;
 }
 
+/* ===== PROFILE PAGE STYLES (profile.php) ===== */
+body.profile-page {
+  background: #f8f8f8 url('../img/bg-auth.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+.profile-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(248, 248, 248, 0.92);
+  padding: 2rem 1rem;
+}
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.profile-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.form-footer {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.profile-avatar-inner {
+  display: inline-flex;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--color-beige);
+  border: 2px solid var(--color-red);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(196,30,58,0.07);
+}
+.profile-avatar-inner i {
+  font-size: 2.5rem;
+  color: var(--color-red);
+}
+.profile-form .form-group {
+  margin-bottom: 1.2rem;
+}
+.profile-form label {
+  font-weight: 500;
+}
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="tel"],
+.profile-form input[type="password"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fafafa;
+  transition: border 0.2s;
+}
+.profile-form input:disabled {
+  background: #f5f1e8;
+  color: #aaa;
+}
+.profile-form small {
+  color: #888;
+  font-size: 0.85rem;
+}
+.profile-form button {
+  width: 100%;
+  margin-top: 10px;
+}
+.profile-form h3 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--color-dark-brown);
+}
+@media (max-width: 600px) {
+  .profile-card {
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    max-width: 98vw;
+    border-radius: 10px;
+  }
+  .profile-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ===== AUTH PAGES STYLES (reset-password, forgot-password, etc.) ===== */
+body.auth-page {
+  background: #f8f8f8 url('../img/bg-auth.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(248, 248, 248, 0.92);
+  padding: 2rem 1rem;
+}
+.auth-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.auth-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.form-footer {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    max-width: 98vw;
+    border-radius: 10px;
+  }
+  .auth-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ===== SIGNUP PAGE STYLES (signup.php) ===== */
+.auth-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.auth-divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+}
+.auth-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-sand);
+}
+.auth-divider span {
+  background: white;
+  padding: 0 15px;
+  color: var(--color-olive);
+  font-size: 0.9rem;
+}
+.password-strength {
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+.strength-bar {
+  height: 5px;
+  background-color: var(--color-sand);
+  border-radius: 3px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.strength-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+.strength-text {
+  font-size: 0.8rem;
+  margin-top: 3px;
+}
+.alert {
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+}
+.alert-error {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+.alert-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+/* ===== LOGIN PAGE STYLES (login.php) ===== */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(248, 248, 248, 0.92);
+  padding: 2rem 1rem;
+  margin-top: 60px;
+}
+.auth-logo {
+  text-align: center;
+}
+.auth-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+.form-control {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fafafa;
+  transition: border 0.2s;
+}
+.form-control:focus {
+  border-color: #c41e3a;
+  outline: none;
+}
+.auth-divider {
+  text-align: center;
+  color: #aaa;
+  margin: 1.2rem 0 0.5rem 0;
+  font-size: 0.95rem;
+  position: relative;
+}
+.auth-divider span {
+  background: #fff;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+.auth-divider:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: #eee;
+  z-index: 0;
+}
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    max-width: 98vw;
+    border-radius: 10px;
+  }
+  .auth-title {
+    font-size: 1.4rem;
+  }
+  .auth-logo h2 {
+    font-size: 1.5rem !important;
+  }
+  .btn, .btn-primary, .btn-outline {
+    font-size: 0.98rem;
+    padding: 0.7rem 0.7rem;
+  }
+  .form-footer {
+    font-size: 0.95rem;
+  }
+}
+
 /* ===== FEATURE CARDS ===== */
 .feature-grid {
   display: grid;
@@ -1182,3 +1473,4 @@ textarea.form-control {
     font-size: 0.8rem;
   }
 }
+

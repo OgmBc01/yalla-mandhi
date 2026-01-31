@@ -241,13 +241,13 @@ include 'includes/header.php';
                 </p>
                 
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="menu.html" class="btn btn-primary btn-lg">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
                         <i class="bi bi-menu-button"></i> Explore Our Menu
                     </a>
-                    <a href="contact.html" class="btn btn-secondary btn-lg">
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
                         <i class="bi bi-calendar-check"></i> Make a Reservation
                     </a>
-                    <a href="branches.html" class="btn btn-outline btn-lg">
+                    <a href="branches.php" class="btn btn-outline btn-lg">
                         <i class="bi bi-geo-alt"></i> Find Our Location
                     </a>
                 </div>
@@ -255,13 +255,13 @@ include 'includes/header.php';
                 <div style="margin-top: 40px; padding: 20px; background-color: white; border-radius: var(--border-radius); max-width: 600px; margin-left: auto; margin-right: auto; box-shadow: var(--box-shadow);">
                     <h4 class="mb-3">Quick Links to Learn More</h4>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <a href="gallery.html" class="btn btn-outline" style="border-color: var(--color-olive); color: var(--color-olive);">
+                        <a href="gallery.php" class="btn btn-outline" style="border-color: var(--color-olive); color: var(--color-olive);">
                             <i class="bi bi-images"></i> View Gallery
                         </a>
-                        <a href="offers.html" class="btn btn-outline" style="border-color: var(--color-copper); color: var(--color-copper);">
+                        <a href="offers.php" class="btn btn-outline" style="border-color: var(--color-copper); color: var(--color-copper);">
                             <i class="bi bi-percent"></i> Current Offers
                         </a>
-                        <a href="testimonials.html" class="btn btn-outline" style="border-color: var(--color-red); color: var(--color-red);">
+                        <a href="testimonials.php" class="btn btn-outline" style="border-color: var(--color-red); color: var(--color-red);">
                             <i class="bi bi-chat-quote"></i> Read Reviews
                         </a>
                     </div>
@@ -271,6 +271,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

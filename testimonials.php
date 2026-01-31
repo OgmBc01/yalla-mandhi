@@ -491,6 +491,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

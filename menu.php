@@ -12,7 +12,7 @@ include 'includes/header.php';
                 <a href="#order" class="btn btn-primary btn-lg">
                     <i class="bi bi-whatsapp"></i> Order Now
                 </a>
-                <a href="contact.html" class="btn btn-secondary btn-lg">
+                <a href="contact.php" class="btn btn-secondary btn-lg">
                     <i class="bi bi-calendar-check"></i> Reserve Table
                 </a>
             </div>
@@ -632,7 +632,7 @@ include 'includes/header.php';
                     <a href="tel:+971503757274" class="btn btn-secondary btn-lg">
                         <i class="bi bi-telephone"></i> Call to Order
                     </a>
-                    <a href="contact.html" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
+                    <a href="contact.php" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
                         <i class="bi bi-calendar-check"></i> Dine-In Reservation
                     </a>
                 </div>
@@ -664,6 +664,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

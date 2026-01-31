@@ -312,13 +312,13 @@ include 'includes/header.php';
                     </p>
                     <p style="margin-bottom: 30px; opacity: 0.8;">
                         <strong>Note:</strong> Please arrive 10 minutes before your reservation time. 
-                        For any changes, please call us at +971 4 123 4567.
+                        For any changes, please call us at +971 50 375 7274.
                     </p>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <a href="menu.html" class="btn btn-outline">
+                        <a href="menu.php" class="btn btn-outline">
                             <i class="bi bi-menu-button"></i> View Menu
                         </a>
-                        <a href="offers.html" class="btn btn-outline">
+                        <a href="offers.php" class="btn btn-outline">
                             <i class="bi bi-percent"></i> View Offers
                         </a>
                         <button class="btn btn-primary" id="newReservationBtn">
@@ -427,7 +427,7 @@ include 'includes/header.php';
                         Thank you for reaching out. We've received your inquiry and will get back to you within 24 hours.
                     </p>
                     <p style="margin-bottom: 30px; opacity: 0.8;">
-                        For urgent matters, please call us at +971 4 123 4567.
+                        For urgent matters, please call us at +971 50 375 7274.
                     </p>
                     <button class="btn btn-primary" id="newInquiryBtn">
                         <i class="bi bi-plus-circle"></i> New Inquiry
@@ -538,7 +538,7 @@ include 'includes/header.php';
                         Thank you for your catering inquiry. Our events team will contact you within 24 hours to discuss your requirements and provide a customized quote.
                     </p>
                     <p style="margin-bottom: 30px; opacity: 0.8;">
-                        For urgent inquiries, please call our events team at +971 4 123 4567 (Ext. 2).
+                        For urgent inquiries, please call our events team at +971 50 375 7274 (Ext. 2).
                     </p>
                     <button class="btn btn-primary" id="newCateringBtn">
                         <i class="bi bi-plus-circle"></i> New Catering Inquiry
@@ -592,7 +592,7 @@ include 'includes/header.php';
                         <i class="bi bi-telephone" style="font-size: 1.5rem;"></i>
                         <div>
                             <div style="font-weight: 600;">Call Now</div>
-                            <div>+971 4 123 4567</div>
+                            <div>+971 50 375 7274</div>
                         </div>
                     </a>
                     
@@ -600,7 +600,7 @@ include 'includes/header.php';
                         <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i>
                         <div>
                             <div style="font-weight: 600;">WhatsApp</div>
-                            <div>+971 50 123 4567</div>
+                            <div>+971 50 375 7274</div>
                         </div>
                     </a>
                     
@@ -646,6 +646,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

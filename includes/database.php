@@ -1,26 +1,28 @@
 <?php
-declare(strict_types=1);
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', ''); 
+define('DB_NAME', 'yallaalmandhi');
 
-$db_host = $_ENV['DB_HOST'] ?? 'localhost';
-$db_name = $_ENV['DB_NAME'] ?? 'yallaalmandhi';
-$db_user = $_ENV['DB_USER'] ?? 'root';
-$db_pass = $_ENV['DB_PASS'] ?? '';
-
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-try {
-    $connection = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-    // Enforce secure charset
-    $connection->set_charset('utf8mb4');
-
-} catch (mysqli_sql_exception $e) {
-
-    // Log internally, never expose details
-    error_log(
-        '[DB CONNECTION ERROR] ' . $e->getMessage()
-    );
-
-    http_response_code(500);
-    exit('Database connection unavailable.');
+function getDBConnection() {
+    static $conn = null;
+    
+    if ($conn === null) {
+        try {
+            $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            
+            if ($conn->connect_error) {
+                throw new Exception("Connection failed: " . $conn->connect_error);
+            }
+            
+            // Set charset to utf8mb4
+            $conn->set_charset("utf8mb4");
+            
+        } catch (Exception $e) {
+            error_log("Database connection error: " . $e->getMessage());
+            return null;
+        }
+    }
+    
+    return $conn;
 }

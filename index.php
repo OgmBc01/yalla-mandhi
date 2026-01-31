@@ -9,10 +9,10 @@ include 'includes/header.php';
             <h1 class="display-1">Authentic Yemani Mandhi</h1>
             <p class="lead">Experience the rich flavors of traditional Yemani cuisine in a warm, family-friendly atmosphere. Where every meal tells a story.</p>
             <div class="hero-buttons">
-                <a href="menu.html" class="btn btn-primary btn-lg">
+                <a href="menu.php" class="btn btn-primary btn-lg">
                     <i class="bi bi-menu-button"></i> View Our Menu
                 </a>
-                <a href="contact.html" class="btn btn-secondary btn-lg">
+                <a href="contact.php" class="btn btn-secondary btn-lg">
                     <i class="bi bi-calendar-check"></i> Book a Table
                 </a>
                 <a href="tel:+971503757274" class="btn btn-outline btn-lg">
@@ -41,7 +41,7 @@ include 'includes/header.php';
                     <p style="font-size: 1.1rem; margin-bottom: 30px;">
                         Every dish is prepared with the finest ingredients, cooked slowly to perfection, and served with the warmth of Yemani hospitality.
                     </p>
-                    <a href="about.html" class="btn btn-primary">Learn Our Story</a>
+                    <a href="about.php" class="btn btn-primary">Learn Our Story</a>
                 </div>
                 
                 <div class="col" style="flex: 1; min-width: 300px;">
@@ -110,7 +110,7 @@ include 'includes/header.php';
             </div>
             
             <div class="text-center mt-5">
-                <a href="menu.html" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
+                <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -204,8 +204,8 @@ include 'includes/header.php';
                     </div>
                     
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
-                        <a href="branches.html" class="btn btn-primary">View All Branches</a>
-                        <a href="contact.html" class="btn btn-secondary">Get Directions</a>
+                        <a href="branches.php" class="btn btn-primary">View All Branches</a>
+                        <a href="contact.php" class="btn btn-secondary">Get Directions</a>
                         <a href="https://wa.me/971503757274" target="_blank" class="btn btn-whatsapp">
                             <i class="bi bi-whatsapp"></i> WhatsApp
                         </a>
@@ -270,7 +270,7 @@ include 'includes/header.php';
             </div>
             
             <div class="text-center mt-5">
-                <a href="testimonials.html" class="btn btn-outline">Read More Reviews</a>
+                <a href="testimonials.php" class="btn btn-outline">Read More Reviews</a>
             </div>
         </div>
     </section>
@@ -285,7 +285,7 @@ include 'includes/header.php';
                 </p>
                 
                 <div class="hero-buttons">
-                    <a href="contact.html" class="btn btn-primary btn-lg">
+                    <a href="contact.php" class="btn btn-primary btn-lg">
                         <i class="bi bi-calendar-check"></i> Reserve Your Table
                     </a>
                     <a href="tel:+971503757274" class="btn btn-secondary btn-lg">
@@ -320,6 +320,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

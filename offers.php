@@ -48,7 +48,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div style="display: flex; gap: 15px;">
-                            <a href="contact.html" class="btn btn-primary" style="background-color: white; color: var(--color-red); border-color: white;">
+                            <a href="contact.php" class="btn btn-primary" style="background-color: white; color: var(--color-red); border-color: white;">
                                 <i class="bi bi-calendar-check"></i> Reserve Now
                             </a>
                             <a href="tel:+971503757274" class="btn btn-outline" style="border-color: white; color: white;">
@@ -105,7 +105,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div class="offer-validity">Valid every Friday | For 4-6 people</div>
-                        <a href="contact.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                             <i class="bi bi-cart-check"></i> Book This Offer
                         </a>
                     </div>
@@ -133,7 +133,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div class="offer-validity">Weekdays 12-3 PM | Min. 2 persons</div>
-                        <a href="contact.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                             <i class="bi bi-briefcase"></i> Book Business Lunch
                         </a>
                     </div>
@@ -161,7 +161,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div class="offer-validity">Daily 5-7 PM | Dine-in only</div>
-                        <a href="contact.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                             <i class="bi bi-clock"></i> Reserve Early Table
                         </a>
                     </div>
@@ -189,7 +189,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div class="offer-validity">All year round | Min. 6 persons</div>
-                        <a href="contact.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                             <i class="bi bi-gift"></i> Plan Birthday Party
                         </a>
                     </div>
@@ -250,7 +250,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         <div class="offer-validity">All days | Valid ID required</div>
-                        <a href="contact.html" class="btn btn-secondary" style="width: 100%; margin-top: 20px;">
+                        <a href="contact.php" class="btn btn-secondary" style="width: 100%; margin-top: 20px;">
                             <i class="bi bi-mortarboard"></i> Book Student Table
                         </a>
                     </div>
@@ -300,7 +300,7 @@ include 'includes/header.php';
                         <i class="bi bi-question-circle" style="color: var(--color-red);"></i> Have Questions?
                     </h4>
                     <p style="opacity: 0.8; margin-bottom: 15px;">Contact our team for clarification on any offer terms or booking procedures.</p>
-                    <a href="contact.html" class="btn btn-outline" style="margin-right: 10px;">
+                    <a href="contact.php" class="btn btn-outline" style="margin-right: 10px;">
                         <i class="bi bi-envelope"></i> Email Us
                     </a>
                     <a href="tel:+971503757274" class="btn btn-outline">
@@ -357,6 +357,6 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <?
+    <?php
     include 'includes/footer.php';
     ?>

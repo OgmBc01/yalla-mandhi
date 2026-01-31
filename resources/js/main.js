@@ -1160,3 +1160,232 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ===== SIGNUP PAGE SCRIPT (from signup.php) =====
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signupForm');
+    const passwordInput = document.getElementById('password');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+    // Password strength checker
+    if (passwordInput && strengthFill && strengthText) {
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strength = checkSignupPasswordStrength(password);
+            // Update strength bar
+            strengthFill.style.width = strength.score * 25 + '%';
+            // Update colors and text
+            switch(strength.score) {
+                case 1:
+                    strengthFill.style.backgroundColor = '#ff4444';
+                    strengthText.textContent = 'Password strength: Very weak';
+                    break;
+                case 2:
+                    strengthFill.style.backgroundColor = '#ffbb33';
+                    strengthText.textContent = 'Password strength: Weak';
+                    break;
+                case 3:
+                    strengthFill.style.backgroundColor = '#00C851';
+                    strengthText.textContent = 'Password strength: Good';
+                    break;
+                case 4:
+                    strengthFill.style.backgroundColor = '#007E33';
+                    strengthText.textContent = 'Password strength: Strong';
+                    break;
+                default:
+                    strengthFill.style.backgroundColor = '#e0e0e0';
+                    strengthText.textContent = 'Password strength: Very weak';
+            }
+        });
+    }
+    function checkSignupPasswordStrength(password) {
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        return {
+            score: Math.min(score, 4),
+            max: 4
+        };
+    }
+    // Form validation
+    if (signupForm) {
+        signupForm.addEventListener('submit', function(e) {
+            const username = this.querySelector('[name="username"]');
+            const email = this.querySelector('[name="email"]');
+            const password = this.querySelector('[name="password"]');
+            const confirmPassword = this.querySelector('[name="confirm_password"]');
+            const terms = this.querySelector('[name="terms"]');
+            let isValid = true;
+            clearSignupErrors();
+            // Validate username
+            if (!username.value.trim()) {
+                showSignupError(username, 'Username is required');
+                isValid = false;
+            } else if (!/^[a-zA-Z0-9_]+$/.test(username.value)) {
+                showSignupError(username, 'Username can only contain letters, numbers, and underscores');
+                isValid = false;
+            } else if (username.value.length < 3) {
+                showSignupError(username, 'Username must be at least 3 characters');
+                isValid = false;
+            }
+            // Validate email
+            if (!email.value.trim()) {
+                showSignupError(email, 'Email is required');
+                isValid = false;
+            } else if (!isValidSignupEmail(email.value)) {
+                showSignupError(email, 'Please enter a valid email address');
+                isValid = false;
+            }
+            // Validate password
+            if (!password.value.trim()) {
+                showSignupError(password, 'Password is required');
+                isValid = false;
+            } else if (!validateSignupPassword(password.value)) {
+                showSignupError(password, 'Password must be at least 8 characters with uppercase, lowercase, and number');
+                isValid = false;
+            }
+            // Validate confirm password
+            if (!confirmPassword.value.trim()) {
+                showSignupError(confirmPassword, 'Please confirm your password');
+                isValid = false;
+            } else if (password.value !== confirmPassword.value) {
+                showSignupError(confirmPassword, 'Passwords do not match');
+                isValid = false;
+            }
+            // Validate terms
+            if (!terms.checked) {
+                const termsError = document.createElement('div');
+                termsError.className = 'error-message';
+                termsError.style.color = '#c41e3a';
+                termsError.style.fontSize = '0.875rem';
+                termsError.style.marginTop = '10px';
+                termsError.textContent = 'You must agree to the Terms of Service';
+                terms.parentNode.appendChild(termsError);
+                isValid = false;
+            }
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+        // Remove error on input
+        signupForm.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorMessage = this.parentNode.querySelector('.error-message');
+                if (errorMessage) errorMessage.remove();
+            });
+        });
+    }
+    // Social signup buttons
+    document.querySelectorAll('.btn-outline').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const platform = this.querySelector('i').className.includes('google') ? 'Google' : 'Facebook';
+            alert(`${platform} signup integration would be implemented here.`);
+        });
+    });
+    // Helper functions (scoped to signup page)
+    function showSignupError(input, message) {
+        input.classList.add('error');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = '#c41e3a';
+        errorDiv.style.fontSize = '0.875rem';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        input.parentNode.appendChild(errorDiv);
+    }
+    function clearSignupErrors() {
+        document.querySelectorAll('.error').forEach(el => {
+            el.classList.remove('error');
+        });
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.remove();
+        });
+    }
+    function isValidSignupEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    function validateSignupPassword(password) {
+        // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+    }
+});
+// ===== LOGIN PAGE SCRIPT (from login.php) =====
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            // Client-side validation
+            const usernameEmail = this.querySelector('[name="username_email"]');
+            const password = this.querySelector('[name="password"]');
+            let isValid = true;
+            // Clear previous errors
+            clearLoginErrors();
+            // Validate username/email
+            if (!usernameEmail.value.trim()) {
+                showLoginError(usernameEmail, 'Username or email is required');
+                isValid = false;
+            }
+            // Validate password
+            if (!password.value.trim()) {
+                showLoginError(password, 'Password is required');
+                isValid = false;
+            } else if (password.value.length < 6) {
+                showLoginError(password, 'Password must be at least 6 characters');
+                isValid = false;
+            }
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+        // Remove error on input
+        loginForm.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorMessage = this.parentNode.querySelector('.error-message');
+                if (errorMessage) errorMessage.remove();
+            });
+        });
+    }
+    // Social login buttons
+    document.querySelectorAll('.btn-outline').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const platform = this.querySelector('i').className.includes('google') ? 'Google' : 'Facebook';
+            alert(`${platform} login integration would be implemented here.`);
+        });
+    });
+    // Remember me cookie check
+    const rememberCookie = getLoginCookie('remember_user');
+    if (rememberCookie && document.querySelector('[name="username_email"]')) {
+        document.querySelector('[name="username_email"]').value = rememberCookie;
+        document.querySelector('[name="remember"]').checked = true;
+    }
+    // Helper functions (scoped to login page)
+    function showLoginError(input, message) {
+        input.classList.add('error');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = '#c41e3a';
+        errorDiv.style.fontSize = '0.875rem';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        input.parentNode.appendChild(errorDiv);
+    }
+    function clearLoginErrors() {
+        document.querySelectorAll('.error').forEach(el => {
+            el.classList.remove('error');
+        });
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.remove();
+        });
+    }
+    function getLoginCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+});
