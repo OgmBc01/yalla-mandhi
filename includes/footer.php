@@ -72,7 +72,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 Yalla Al Mandi. All rights reserved. | Designed with passion for authentic Yemani cuisine.</p>
+                <p>&copy; 2026 Yalla Al Mandi. All rights reserved. | Designed with passion for authentic Yemani cuisine.</p>
                 <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                     <a href="#" style="color: inherit;">Privacy Policy</a> | 
                     <a href="#" style="color: inherit;">Terms of Service</a> | 

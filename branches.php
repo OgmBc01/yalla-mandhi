@@ -354,7 +354,7 @@ include 'includes/header.php';
                         <div style="text-align: center;">
                             <i class="bi bi-envelope" style="font-size: 2rem; color: var(--color-red); margin-bottom: 10px;"></i>
                             <p style="font-weight: 600;">Email Support</p>
-                            <p style="opacity: 0.8;">support@yallaalMandi.com</p>
+                            <p style="opacity: 0.8;">support@yallaalmandi.com</p>
                         </div>
                         
                         <div style="text-align: center;">
