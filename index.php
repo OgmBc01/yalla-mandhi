@@ -1,12 +1,12 @@
-<?php
+.html<?php
 include 'includes/header.php';
 ?>
 
     <!-- ===== HERO SECTION ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Mandhi" class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Mandi" class="hero-bg">
         <div class="hero-content">
-            <h1 class="display-1">Authentic Yemani Mandhi</h1>
+            <h1 class="display-1">Authentic Yemani Mandi</h1>
             <p class="lead">Experience the rich flavors of traditional Yemani cuisine in a warm, family-friendly atmosphere. Where every meal tells a story.</p>
             <div class="hero-buttons">
                 <a href="menu.php" class="btn btn-primary btn-lg">
@@ -27,13 +27,13 @@ include 'includes/header.php';
         <div class="container">
             <div class="text-center mb-5">
                 <span class="section-subtitle">Our Story</span>
-                <h2 class="display-2">Welcome to Yalla Al Mandhi</h2>
+                <h2 class="display-2">Welcome to Yalla Al Mandi</h2>
             </div>
             
             <div class="row" style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
                 <div class="col" style="flex: 1; min-width: 300px;">
                     <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                        Founded with a passion for authentic Yemani cuisine, Yalla Al Mandhi brings generations of culinary tradition to your table. Our journey began with the desire of Mr. Zayed to share the traditional aroma of Yemani dishes with friends and the world.
+                        Founded with a passion for authentic Yemani cuisine, Yalla Al Mandi brings generations of culinary tradition to your table. Our journey began with the desire of Mr. Zayed to share the traditional aroma of Yemani dishes with friends and the world.
                     </p>
                     <p style="font-size: 1.1rem; margin-bottom: 20px;">
                         Today, we continue this legacy by blending traditional cooking methods with modern presentation, creating an unforgettable dining experience that honors our heritage while embracing contemporary tastes.
@@ -66,12 +66,12 @@ include 'includes/header.php';
                 <!-- Dish 1 -->
                 <div class="menu-card">
                     <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Chicken Mandhi" 
+                         alt="Chicken Mandi" 
                          class="menu-img">
                     <div class="menu-content">
                         <span class="menu-tag">Signature</span>
                         <div class="menu-header">
-                            <h3 class="menu-title">Chicken Mandhi</h3>
+                            <h3 class="menu-title">Chicken Mandi</h3>
                             <span class="menu-price">AED 85</span>
                         </div>
                         <p>Slow-cooked tender lamb with aromatic rice, infused with traditional Middle Eastern spices.</p>
@@ -120,7 +120,7 @@ include 'includes/header.php';
         <div class="container">
             <div class="text-center mb-5">
                 <span class="section-subtitle">Excellence</span>
-                <h2 class="display-2">Why Choose Yalla Al Mandhi</h2>
+                <h2 class="display-2">Why Choose Yalla Al Mandi</h2>
             </div>
             
             <div class="feature-grid">
@@ -242,7 +242,7 @@ include 'includes/header.php';
                             <i class="bi bi-star-fill"></i>
                         </div>
                         <p class="testimonial-text">
-                            "The most authentic Yemani Mandhi I've had outside of Syria. The flavors take me back to my childhood. The hospitality is exceptional!"
+                            "The most authentic Yemani Mandi I've had outside of Syria. The flavors take me back to my childhood. The hospitality is exceptional!"
                         </p>
                         <p class="testimonial-author">- Ahmed Al Hassan</p>
                     </div>

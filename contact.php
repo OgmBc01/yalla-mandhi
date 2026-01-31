@@ -88,9 +88,9 @@ include 'includes/header.php';
                     <h3>Email</h3>
                     <p style="margin-bottom: 15px; opacity: 0.8;">Send us detailed inquiries or feedback</p>
                     <div style="font-size: 1.1rem; font-weight: 600; color: var(--color-dark-brown); margin-bottom: 20px;">
-                        info@yallaalmandhi.com
+                        info@yallaalMandi.com
                     </div>
-                    <a href="mailto:info@yallaalmandhi.com" class="btn btn-outline">
+                    <a href="mailto:info@yallaalMandi.com" class="btn btn-outline">
                         <i class="bi bi-envelope"></i> Send Email
                     </a>
                 </div>
@@ -604,11 +604,11 @@ include 'includes/header.php';
                         </div>
                     </a>
                     
-                    <a href="mailto:info@yallaalmandhi.com" class="social-contact-link email">
+                    <a href="mailto:info@yallaalMandi.com" class="social-contact-link email">
                         <i class="bi bi-envelope" style="font-size: 1.5rem;"></i>
                         <div>
                             <div style="font-weight: 600;">Email Us</div>
-                            <div>info@yallaalmandhi.com</div>
+                            <div>info@yallaalMandi.com</div>
                         </div>
                     </a>
                 </div>

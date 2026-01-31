@@ -9,8 +9,8 @@ $currentUser = getCurrentUser();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yalla Al Mandhi | Authentic Yemani Mandhi Restaurant</title>
-    <meta name="description" content="Experience authentic Yemani Mandhi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
+    <title>Yalla Al Mandi | Authentic Yemani Mandi Restaurant</title>
+    <meta name="description" content="Experience authentic Yemani Mandi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,13 +30,13 @@ $currentUser = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Yalla Al Mandhi | Authentic Yemani Mandhi Restaurant</title>
-    <meta name="description" content="Experience authentic Yemani Mandhi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
+    <title>Yalla Al Mandi | Authentic Yemani Mandi Restaurant</title>
+    <meta name="description" content="Experience authentic Yemani Mandi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Yalla Al Mandhi | Authentic Yemani Mandhi Restaurant">
-    <meta property="og:description" content="Experience authentic Yemani Mandhi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
-    <meta property="og:type" content="yallaalmandhi">
+    <meta property="og:title" content="Yalla Al Mandi | Authentic Yemani Mandi Restaurant">
+    <meta property="og:description" content="Experience authentic Yemani Mandi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
+    <meta property="og:type" content="yallaalmandi">
     <meta property="og:url" content="https://yallaalmandhi.com/">
     <meta property="og:image" content="https://yallaalmandhi.com/resources/img/mandhi.jpg">
     <meta property="og:image:width" content="1200">
@@ -44,8 +44,8 @@ $currentUser = getCurrentUser();
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Yalla Al Mandhi | Authentic Yemani Mandhi Restaurant">
-    <meta name="twitter:description" content="Experience authentic Yemani Mandhi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
+    <meta name="twitter:title" content="Yalla Al Mandi | Authentic Yemani Mandi Restaurant">
+    <meta name="twitter:description" content="Experience authentic Yemani Mandi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
     <meta name="twitter:image" content="https://yallaalmandhi.com/resources/img/mandhi.jpg">
 </head>
 <body>
@@ -59,7 +59,7 @@ $currentUser = getCurrentUser();
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">About Us</a>
                     <div class="dropdown-menu">
-                        <a href="about.php" class="dropdown-item">About Yalla Al Mandhi</a>
+                        <a href="about.php" class="dropdown-item">About Yalla Al Mandi</a>
                         <a href="gallery.php" class="dropdown-item">Gallery</a>
                         <a href="offers.php" class="dropdown-item">Offers & Promotions</a>
                         <a href="testimonials.php" class="dropdown-item">Testimonials</a>

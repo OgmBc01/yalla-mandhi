@@ -4,7 +4,7 @@ include 'includes/header.php';
 
     <!-- ===== HERO BANNER ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Mandhi" class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Mandi" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Our Menu</h1>
             <p class="lead">Authentic Yemani flavors crafted with generations of culinary expertise.</p>
@@ -27,8 +27,8 @@ include 'includes/header.php';
             </div>
             
             <div class="menu-category-nav">
-                <a href="#signature-mandhi" class="btn btn-outline menu-category-btn active" data-category="signature">
-                    <i class="bi bi-star-fill"></i> Signature Mandhi
+                <a href="#signature-Mandi" class="btn btn-outline menu-category-btn active" data-category="signature">
+                    <i class="bi bi-star-fill"></i> Signature Mandi
                 </a>
                 <a href="#grills-bbq" class="btn btn-outline menu-category-btn" data-category="grills">
                     <i class="bi bi-fire"></i> Grills & BBQ
@@ -55,12 +55,12 @@ include 'includes/header.php';
         </div>
     </section>
 
-    <!-- ===== SIGNATURE MANDHI ===== -->
-    <section id="signature-mandhi" class="section-padding menu-category">
+    <!-- ===== SIGNATURE Mandi ===== -->
+    <section id="signature-Mandi" class="section-padding menu-category">
         <div class="container">
             <div class="text-center mb-5">
                 <span class="section-subtitle">Our Specialty</span>
-                <h2 class="display-2">Signature Mandhi</h2>
+                <h2 class="display-2">Signature Mandi</h2>
                 <p class="lead">The heart of Yemani cuisine - slow-cooked to perfection with authentic spices</p>
             </div>
             
@@ -68,12 +68,12 @@ include 'includes/header.php';
                 <!-- Item 1 -->
                 <div class="menu-card">
                     <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Traditional Lamb Mandhi" 
+                         alt="Traditional Lamb Mandi" 
                          class="menu-img">
                     <div class="menu-content">
                         <span class="menu-tag">Chef's Special</span>
                         <div class="menu-header">
-                            <h3 class="menu-title">Traditional Lamb Mandhi</h3>
+                            <h3 class="menu-title">Traditional Lamb Mandi</h3>
                             <span class="menu-price">AED 85</span>
                         </div>
                         <p>Slow-cooked tender lamb with aromatic rice, infused with traditional Middle Eastern spices and served with special sauce.</p>
@@ -86,12 +86,12 @@ include 'includes/header.php';
                 <!-- Item 2 -->
                 <div class="menu-card">
                     <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Chicken Mandhi" 
+                         alt="Chicken Mandi" 
                          class="menu-img">
                     <div class="menu-content">
                         <span class="menu-tag">Popular</span>
                         <div class="menu-header">
-                            <h3 class="menu-title">Chicken Mandhi</h3>
+                            <h3 class="menu-title">Chicken Mandi</h3>
                             <span class="menu-price">AED 65</span>
                         </div>
                         <p>Juicy chicken marinated in Yemani spices, cooked with fragrant basmati rice, nuts, and raisins.</p>
@@ -104,12 +104,12 @@ include 'includes/header.php';
                 <!-- Item 3 -->
                 <div class="menu-card">
                     <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Vegetable Mandhi" 
+                         alt="Vegetable Mandi" 
                          class="menu-img">
                     <div class="menu-content">
                         <span class="menu-tag">Vegetarian</span>
                         <div class="menu-header">
-                            <h3 class="menu-title">Vegetable Mandhi</h3>
+                            <h3 class="menu-title">Vegetable Mandi</h3>
                             <span class="menu-price">AED 55</span>
                         </div>
                         <p>Assorted seasonal vegetables cooked with aromatic rice and traditional Yemani spices.</p>
@@ -122,15 +122,15 @@ include 'includes/header.php';
                 <!-- Item 4 -->
                 <div class="menu-card">
                     <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Mixed Mandhi Platter" 
+                         alt="Mixed Mandi Platter" 
                          class="menu-img">
                     <div class="menu-content">
                         <span class="menu-tag">Family Favorite</span>
                         <div class="menu-header">
-                            <h3 class="menu-title">Mixed Mandhi Platter</h3>
+                            <h3 class="menu-title">Mixed Mandi Platter</h3>
                             <span class="menu-price">AED 120</span>
                         </div>
-                        <p>Combination of lamb and chicken mandhi with assorted grilled vegetables and special sauces.</p>
+                        <p>Combination of lamb and chicken Mandi with assorted grilled vegetables and special sauces.</p>
                         <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
                             <i class="bi bi-people"></i> Serves 2-3
                         </div>
@@ -389,7 +389,7 @@ include 'includes/header.php';
                             <h3 class="menu-title">Family Feast Platter</h3>
                             <span class="menu-price">AED 180</span>
                         </div>
-                        <p>Includes lamb mandhi, chicken mandhi, mixed grill, appetizers, rice, salads, and bread for 4-6 people.</p>
+                        <p>Includes lamb Mandi, chicken Mandi, mixed grill, appetizers, rice, salads, and bread for 4-6 people.</p>
                         <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
                             <i class="bi bi-people"></i> Serves 4-6
                         </div>
@@ -456,10 +456,10 @@ include 'includes/header.php';
                 <div class="menu-card">
                     <div class="menu-content">
                         <div class="menu-header">
-                            <h3 class="menu-title">Mini Chicken Mandhi</h3>
+                            <h3 class="menu-title">Mini Chicken Mandi</h3>
                             <span class="menu-price">AED 40</span>
                         </div>
-                        <p>Small portion of our signature chicken mandhi, mild spice level.</p>
+                        <p>Small portion of our signature chicken Mandi, mild spice level.</p>
                     </div>
                 </div>
                 

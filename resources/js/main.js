@@ -261,7 +261,7 @@ function initMap() {
         const marker = new google.maps.Marker({
             position: location,
             map: map,
-            title: 'Yalla Al Mandhi',
+            title: 'Yalla Al Mandi',
             icon: {
                 url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
             }
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const marker = new google.maps.Marker({
                 position: alBarshaLocation,
                 map: map,
-                title: 'Yalla Al Mandhi - Al Barsha Branch',
+                title: 'Yalla Al Mandi - Al Barsha Branch',
                 icon: {
                     url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
                 }
@@ -839,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const infoWindow = new google.maps.InfoWindow({
                 content: `
                     <div style="padding: 10px;">
-                        <h3 style="margin: 0 0 10px 0; color: #c41e3a;">Yalla Al Mandhi</h3>
+                        <h3 style="margin: 0 0 10px 0; color: #c41e3a;">Yalla Al Mandi</h3>
                         <p style="margin: 0 0 5px 0;">Al Barsha, Dubai</p>
                         <p style="margin: 0 0 5px 0;">+971 4 123 4567</p>
                         <a href="https://goo.gl/maps/example" target="_blank" style="color: #c41e3a; text-decoration: none;">
@@ -1122,7 +1122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const marker = new google.maps.Marker({
                 position: alBarshaLocation,
                 map: map,
-                title: 'Yalla Al Mandhi',
+                title: 'Yalla Al Mandi',
                 icon: {
                     url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
                 }
@@ -1131,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const infoWindow = new google.maps.InfoWindow({
                 content: `
                     <div style="padding: 10px;">
-                        <h3 style="margin: 0 0 10px 0; color: #c41e3a;">Yalla Al Mandhi</h3>
+                        <h3 style="margin: 0 0 10px 0; color: #c41e3a;">Yalla Al Mandi</h3>
                         <p style="margin: 0 0 5px 0;">Al Barsha, Dubai</p>
                         <p style="margin: 0 0 5px 0;">+971 4 123 4567</p>
                         <a href="https://goo.gl/maps/example" target="_blank" style="color: #c41e3a; text-decoration: none;">

@@ -103,7 +103,7 @@ include 'includes/header.php';
                             <i class="bi bi-star-fill"></i>
                         </div>
                         <p class="testimonial-text">
-                            "As a Yemani expat living in Dubai for 10 years, I've been searching for authentic Mandhi. Yalla Al Mandhi is the real deal! The flavors transported me back to my grandmother's kitchen in Damascus. The hospitality is exceptional - they make you feel like family."
+                            "As a Yemani expat living in Dubai for 10 years, I've been searching for authentic Mandi. Yalla Al Mandi is the real deal! The flavors transported me back to my grandmother's kitchen in Damascus. The hospitality is exceptional - they make you feel like family."
                         </p>
                         <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 30px;">
                             <div style="width: 60px; height: 60px; background-color: var(--color-sand); border-radius: 50%; overflow: hidden;">
@@ -197,7 +197,7 @@ include 'includes/header.php';
                         <span style="font-size: 0.8rem; color: #999;">2 weeks ago</span>
                     </div>
                     <p style="margin-bottom: 20px; font-style: italic; opacity: 0.8;">
-                        "The early bird special is fantastic! Great value for money. The Mandhi was perfectly cooked - tender meat and flavorful rice."
+                        "The early bird special is fantastic! Great value for money. The Mandi was perfectly cooked - tender meat and flavorful rice."
                     </p>
                     <div style="padding-top: 15px; border-top: 1px solid var(--color-sand);">
                         <span style="background-color: var(--color-beige); padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: var(--color-olive);">
@@ -297,7 +297,7 @@ include 'includes/header.php';
                         <span style="font-size: 0.8rem; color: #999;">1 week ago</span>
                     </div>
                     <p style="margin-bottom: 20px; font-style: italic; opacity: 0.8;">
-                        "I'm a vegetarian and was worried about options, but their vegetable Mandhi is amazing! So flavorful and satisfying."
+                        "I'm a vegetarian and was worried about options, but their vegetable Mandi is amazing! So flavorful and satisfying."
                     </p>
                     <div style="padding-top: 15px; border-top: 1px solid var(--color-sand);">
                         <span style="background-color: var(--color-beige); padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: var(--color-olive);">
@@ -355,7 +355,7 @@ include 'includes/header.php';
                         <i class="bi bi-google" style="font-size: 2rem; color: #000;"></i>
                     </div>
                     <div>
-                        <h3 style="color: var(--color-dark-brown); margin-bottom: 5px;">Yalla Al Mandhi on Google</h3>
+                        <h3 style="color: var(--color-dark-brown); margin-bottom: 5px;">Yalla Al Mandi on Google</h3>
                         <p style="opacity: 0.8;">Rated 4.8 stars from 850+ reviews</p>
                     </div>
                 </div>
@@ -377,7 +377,7 @@ include 'includes/header.php';
                             <span style="font-size: 0.8rem; color: #999;">2 days ago</span>
                         </div>
                         <p style="font-size: 0.9rem; opacity: 0.8;">
-                            "Authentic flavors, excellent service. The Mandhi is the best I've had outside Syria."
+                            "Authentic flavors, excellent service. The Mandi is the best I've had outside Syria."
                         </p>
                     </div>
                     

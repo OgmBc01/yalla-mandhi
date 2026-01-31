@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Yalla Al Mandhi</title>
+    <title>Login - Yalla Al Mandi</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.php" class="logo">Yalla <span>Al Mandhi</span></a>
+            <a href="index.php" class="logo">Yalla <span>Al Mandi</span></a>
             
             <div class="nav-links">
                 <a href="index.php" class="nav-link">Home</a>
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     <section class="auth-container">
         <div class="auth-card">
             <div class="auth-logo">
-                <h2 class="logo" style="font-size: 2.5rem; margin: 0;">Yalla <span>Al Mandhi</span></h2>
+                <h2 class="logo" style="font-size: 2.5rem; margin: 0;">Yalla <span>Al Mandi</span></h2>
             </div>
             
             <h2 class="auth-title display-3">Welcome Back</h2>

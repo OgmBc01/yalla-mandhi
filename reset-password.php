@@ -37,7 +37,7 @@ if (empty($token) && !$success) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Yalla Al Mandhi</title>
+    <title>Reset Password - Yalla Al Mandi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -49,7 +49,7 @@ if (empty($token) && !$success) {
     <body class="auth-page">
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.php" class="logo">Yalla <span>Al Mandhi</span></a>
+            <a href="index.php" class="logo">Yalla <span>Al Mandi</span></a>
             <div class="nav-links">
                 <a href="index.php" class="nav-link">Home</a>
                 <a href="login.php" class="nav-link">Login</a>

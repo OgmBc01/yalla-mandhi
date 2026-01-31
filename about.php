@@ -29,7 +29,7 @@ include 'includes/header.php';
                 <div class="col" style="flex: 1; min-width: 300px;">
                     <h3 class="display-3 mb-4">A Family Legacy</h3>
                     <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                        Founded with a passion for authentic Yemani cuisine, Yalla Al Mandhi brings generations of culinary tradition to your table. Our journey began with the desire of Mr. Zayed to share the traditional aroma of Yemani dishes with friends and the world..
+                        Founded with a passion for authentic Yemani cuisine, Yalla Al Mandi brings generations of culinary tradition to your table. Our journey began with the desire of Mr. Zayed to share the traditional aroma of Yemani dishes with friends and the world..
                     </p>
                     <p style="font-size: 1.1rem; margin-bottom: 20px;">
                         In 2015, brothers Abbas and Mohammad brought these cherished family recipes to Dubai, determined to preserve their authenticity while adapting to modern dining expectations. What started as a small family restaurant has grown into a beloved culinary destination, but our commitment to traditional flavors remains unchanged.
@@ -95,7 +95,7 @@ include 'includes/header.php';
             <div class="text-center mb-5">
                 <span class="section-subtitle">Our Philosophy</span>
                 <h2 class="display-2">Our Values & Commitment</h2>
-                <p class="lead">What makes Yalla Al Mandhi truly special</p>
+                <p class="lead">What makes Yalla Al Mandi truly special</p>
             </div>
             
             <div class="feature-grid">
@@ -150,7 +150,7 @@ include 'includes/header.php';
                 <div class="col" style="flex: 1; min-width: 300px;">
                     <h3 class="display-3 mb-4">Where Tradition Meets Contemporary</h3>
                     <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                        At Yalla Al Mandhi, we celebrate the rich culinary heritage of Syria while embracing modern dining sensibilities. Our approach is a delicate balance:
+                        At Yalla Al Mandi, we celebrate the rich culinary heritage of Syria while embracing modern dining sensibilities. Our approach is a delicate balance:
                     </p>
                     
                     <div style="margin: 30px 0;">

@@ -7,7 +7,7 @@ include 'includes/header.php';
         <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Restaurant Exterior" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Our Branches</h1>
-            <p class="lead">Find your nearest Yalla Al Mandhi for an authentic Yemani dining experience.</p>
+            <p class="lead">Find your nearest Yalla Al Mandi for an authentic Yemani dining experience.</p>
             <div style="margin-top: 30px;">
                 <a href="#locations" class="btn btn-primary btn-lg">
                     <i class="bi bi-geo-alt"></i> View Locations
@@ -43,7 +43,7 @@ include 'includes/header.php';
                 <div class="branch-highlight">
                     <span class="section-subtitle" style="display: block; margin-bottom: 10px;">Flagship Branch</span>
                     <h2 class="display-3">Dubai Investment Park (DIP), Dubai</h2>
-                    <p class="lead">Our first and largest branch, offering the complete Yalla Al Mandhi experience.</p>
+                    <p class="lead">Our first and largest branch, offering the complete Yalla Al Mandi experience.</p>
                 </div>
                 
                 <div class="row" style="display: flex; gap: 50px; margin-bottom: 50px;">
@@ -72,7 +72,7 @@ include 'includes/header.php';
                                     <i class="bi bi-envelope info-icon"></i>
                                     <div>
                                         <strong>Email</strong>
-                                        <p>dip@yallaalmandhi.com</p>
+                                        <p>dip@yallaalMandi.com</p>
                                     </div>
                                 </div>
                                 
@@ -234,7 +234,7 @@ include 'includes/header.php';
                 <div class="coming-soon-card">
                     <h2 class="display-2" style="color: white; margin-bottom: 20px;">Expanding Across UAE</h2>
                     <p class="lead" style="opacity: 0.9; margin-bottom: 30px;">
-                        We're excited to announce new Yalla Al Mandhi locations coming soon to serve more communities.
+                        We're excited to announce new Yalla Al Mandi locations coming soon to serve more communities.
                     </p>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 40px;">
@@ -288,7 +288,7 @@ include 'includes/header.php';
                         <div class="col" style="flex: 1;">
                             <h2 class="display-3 mb-4">Franchise Opportunities</h2>
                             <p style="margin-bottom: 20px; font-size: 1.1rem;">
-                                Interested in bringing authentic Yemani cuisine to your city? We're looking for passionate partners to expand the Yalla Al Mandhi experience.
+                                Interested in bringing authentic Yemani cuisine to your city? We're looking for passionate partners to expand the Yalla Al Mandi experience.
                             </p>
                             <div style="margin-bottom: 20px;">
                                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
@@ -354,7 +354,7 @@ include 'includes/header.php';
                         <div style="text-align: center;">
                             <i class="bi bi-envelope" style="font-size: 2rem; color: var(--color-red); margin-bottom: 10px;"></i>
                             <p style="font-weight: 600;">Email Support</p>
-                            <p style="opacity: 0.8;">support@yallaalmandhi.com</p>
+                            <p style="opacity: 0.8;">support@yallaalMandi.com</p>
                         </div>
                         
                         <div style="text-align: center;">

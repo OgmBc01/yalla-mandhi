@@ -15,7 +15,7 @@ include 'includes/header.php';
     <section class="section-padding" style="background-color: var(--color-beige);">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-2">Experience Yalla Al Mandhi</h2>
+                <h2 class="display-2">Experience Yalla Al Mandi</h2>
                 <p class="lead">Browse through our collection of culinary creations, restaurant spaces, and happy gatherings.</p>
             </div>
             
@@ -34,11 +34,11 @@ include 'includes/header.php';
             <div class="gallery-grid">
                 <!-- Food Category -->
                 <div class="gallery-item" data-category="food">
-                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Traditional Mandhi Dish">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Traditional Mandi Dish">
                     <div class="gallery-overlay">
                         <div style="text-align: center; color: white;">
                             <i class="bi bi-zoom-in" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                            <p>Signature Mandhi</p>
+                            <p>Signature Mandi</p>
                         </div>
                     </div>
                 </div>

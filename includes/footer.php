@@ -4,9 +4,9 @@
             <div class="footer-grid">
                 <!-- Brand Column -->
                 <div>
-                    <div class="footer-logo">Yalla <span>Al Mandhi</span></div>
+                    <div class="footer-logo">Yalla <span>Al Mandi</span></div>
                     <p style="opacity: 0.8; margin-bottom: 20px;">
-                        Bringing authentic Yemani Mandhi to the heart of the UAE. Family recipes, modern presentation, traditional warmth.
+                        Bringing authentic Yemani Mandi to the heart of the UAE. Family recipes, modern presentation, traditional warmth.
                     </p>
                     <div class="social-links">
                         <a href="#" class="social-icon">
@@ -65,14 +65,14 @@
                         </li>
                         <li style="display: flex; align-items: center; gap: 10px;">
                             <i class="bi bi-envelope" style="color: var(--color-red);"></i>
-                            <span>info@yallaalmandhi.com</span>
+                            <span>info@yallaalMandi.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 Yalla Al Mandhi. All rights reserved. | Designed with passion for authentic Yemani cuisine.</p>
+                <p>&copy; 2024 Yalla Al Mandi. All rights reserved. | Designed with passion for authentic Yemani cuisine.</p>
                 <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                     <a href="#" style="color: inherit;">Privacy Policy</a> | 
                     <a href="#" style="color: inherit;">Terms of Service</a> | 
