@@ -201,7 +201,9 @@ function isLoggedIn() {
  * Check if user is admin
  */
 function isAdmin() {
-    return isLoggedIn() && isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+    return isLoggedIn()
+        && isset($_SESSION['role'])
+        && in_array($_SESSION['role'], ['admin', 'super-admin'], true);
 }
 
 /**
