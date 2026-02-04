@@ -1,4 +1,4 @@
-.html<?php
+<?php
 include 'includes/header.php';
 ?>
 

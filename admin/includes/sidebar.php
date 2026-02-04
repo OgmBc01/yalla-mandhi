@@ -37,19 +37,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
             <ul class="sub-menu" id="reservations-menu">
                 <li class="nav-item">
-                    <a class="nav-link" href="reservations.php?source=add_reservation">
+                    <a class="nav-link" href="reservation.php?source=add_reservation">
                         <i class="bi bi-plus-circle nav-icon"></i>
                         <span class="nav-text">Add Reservation</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="reservations.php">
+                    <a class="nav-link" href="reservation.php">
                         <i class="bi bi-card-checklist nav-icon"></i>
                         <span class="nav-text">View All</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="reservations.php?status=pending">
+                    <a class="nav-link" href="reservation.php?source=view_pending">
                         <i class="bi bi-clock-history nav-icon"></i>
                         <span class="nav-text">Pending</span>
                     </a>
