@@ -193,23 +193,35 @@ if (!function_exists('getMonthlyRevenue')) {
 // Get popular menu items
 if (!function_exists('getPopularMenuItems')) {
     function getPopularMenuItems($connection, $limit = 5) {
-        $sql = "SELECT 
-                    mi.name,
-                    mi.category,
-                    mi.price,
-                    COUNT(oi.id) as order_count,
-                    SUM(oi.quantity) as total_quantity
-                FROM order_items oi
-                JOIN menu_items mi ON oi.menu_item_id = mi.id
-                GROUP BY mi.id
-                ORDER BY total_quantity DESC
-                LIMIT $limit";
-        
+
+        $limit = (int)$limit; // safety
+
+        $sql = "
+            SELECT
+                mi.name,
+                mc.name AS category,
+                mi.price,
+                COUNT(oi.id) AS order_count,
+                SUM(oi.quantity) AS total_quantity
+            FROM order_items oi
+            INNER JOIN menu_items mi 
+                ON oi.menu_item_id = mi.id
+            INNER JOIN menu_categories mc 
+                ON mi.category_id = mc.id
+            GROUP BY mi.id, mi.name, mc.name, mi.price
+            ORDER BY total_quantity DESC
+            LIMIT $limit
+        ";
+
         $result = $connection->query($sql);
+
         $items = [];
-        while ($row = $result->fetch_assoc()) {
-            $items[] = $row;
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $items[] = $row;
+            }
         }
+
         return $items;
     }
 }

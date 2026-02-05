@@ -524,15 +524,66 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 
-    window.showDeleteConfirmation = function(reservationId, reservationInfo) {
-        if (!reservationId) {
-            showError('Invalid reservation ID');
+
+    // ===== Menu Item Deletion (view_all_menu_items.php) =====
+    let currentDeleteMenuItemId = null;
+    window.showDeleteMenuItemConfirmation = function(menuItemId, menuItemInfo) {
+        if (!menuItemId) {
+            showError('Invalid menu item ID');
             return;
         }
-        currentDeleteReservationId = reservationId;
-        document.getElementById('deleteReservationInfo').textContent = reservationInfo;
-        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+        currentDeleteMenuItemId = menuItemId;
+        var infoElem = document.getElementById('deleteMenuItemInfo');
+        if (infoElem) {
+            infoElem.textContent = menuItemInfo;
+        }
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteMenuItemModal'));
         deleteModal.show();
+    };
+
+    window.deleteMenuItem = function() {
+        if (!currentDeleteMenuItemId) {
+            showError('No menu item selected for deletion');
+            return;
+        }
+        const deleteBtn = document.getElementById('confirmDeleteMenuItemBtn');
+        const originalText = deleteBtn.innerHTML;
+        deleteBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Deleting...';
+        deleteBtn.disabled = true;
+        fetch('includes/delete_menu_item.php?id=' + currentDeleteMenuItemId)
+            .then(response => response.json())
+            .then(data => {
+                deleteBtn.innerHTML = originalText;
+                deleteBtn.disabled = false;
+                if (data.success) {
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteMenuItemModal'));
+                    modal.hide();
+                    // Remove row from table
+                    const row = document.getElementById('menu-item-row-' + currentDeleteMenuItemId);
+                    if (row) {
+                        row.style.opacity = '0';
+                        row.style.transition = 'opacity 0.4s';
+                        setTimeout(() => {
+                            row.remove();
+                            // If using DataTables, redraw the table
+                            if (typeof $.fn.DataTable !== 'undefined' && $('#menuItemsTable').DataTable()) {
+                                $('#menuItemsTable').DataTable().clear().draw();
+                            }
+                        }, 400);
+                    }
+                    showSuccess(data.message || 'Menu item deleted successfully!');
+                    currentDeleteMenuItemId = null;
+                } else {
+                    showError(data.message || 'Failed to delete menu item');
+                }
+            })
+            .catch(error => {
+                deleteBtn.innerHTML = originalText;
+                deleteBtn.disabled = false;
+                showError('Error deleting menu item: ' + error.message);
+                console.error('Error:', error);
+            });
     };
 
     window.deleteReservation = function() {

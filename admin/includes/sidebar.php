@@ -85,7 +85,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </li>
-
+        
         <!-- Menu Management -->
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="menu">
@@ -110,6 +110,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link" href="categories.php">
                         <i class="bi bi-tags nav-icon"></i>
                         <span class="nav-text">Categories</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.php?source=add_category">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Category</span>
                     </a>
                 </li>
             </ul>

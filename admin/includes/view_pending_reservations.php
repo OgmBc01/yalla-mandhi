@@ -253,3 +253,156 @@ if (!$result) {
         </div>
     </div>
 </div>
+
+
+
+<script>
+// Confirm Reservation
+function confirmReservation(reservationId) {
+    if (!reservationId) {
+        showError('Invalid reservation ID');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to confirm this reservation?')) {
+        return;
+    }
+    
+    fetch('includes/update_reservation_status.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'id=' + reservationId + '&status=confirmed'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove row from table
+            const row = document.getElementById('reservation-row-' + reservationId);
+            if (row) {
+                const table = $('#pendingReservationsTable').DataTable();
+                if (table) {
+                    table.row(row).remove().draw();
+                } else {
+                    row.style.opacity = '0';
+                    row.style.transition = 'opacity 0.4s';
+                    setTimeout(() => {
+                        row.remove();
+                    }, 400);
+                }
+            }
+            showSuccess('Reservation confirmed successfully!');
+        } else {
+            showError(data.message || 'Failed to confirm reservation');
+        }
+    })
+    .catch(error => {
+        showError('Error confirming reservation: ' + error.message);
+        console.error('Error:', error);
+    });
+}
+
+// Cancel Reservation
+function cancelReservation(reservationId) {
+    if (!reservationId) {
+        showError('Invalid reservation ID');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to cancel this reservation?')) {
+        return;
+    }
+    
+    fetch('includes/update_reservation_status.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'id=' + reservationId + '&status=cancelled'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove row from table
+            const row = document.getElementById('reservation-row-' + reservationId);
+            if (row) {
+                const table = $('#pendingReservationsTable').DataTable();
+                if (table) {
+                    table.row(row).remove().draw();
+                } else {
+                    row.style.opacity = '0';
+                    row.style.transition = 'opacity 0.4s';
+                    setTimeout(() => {
+                        row.remove();
+                    }, 400);
+                }
+            }
+            showSuccess('Reservation cancelled successfully!');
+        } else {
+            showError(data.message || 'Failed to cancel reservation');
+        }
+    })
+    .catch(error => {
+        showError('Error cancelling reservation: ' + error.message);
+        console.error('Error:', error);
+    });
+}
+
+// Show success message
+function showSuccess(message) {
+    document.getElementById('toastMessage').textContent = message;
+    const toast = new bootstrap.Toast(document.getElementById('successToast'));
+    toast.show();
+    
+    setTimeout(() => toast.hide(), 5000);
+}
+
+// Show error message
+function showError(message) {
+    document.getElementById('errorToastMessage').textContent = message;
+    const toast = new bootstrap.Toast(document.getElementById('errorToast'));
+    toast.show();
+    
+    setTimeout(() => toast.hide(), 5000);
+}
+
+// Initialize DataTable and popovers
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize popovers
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+    
+    // Initialize DataTable
+    if (typeof jQuery !== 'undefined' && typeof $.fn.DataTable !== 'undefined') {
+        // Destroy existing DataTable instance if it exists
+        if ($.fn.DataTable.isDataTable('#pendingReservationsTable')) {
+            $('#pendingReservationsTable').DataTable().destroy();
+        }
+        
+        $('#pendingReservationsTable').DataTable({
+            pageLength: 25,
+            order: [[2, 'asc']], // Sort by date (column index 2)
+            columnDefs: [
+                { orderable: false, targets: [7] }, // Make Actions column non-orderable (8th column, index 7)
+                { width: "50px", targets: [0] }, // ID column width
+                { width: "180px", targets: [7] } // Actions column width (8th column, index 7)
+            ],
+            responsive: true,
+            language: {
+                search: "Search pending reservations:",
+                lengthMenu: "Show _MENU_ reservations per page",
+                info: "Showing _START_ to _END_ of _TOTAL_ pending reservations",
+                infoEmpty: "Showing 0 to 0 of 0 entries",
+                zeroRecords: "No matching reservations found",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            }
+        });
+    }
+});
+</script>
