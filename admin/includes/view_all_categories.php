@@ -5,16 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ensure $connection is set
-if (!isset($connection) || !$connection) {
-    if (function_exists('getDBConnection')) {
-        $connection = getDBConnection();
-    } else {
-        require_once dirname(__DIR__, 2) . '/includes/database.php';
-        $connection = getDBConnection();
-    }
-}
-
 // Fetch all categories
 $sql = "SELECT mc.*, 
         (SELECT COUNT(*) FROM menu_items WHERE category_id = mc.id) as item_count
@@ -256,32 +246,6 @@ if (!$result) {
         </div>
     </div>
 </div>
-
-<style>
-    .table th {
-        font-weight: 600;
-        background-color: #2c3e50 !important;
-        color: white;
-        vertical-align: middle;
-    }
-    .table-dark {
-        --bs-table-bg: #2c3e50;
-        --bs-table-color: white;
-    }
-    .btn-sm {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.875rem;
-    }
-    #categoriesTable tbody tr:hover {
-        background-color: rgba(241, 191, 112, 0.1);
-    }
-    .btn-group .btn {
-        border-radius: 4px !important;
-    }
-    .btn-group .btn:not(:last-child) {
-        margin-right: 2px;
-    }
-</style>
 
 <script>
 // Global variables

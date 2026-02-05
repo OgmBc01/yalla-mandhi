@@ -5,16 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ensure $connection is set
-if (!isset($connection) || !$connection) {
-    if (function_exists('getDBConnection')) {
-        $connection = getDBConnection();
-    } else {
-        require_once dirname(__DIR__, 2) . '/includes/database.php';
-        $connection = getDBConnection();
-    }
-}
-
 // Fetch all reservations with branch name
 $sql = "SELECT r.*, b.name 
         FROM reservations r 
@@ -197,7 +187,7 @@ if (!$result) {
                                                 </a>
                                                 
                                                 <button type="button" class="btn btn-outline-danger delete-reservation-btn" 
-                                                        onclick="showDeleteConfirmation(<?php echo $reservation['id']; ?>, '<?php echo htmlspecialchars(addslashes($reservation['customer_name'] . ' - ' . date('M d, Y', strtotime($reservation['reservation_date'])))); ?>')"
+                                                        onclick="showDeleteReservationConfirmation(<?php echo $reservation['id']; ?>, '<?php echo htmlspecialchars(addslashes($reservation['customer_name'] . ' - ' . date('M d, Y', strtotime($reservation['reservation_date'])))); ?>')"
                                                         title="Delete Reservation">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
@@ -227,7 +217,6 @@ if (!$result) {
     </div>
 </div>
 
-
 <!-- View Reservation Modal (Redesigned) -->
 <div class="modal fade" id="viewReservationModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -255,8 +244,8 @@ if (!$result) {
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+<!-- Delete Reservation Confirmation Modal -->
+<div class="modal fade" id="deleteReservationModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -268,7 +257,7 @@ if (!$result) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn" onclick="deleteReservation()">
+                <button type="button" class="btn btn-danger" id="confirmDeleteReservationBtn" onclick="deleteReservation()">
                     Delete
                 </button>
             </div>
@@ -301,3 +290,4 @@ if (!$result) {
         </div>
     </div>
 </div>
+

@@ -5,16 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ensure $connection is set
-if (!isset($connection) || !$connection) {
-    if (function_exists('getDBConnection')) {
-        $connection = getDBConnection();
-    } else {
-        require_once dirname(__DIR__, 2) . '/includes/database.php';
-        $connection = getDBConnection();
-    }
-}
-
 // Fetch all menu items with category name
 $sql = "SELECT mi.*, mc.name as category_name 
         FROM menu_items mi 

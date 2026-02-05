@@ -30,6 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../../includes/database.php';
+require_once __DIR__ . '/../../includes/functions.php';
 header('Content-Type: application/json');
 
 // Check if user is logged in
@@ -45,13 +46,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 $category_id = (int)$_GET['id'];
-
-// Get database connection
-$connection = getDBConnection();
-if (!$connection) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit;
-}
 
 // First, check if category exists
 $check_query = "SELECT id, name FROM menu_categories WHERE id = ?";

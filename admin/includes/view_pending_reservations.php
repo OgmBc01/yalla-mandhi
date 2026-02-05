@@ -5,16 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ensure $connection is set
-if (!isset($connection) || !$connection) {
-    if (function_exists('getDBConnection')) {
-        $connection = getDBConnection();
-    } else {
-        require_once dirname(__DIR__, 2) . '/includes/database.php';
-        $connection = getDBConnection();
-    }
-}
-
 // Fetch pending reservations
 $sql = "SELECT r.*, b.name 
         FROM reservations r 

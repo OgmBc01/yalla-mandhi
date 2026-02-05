@@ -30,6 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../../includes/database.php';
+require_once __DIR__ . '/../../includes/functions.php';
 header('Content-Type: application/json');
 
 // Check if user is logged in
@@ -47,16 +48,6 @@ if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
 if (!isset($_POST['status']) || !in_array($_POST['status'], ['pending', 'confirmed', 'cancelled', 'completed'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid status']);
     exit;
-}
-
-// Ensure $connection is set
-if (!isset($connection) || !$connection) {
-    if (function_exists('getDBConnection')) {
-        $connection = getDBConnection();
-    } else {
-        require_once dirname(__DIR__, 2) . '/includes/database.php';
-        $connection = getDBConnection();
-    }
 }
 
 $reservation_id = (int)$_POST['id'];

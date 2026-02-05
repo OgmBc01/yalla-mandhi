@@ -586,12 +586,27 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 
+    window.showDeleteReservationConfirmation = function(reservationId, reservationInfo) {
+        if (!reservationId) {
+            showError('Invalid reservation ID');
+            return;
+        }
+        currentDeleteReservationId = reservationId;
+        // Optionally show reservation info in modal
+        var infoElem = document.getElementById('deleteReservationInfo');
+        if (infoElem && reservationInfo) {
+            infoElem.textContent = reservationInfo;
+        }
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteReservationModal'));
+        deleteModal.show();
+    };
+
     window.deleteReservation = function() {
         if (!currentDeleteReservationId) {
             showError('No reservation selected for deletion');
             return;
         }
-        const deleteBtn = document.getElementById('confirmDeleteBtn');
+        const deleteBtn = document.getElementById('confirmDeleteReservationBtn');
         const originalText = deleteBtn.innerHTML;
         deleteBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Deleting...';
         deleteBtn.disabled = true;
@@ -602,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 deleteBtn.disabled = false;
                 if (data.success) {
                     // Close modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteReservationModal'));
                     modal.hide();
                     // Remove row from table
                     const row = document.getElementById('reservation-row-' + currentDeleteReservationId);
@@ -613,13 +628,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             row.remove();
                             // If using DataTables, redraw the table
                             if (typeof $.fn.DataTable !== 'undefined' && $('#reservationsTable').DataTable()) {
-                                $('#reservationsTable').DataTable().clear().draw();
+                                $('#reservationsTable').DataTable().draw();
                             }
                         }, 400);
                     }
                     // Show success message
                     showSuccess(data.message || 'Reservation deleted successfully!');
                     currentDeleteReservationId = null;
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1200); // Give user time to see toast
                 } else {
                     showError(data.message || 'Failed to delete reservation');
                 }

@@ -6,6 +6,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Ensure $connection is set
+if (!isset($connection) || !$connection) {
+    if (function_exists('getDBConnection')) {
+        $connection = getDBConnection();
+    } else {
+        require_once dirname(__DIR__, 2) . '/includes/database.php';
+        $connection = getDBConnection();
+    }
+}
+
 /**
  * Enforce session timeout (30 minutes)
  */
