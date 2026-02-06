@@ -196,12 +196,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li> -->
 
-        <!-- Testimonials -->
+        <!-- Testimonials Menu -->
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'testimonials.php') ? 'active' : ''; ?>" href="testimonials.php">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="testimonials">
                 <i class="bi bi-chat-left-quote nav-icon"></i>
                 <span class="nav-text">Testimonials</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
             </a>
+            <ul class="sub-menu" id="testimonials-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="testimonials.php?source=add_testimonial">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Testimonial</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="testimonials.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Testimonials</span>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <!-- Offers & Promotions -->
