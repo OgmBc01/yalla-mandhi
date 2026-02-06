@@ -85,7 +85,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </li>
-        
+
         <!-- Menu Management -->
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="menu">
@@ -152,13 +152,28 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         <!-- Branches Menu -->
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'branches.php') ? 'active' : ''; ?>" href="branches.php">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="branches">
                 <i class="bi bi-shop nav-icon"></i>
                 <span class="nav-text">Branches</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
             </a>
+            <ul class="sub-menu" id="branches-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="branches.php?source=add_branch">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Branch</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="branches.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Branches</span>
+                    </a>
+                </li>
+            </ul>
         </li>
 
-        <!-- Catering & Events -->
+        <!-- Catering & Events
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="catering">
                 <i class="bi bi-truck nav-icon"></i>
@@ -179,7 +194,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
 
         <!-- Testimonials -->
         <li class="nav-item">
