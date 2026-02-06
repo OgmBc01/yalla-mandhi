@@ -27,13 +27,12 @@ if ($branch_result) {
 }
 
 // Fetch reservation data if editing existing reservation
-if ($reservation_id > 0) {
+if ($reservation_id > 0 && $_SERVER['REQUEST_METHOD'] !== 'POST') {
     $sql = "SELECT * FROM reservations WHERE id = ?";
     $stmt = $connection->prepare($sql);
     $stmt->bind_param("i", $reservation_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
     if ($result->num_rows === 1) {
         $reservation = $result->fetch_assoc();
         $customer_name = $reservation['customer_name'];
@@ -202,11 +201,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             // Generate time slots from 10:00 AM to 10:00 PM
                                             $start_time = strtotime('10:00');
                                             $end_time = strtotime('22:00');
+                                            $found = false;
                                             for ($time = $start_time; $time <= $end_time; $time += 1800) {
                                                 $time_value = date('H:i', $time);
                                                 $time_display = date('h:i A', $time);
                                                 $selected = ($time_value == $reservation_time) ? 'selected' : '';
+                                                if ($selected) $found = true;
                                                 echo "<option value=\"$time_value\" $selected>$time_display</option>";
+                                            }
+                                            // If the reservation_time is not in the slot list, add it as selected
+                                            if (!$found && !empty($reservation_time)) {
+                                                $time_display = date('h:i A', strtotime($reservation_time));
+                                                echo "<option value=\"$reservation_time\" selected>$time_display (Original)</option>";
                                             }
                                             ?>
                                         </select>
