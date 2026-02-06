@@ -58,109 +58,109 @@ include 'includes/header.php';
         </div>
     </section>
 
-<!-- ===== SIGNATURE DISHES PREVIEW ===== -->
-<section class="section-padding">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-subtitle">Our Specialties</span>
-            <h2 class="display-2">Signature Dishes</h2>
-            <p class="lead">Taste our most beloved creations, crafted with generations of expertise.</p>
-        </div>
-        
-        <?php
-        // Check if we have a database connection
-        if ($connection):
-            // Fetch featured menu items (3 most recent featured dishes)
-            $featured_query = "SELECT mi.*, mc.name as category_name 
-                              FROM menu_items mi 
-                              LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
-                              WHERE mi.is_featured = 1 AND mi.is_available = 1 
-                              ORDER BY mi.created_at DESC 
-                              LIMIT 3";
+    <!-- ===== SIGNATURE DISHES PREVIEW ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-subtitle">Our Specialties</span>
+                <h2 class="display-2">Signature Dishes</h2>
+                <p class="lead">Taste our most beloved creations, crafted with generations of expertise.</p>
+            </div>
             
-            $featured_result = $connection->query($featured_query);
-            
-            if ($featured_result && $featured_result->num_rows > 0):
-            ?>
-                <div class="menu-grid">
-                    <?php while ($dish = $featured_result->fetch_assoc()): 
-                        // Determine image source
-                        if (!empty($dish['image_url'])) {
-                            // Use web root relative path for images
-                            $dish_image = 'uploads/menu/' . htmlspecialchars($dish['image_url']);
-                            // Check if file exists, otherwise use fallback
-                            if (!file_exists($dish_image)) {
+            <?php
+            // Check if we have a database connection
+            if ($connection):
+                // Fetch featured menu items (3 most recent featured dishes)
+                $featured_query = "SELECT mi.*, mc.name as category_name 
+                                FROM menu_items mi 
+                                LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
+                                WHERE mi.is_featured = 1 AND mi.is_available = 1 
+                                ORDER BY mi.created_at DESC 
+                                LIMIT 3";
+                
+                $featured_result = $connection->query($featured_query);
+                
+                if ($featured_result && $featured_result->num_rows > 0):
+                ?>
+                    <div class="menu-grid">
+                        <?php while ($dish = $featured_result->fetch_assoc()): 
+                            // Determine image source
+                            if (!empty($dish['image_url'])) {
+                                // Use web root relative path for images
+                                $dish_image = 'uploads/menu/' . htmlspecialchars($dish['image_url']);
+                                // Check if file exists, otherwise use fallback
+                                if (!file_exists($dish_image)) {
+                                    $dish_image = 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                                }
+                            } else {
+                                // Fallback image
                                 $dish_image = 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
                             }
-                        } else {
-                            // Fallback image
-                            $dish_image = 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                        }
-                        
-                        // Format price
-                        $formatted_price = 'AED ' . number_format($dish['price'], 2);
-                        
-                        // Shorten description if too long
-                        $short_description = !empty($dish['description']) ? 
-                            (strlen($dish['description']) > 120 
-                                ? substr($dish['description'], 0, 120) . '...' 
-                                : $dish['description']) 
-                            : 'A delicious signature dish from our kitchen.';
-                    ?>
-                        <div class="menu-card">
-                            <img src="<?php echo $dish_image; ?>" 
-                                 alt="<?php echo htmlspecialchars($dish['name']); ?>" 
-                                 class="menu-img"
-                                 loading="lazy"
-                                 onerror="this.src='https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                            <div class="menu-content">
-                                <span class="menu-tag">Signature</span>
-                                <div class="menu-header">
-                                    <h3 class="menu-title"><?php echo htmlspecialchars($dish['name']); ?></h3>
-                                    <span class="menu-price"><?php echo $formatted_price; ?></span>
-                                </div>
-                                <p><?php echo htmlspecialchars($short_description); ?></p>
-                                
-                                <?php if (!empty($dish['category_name'])): ?>
-                                    <div class="menu-footer">
-                                        <small class="text-muted">
-                                            <i class="bi bi-tag me-1"></i>
-                                            <?php echo htmlspecialchars($dish['category_name']); ?>
-                                        </small>
+                            
+                            // Format price
+                            $formatted_price = 'AED ' . number_format($dish['price'], 2);
+                            
+                            // Shorten description if too long
+                            $short_description = !empty($dish['description']) ? 
+                                (strlen($dish['description']) > 120 
+                                    ? substr($dish['description'], 0, 120) . '...' 
+                                    : $dish['description']) 
+                                : 'A delicious signature dish from our kitchen.';?>
+
+                            <div class="menu-card">
+                                <img src="<?php echo $dish_image; ?>" 
+                                    alt="<?php echo htmlspecialchars($dish['name']); ?>" 
+                                    class="menu-img"
+                                    loading="lazy"
+                                    onerror="this.src='https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                                <div class="menu-content">
+                                    <span class="menu-tag">Signature</span>
+                                    <div class="menu-header">
+                                        <h3 class="menu-title"><?php echo htmlspecialchars($dish['name']); ?></h3>
+                                        <span class="menu-price"><?php echo $formatted_price; ?></span>
                                     </div>
-                                <?php endif; ?>
+                                    <p><?php echo htmlspecialchars($short_description); ?></p>
+                                    
+                                    <?php if (!empty($dish['category_name'])): ?>
+                                        <div class="menu-footer">
+                                            <small class="text-muted">
+                                                <i class="bi bi-tag me-1"></i>
+                                                <?php echo htmlspecialchars($dish['category_name']); ?>
+                                            </small>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
+                        <?php endwhile; ?>
+                    </div>
+                    
+                    <div class="text-center" style="margin-top: 40px;">
+                        <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                <?php else: ?>
+                    <!-- Fallback if no featured dishes found -->
+                    <div class="text-center py-5">
+                        <div class="mb-4">
+                            <i class="bi bi-egg-fried display-1 text-muted"></i>
                         </div>
-                    <?php endwhile; ?>
-                </div>
-                
-                <div class="text-center mt-5">
-                    <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
-                </div>
+                        <h4 class="mb-3">No Featured Dishes Available</h4>
+                        <p class="text-muted mb-4">Check back soon for our signature creations!</p>
+                        <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                <?php endif; ?>
             <?php else: ?>
-                <!-- Fallback if no featured dishes found -->
+                <!-- Fallback if database connection failed -->
                 <div class="text-center py-5">
                     <div class="mb-4">
-                        <i class="bi bi-egg-fried display-1 text-muted"></i>
+                        <i class="bi bi-database-exclamation display-1 text-muted"></i>
                     </div>
-                    <h4 class="mb-3">No Featured Dishes Available</h4>
-                    <p class="text-muted mb-4">Check back soon for our signature creations!</p>
+                    <h4 class="mb-3">Featured Dishes Temporarily Unavailable</h4>
+                    <p class="text-muted mb-4">Please visit our full menu to see all our delicious dishes.</p>
                     <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
                 </div>
             <?php endif; ?>
-        <?php else: ?>
-            <!-- Fallback if database connection failed -->
-            <div class="text-center py-5">
-                <div class="mb-4">
-                    <i class="bi bi-database-exclamation display-1 text-muted"></i>
-                </div>
-                <h4 class="mb-3">Featured Dishes Temporarily Unavailable</h4>
-                <p class="text-muted mb-4">Please visit our full menu to see all our delicious dishes.</p>
-                <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
-            </div>
-        <?php endif; ?>
-    </div>
-</section>
+        </div>
+    </section>
 
     <!-- ===== WHY CHOOSE US ===== -->
     <section class="section-padding" style="background-color: var(--color-light-gray);">

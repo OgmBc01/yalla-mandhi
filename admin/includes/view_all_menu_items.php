@@ -237,24 +237,28 @@ if (!$result) {
 </div>
 
 <!-- View Item Modal -->
+
 <div class="modal fade" id="viewItemModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header card-header text-white">
-                <h5 class="modal-title">Menu Item Details</h5>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content reservation-modal-theme">
+            <div class="modal-header reservation-modal-header">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-egg-fried display-6 text-theme"></i>
+                    <h5 class="modal-title mb-0">Menu Item Details</h5>
+                </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="itemDetails">
+            <div class="modal-body reservation-modal-body" id="itemDetails">
                 <!-- Item details will be loaded here via AJAX -->
                 <div class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-theme" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="#" id="editItemBtn" class="btn btn-primary">Edit Item</a>
+            <div class="modal-footer reservation-modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" id="editItemBtn" class="btn btn-theme">Edit Item</a>
             </div>
         </div>
     </div>
