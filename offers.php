@@ -12,252 +12,239 @@ include 'includes/header.php';
     </section>
 
     <!-- ===== CURRENT PROMOTION HIGHLIGHT ===== -->
-    <section class="section-padding" style="background: linear-gradient(135deg, var(--color-red) 0%, var(--color-red-light) 100%); color: white;">
-        <div class="container">
-            <div class="row" style="display: flex; align-items: center; gap: 50px;">
-                <div class="col" style="flex: 1;">
-                    <div style="background-color: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: var(--border-radius); backdrop-filter: blur(10px);">
-                        <span style="background-color: white; color: var(--color-red); padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;">
-                            LIMITED TIME OFFER
-                        </span>
-                        <h2 class="display-2" style="color: white; margin-bottom: 20px;">Ramadan Family Iftar Package</h2>
-                        <p style="font-size: 1.2rem; margin-bottom: 25px; opacity: 0.9;">
-                            Experience our special Ramadan Iftar featuring traditional Yemani dishes, dates, soups, and desserts. Perfect for family gatherings.
-                        </p>
-                        <div style="display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <i class="bi bi-clock" style="font-size: 1.2rem;"></i>
-                                <div>
-                                    <div style="font-weight: 600;">Valid Until</div>
-                                    <div>April 10, 2024</div>
+<?php
+
+    // Fetch active promotions
+    $featured_promo_query = "SELECT * FROM promotions WHERE is_highlighted = 1 AND is_active = 1 ORDER BY display_order LIMIT 1";
+    $featured_promo_result = $connection->query($featured_promo_query);
+    $featured_promo = $featured_promo_result->num_rows > 0 ? $featured_promo_result->fetch_assoc() : null;
+
+    // Fetch all active promotions
+    $all_promos_query = "SELECT * FROM promotions WHERE is_active = 1 AND is_highlighted = 0 ORDER BY display_order, created_at DESC";
+    $all_promos_result = $connection->query($all_promos_query);
+    ?>
+
+    <section class="section-padding" id="promotionsSection">
+        <!-- ===== CURRENT PROMOTION HIGHLIGHT ===== -->
+        <?php if ($featured_promo): ?>
+        <section class="section-padding" style="background: linear-gradient(135deg, <?php echo $featured_promo['badge_color'] ?? 'var(--color-red)'; ?> 0%, <?php echo $this->adjustColorBrightness($featured_promo['badge_color'] ?? 'var(--color-red)', 20); ?> 100%); color: white;">
+            <div class="container">
+                <div class="row" style="display: flex; align-items: center; gap: 50px; flex-wrap: wrap;">
+                    <div class="col" style="flex: 1; min-width: 300px;">
+                        <div style="background-color: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: var(--border-radius); backdrop-filter: blur(10px);">
+                            <span style="background-color: white; color: <?php echo $featured_promo['badge_color'] ?? 'var(--color-red)'; ?>; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;">
+                                <?php echo htmlspecialchars($featured_promo['badge_text'] ?? 'LIMITED TIME OFFER'); ?>
+                            </span>
+                            <h2 class="display-2" style="color: white; margin-bottom: 20px;">
+                                <?php echo htmlspecialchars($featured_promo['title']); ?>
+                            </h2>
+                            <p style="font-size: 1.2rem; margin-bottom: 25px; opacity: 0.9;">
+                                <?php echo htmlspecialchars($featured_promo['description']); ?>
+                            </p>
+                            <div style="display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap;">
+                                <?php if ($featured_promo['valid_until']): ?>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="bi bi-clock" style="font-size: 1.2rem;"></i>
+                                    <div>
+                                        <div style="font-weight: 600;">Valid Until</div>
+                                        <div><?php echo date('F d, Y', strtotime($featured_promo['valid_until'])); ?></div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($featured_promo['min_persons'] || $featured_promo['max_persons']): ?>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="bi bi-people" style="font-size: 1.2rem;"></i>
+                                    <div>
+                                        <div style="font-weight: 600;">For</div>
+                                        <div>
+                                            <?php 
+                                            if ($featured_promo['min_persons'] && $featured_promo['max_persons']) {
+                                                echo htmlspecialchars($featured_promo['min_persons'] . '-' . $featured_promo['max_persons'] . ' People');
+                                            } elseif ($featured_promo['min_persons']) {
+                                                echo htmlspecialchars('Min. ' . $featured_promo['min_persons'] . ' People');
+                                            } else {
+                                                echo htmlspecialchars($featured_promo['max_persons'] . ' People');
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="bi bi-tag" style="font-size: 1.2rem;"></i>
+                                    <div>
+                                        <div style="font-weight: 600;">Price</div>
+                                        <div style="font-size: 1.3rem; font-weight: 700;">
+                                            <?php echo htmlspecialchars($featured_promo['currency'] . ' ' . number_format($featured_promo['offer_price'], 2)); ?>
+                                            <?php if ($featured_promo['original_price']): ?>
+                                                <small style="font-size: 1rem; text-decoration: line-through; opacity: 0.8; margin-left: 10px;">
+                                                    <?php echo htmlspecialchars($featured_promo['currency'] . ' ' . number_format($featured_promo['original_price'], 2)); ?>
+                                                </small>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <i class="bi bi-people" style="font-size: 1.2rem;"></i>
-                                <div>
-                                    <div style="font-weight: 600;">For</div>
-                                    <div>4-6 People</div>
-                                </div>
+                            <div style="display: flex; gap: 15px;">
+                                <a href="<?php echo htmlspecialchars($featured_promo['cta_link']); ?>" class="btn btn-primary" style="background-color: white; color: <?php echo $featured_promo['badge_color'] ?? 'var(--color-red)'; ?>; border-color: white;">
+                                    <i class="bi <?php echo htmlspecialchars($featured_promo['cta_icon']); ?>"></i> 
+                                    <?php echo htmlspecialchars($featured_promo['cta_text']); ?>
+                                </a>
+                                <a href="tel:+971503757274" class="btn btn-outline" style="border-color: white; color: white;">
+                                    <i class="bi bi-telephone"></i> Call to Order
+                                </a>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <i class="bi bi-tag" style="font-size: 1.2rem;"></i>
-                                <div>
-                                    <div style="font-weight: 600;">Price</div>
-                                    <div style="font-size: 1.3rem; font-weight: 700;">AED 299</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 15px;">
-                            <a href="contact.php" class="btn btn-primary" style="background-color: white; color: var(--color-red); border-color: white;">
-                                <i class="bi bi-calendar-check"></i> Reserve Now
-                            </a>
-                            <a href="tel:+971503757274" class="btn btn-outline" style="border-color: white; color: white;">
-                                <i class="bi bi-telephone"></i> Call to Order
-                            </a>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col" style="flex: 1; text-align: center;">
-                    <div style="position: relative; display: inline-block;">
-                        <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Ramadan Iftar Spread" 
-                             style="border-radius: var(--border-radius); max-width: 100%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
-                        <div style="position: absolute; top: -20px; right: -20px; background-color: white; color: var(--color-red); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; font-weight: 700; box-shadow: var(--box-shadow);">
-                            <div style="font-size: 1.8rem;">30%</div>
-                            <div style="font-size: 0.7rem;">OFF</div>
+                    
+                    <div class="col" style="flex: 1; min-width: 300px; text-align: center;">
+                        <div style="position: relative; display: inline-block;">
+                            <?php if ($featured_promo['image_url']): ?>
+                            <img src="../uploads/promotions/<?php echo htmlspecialchars($featured_promo['image_url']); ?>" 
+                                alt="<?php echo htmlspecialchars($featured_promo['title']); ?>" 
+                                style="border-radius: var(--border-radius); max-width: 100%; height: 400px; object-fit: cover; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);"
+                                onerror="this.src='https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                            <?php else: ?>
+                            <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                alt="Promotion Image" 
+                                style="border-radius: var(--border-radius); max-width: 100%; height: 400px; object-fit: cover; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
+                            <?php endif; ?>
+                            
+                            <?php if ($featured_promo['discount_percent']): ?>
+                            <div style="position: absolute; top: -20px; right: -20px; background-color: white; color: <?php echo $featured_promo['badge_color'] ?? 'var(--color-red)'; ?>; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; font-weight: 700; box-shadow: var(--box-shadow);">
+                                <div style="font-size: 1.8rem;"><?php echo htmlspecialchars($featured_promo['discount_percent']); ?>%</div>
+                                <div style="font-size: 0.7rem;">OFF</div>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <?php endif; ?>
+
+        <!-- ===== ALL OFFERS GRID ===== -->
+        <section class="section-padding">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <span class="section-subtitle">Current Deals</span>
+                    <h2 class="display-2">All Available Offers</h2>
+                    <p class="lead">Choose from our range of special promotions designed for different occasions.</p>
+                </div>
+                
+                <?php if ($all_promos_result->num_rows > 0): ?>
+                <div class="offer-grid">
+                    <?php while ($promo = $all_promos_result->fetch_assoc()): ?>
+                    <div class="offer-card">
+                        <span class="offer-badge" style="background-color: <?php echo htmlspecialchars($promo['badge_color'] ?? 'var(--color-red)'); ?>;">
+                            <?php echo htmlspecialchars($promo['badge_text'] ?? 'Special Offer'); ?>
+                        </span>
+                        
+                        <?php if ($promo['image_url']): ?>
+                        <img src="../uploads/promotions/<?php echo htmlspecialchars($promo['image_url']); ?>" 
+                            alt="<?php echo htmlspecialchars($promo['title']); ?>" 
+                            class="offer-img"
+                            onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <?php else: ?>
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                            alt="Offer Image" 
+                            class="offer-img">
+                        <?php endif; ?>
+                        
+                        <div class="offer-content">
+                            <h3 class="offer-title"><?php echo htmlspecialchars($promo['title']); ?></h3>
+                            
+                            <?php if ($promo['subtitle']): ?>
+                            <p style="font-size: 0.9rem; color: var(--color-copper); margin-bottom: 10px; font-weight: 500;">
+                                <?php echo htmlspecialchars($promo['subtitle']); ?>
+                            </p>
+                            <?php endif; ?>
+                            
+                            <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.95rem;">
+                                <?php 
+                                echo strlen($promo['short_description'] ?: $promo['description']) > 120 
+                                    ? htmlspecialchars(substr($promo['short_description'] ?: $promo['description'], 0, 120)) . '...' 
+                                    : htmlspecialchars($promo['short_description'] ?: $promo['description']);
+                                ?>
+                            </p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <div>
+                                    <?php if ($promo['original_price']): ?>
+                                    <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Original Price</div>
+                                    <div style="text-decoration: line-through; color: #999;">
+                                        <?php echo htmlspecialchars($promo['currency'] . ' ' . number_format($promo['original_price'], 2)); ?>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">
+                                        <?php echo $promo['discount_percent'] ? 'Offer Price' : 'Price'; ?>
+                                    </div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">
+                                        <?php echo htmlspecialchars($promo['currency'] . ' ' . number_format($promo['offer_price'], 2)); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="offer-validity">
+                                <?php
+                                $validity_parts = [];
+                                if ($promo['valid_until']) {
+                                    $validity_parts[] = 'Until ' . date('M d, Y', strtotime($promo['valid_until']));
+                                }
+                                if ($promo['time_slot']) {
+                                    $validity_parts[] = $promo['time_slot'];
+                                }
+                                if ($promo['min_persons'] || $promo['max_persons']) {
+                                    if ($promo['min_persons'] && $promo['max_persons']) {
+                                        $validity_parts[] = 'For ' . $promo['min_persons'] . '-' . $promo['max_persons'] . ' people';
+                                    } elseif ($promo['min_persons']) {
+                                        $validity_parts[] = 'Min. ' . $promo['min_persons'] . ' people';
+                                    } else {
+                                        $validity_parts[] = 'For ' . $promo['max_persons'] . ' people';
+                                    }
+                                }
+                                if ($promo['requirements']) {
+                                    $validity_parts[] = $promo['requirements'];
+                                }
+                                echo htmlspecialchars(implode(' | ', $validity_parts));
+                                ?>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                <a href="<?php echo htmlspecialchars($promo['cta_link']); ?>" class="btn btn-primary" style="flex: 1;">
+                                    <i class="bi <?php echo htmlspecialchars($promo['cta_icon']); ?>"></i> 
+                                    <?php echo htmlspecialchars($promo['cta_text']); ?>
+                                </a>
+                                <a href="tel:+971503757274" class="btn btn-outline" style="flex: 0 0 auto;">
+                                    <i class="bi bi-telephone"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endwhile; ?>
+                </div>
+                <?php else: ?>
+                <div class="text-center py-5">
+                    <i class="bi bi-tag display-4 text-muted d-block mb-3"></i>
+                    <h3>No Current Offers</h3>
+                    <p class="text-muted">Check back soon for new promotions!</p>
+                </div>
+                <?php endif; ?>
+            </div>
+        </section>
     </section>
 
-    <!-- ===== ALL OFFERS GRID ===== -->
-    <section class="section-padding">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Current Deals</span>
-                <h2 class="display-2">All Available Offers</h2>
-                <p class="lead">Choose from our range of special promotions designed for different occasions.</p>
-            </div>
-            
-            <div class="offer-grid">
-                <!-- Offer 1 -->
-                <div class="offer-card">
-                    <span class="offer-badge">Family Deal</span>
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Family Platter" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Family Feast Friday</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Every Friday, enjoy our signature Family Platter with 4 types of grilled meats, rice, salads, and appetizers for the whole family.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Original Price</div>
-                                <div style="text-decoration: line-through; color: #999;">AED 320</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Offer Price</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">AED 249</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">Valid every Friday | For 4-6 people</div>
-                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                            <i class="bi bi-cart-check"></i> Book This Offer
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Offer 2 -->
-                <div class="offer-card">
-                    <span class="offer-badge" style="background-color: var(--color-olive);">Business Lunch</span>
-                    <img src="https://images.unsplash.com/photo-1554672408-730436b60dde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Business Lunch" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Executive Lunch Package</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Perfect for business meetings. Includes main course, salad, drink, and dessert. Available Monday to Friday, 12 PM - 3 PM.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Per Person</div>
-                                <div style="text-decoration: line-through; color: #999;">AED 75</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Offer Price</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">AED 55</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">Weekdays 12-3 PM | Min. 2 persons</div>
-                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                            <i class="bi bi-briefcase"></i> Book Business Lunch
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Offer 3 -->
-                <div class="offer-card">
-                    <span class="offer-badge" style="background-color: var(--color-copper);">Early Bird</span>
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Early Dinner" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Early Bird Special</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Dine between 5 PM - 7 PM and enjoy 20% off your total bill. Perfect for early dinners with family or friends.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Discount</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">20% OFF</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Time</div>
-                                <div style="font-size: 1.2rem; font-weight: 700; color: var(--color-red);">5-7 PM</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">Daily 5-7 PM | Dine-in only</div>
-                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                            <i class="bi bi-clock"></i> Reserve Early Table
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Offer 4 -->
-                <div class="offer-card">
-                    <span class="offer-badge" style="background-color: var(--color-dark-brown);">Birthday</span>
-                    <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Birthday Celebration" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Birthday Celebration Package</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Celebrate your birthday with us! Get a complimentary dessert platter and 15% off total bill for groups of 6 or more.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Free</div>
-                                <div style="font-size: 1.2rem; font-weight: 700; color: var(--color-red);">Dessert Platter</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Discount</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">15% OFF</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">All year round | Min. 6 persons</div>
-                        <a href="contact.php" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                            <i class="bi bi-gift"></i> Plan Birthday Party
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Offer 5 -->
-                <div class="offer-card">
-                    <span class="offer-badge" style="background-color: #25D366;">Takeaway</span>
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Takeaway Order" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Weekend Takeaway Deal</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Order online or through WhatsApp on weekends and get free delivery + 10% discount on orders above AED 150.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Delivery</div>
-                                <div style="font-size: 1.2rem; font-weight: 700; color: #25D366;">FREE</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Discount</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">10% OFF</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">Fri-Sun | Min. order AED 150</div>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <a href="https://wa.me/971501234567" target="_blank" class="btn btn-whatsapp" style="flex: 1;">
-                                <i class="bi bi-whatsapp"></i> Order Now
-                            </a>
-                            <a href="tel:+971503757274" class="btn btn-outline" style="flex: 1;">
-                                <i class="bi bi-telephone"></i> Call
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Offer 6 -->
-                <div class="offer-card">
-                    <span class="offer-badge">Student</span>
-                    <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Student Discount" 
-                         class="offer-img">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Student Discount</h3>
-                        <p style="margin-bottom: 15px; opacity: 0.8;">
-                            Present a valid student ID and enjoy 15% off your meal. Available all week for dine-in and takeaway.
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-olive); font-weight: 500;">Discount</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-red);">15% OFF</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.9rem; color: var(--color-red); font-weight: 500;">Requirement</div>
-                                <div style="font-size: 1rem; font-weight: 700; color: var(--color-red);">Student ID</div>
-                            </div>
-                        </div>
-                        <div class="offer-validity">All days | Valid ID required</div>
-                        <a href="contact.php" class="btn btn-secondary" style="width: 100%; margin-top: 20px;">
-                            <i class="bi bi-mortarboard"></i> Book Student Table
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    // Helper function to adjust color brightness (add to your functions.php)
+    function adjustColorBrightness($hex, $percent) {
+        // This is a simplified version - in production, add proper color manipulation
+        return $hex;
+    }
+    ?>
 
     <!-- ===== TERMS & CONDITIONS ===== -->
     <section class="section-padding" style="background-color: var(--color-beige);">
