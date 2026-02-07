@@ -242,24 +242,24 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li>
 
-        <!-- Staff Management -->
+        <!-- Employee Management -->
         <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="staff">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="employees">
                 <i class="bi bi-person-badge nav-icon"></i>
-                <span class="nav-text">Staff Management</span>
+                <span class="nav-text">Employee Management</span>
                 <i class="bi bi-chevron-right menu-toggle"></i>
             </a>
-            <ul class="sub-menu" id="staff-menu">
+            <ul class="sub-menu" id="employees-menu">
                 <li class="nav-item">
-                    <a class="nav-link" href="staff.php?source=add_staff">
+                    <a class="nav-link" href="employees.php?source=add_employee">
                         <i class="bi bi-person-plus nav-icon"></i>
-                        <span class="nav-text">Add Staff</span>
+                        <span class="nav-text">Add Employee</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="staff.php">
+                    <a class="nav-link" href="employees.php">
                         <i class="bi bi-person-lines-fill nav-icon"></i>
-                        <span class="nav-text">View All Staff</span>
+                        <span class="nav-text">View All Employees</span>
                     </a>
                 </li>
                 <li class="nav-item">
