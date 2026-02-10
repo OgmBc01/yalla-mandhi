@@ -262,10 +262,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span class="nav-text">View All Employees</span>
                     </a>
                 </li>
+            </ul>
+        </li>
+
+        <!-- Shift Management -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="shifts">
+                <i class="bi bi-clock-history nav-icon"></i>
+                <span class="nav-text">Shift Management</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="shifts-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=add_shift">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Shift</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="shifts.php">
-                        <i class="bi bi-clock-history nav-icon"></i>
-                        <span class="nav-text">Shift Schedule</span>
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Shifts</span>
                     </a>
                 </li>
             </ul>
