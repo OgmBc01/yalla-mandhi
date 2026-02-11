@@ -285,6 +285,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span class="nav-text">View All Shifts</span>
                     </a>
                 </li>
+                <!-- In sidebar.php -->
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=attendance">
+                        <i class="bi bi-calendar-check nav-icon"></i>
+                        <span class="nav-text">Attendance</span>
+                    </a>
+                </li>
             </ul>
         </li>
 

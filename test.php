@@ -116,3 +116,9 @@ Points Earning System - Add points on purchases
 Rewards Catalog - Create redeemable rewards
 
 Referral Program - Track and reward referrals
+
+
+
+Warning: include(includes/shift_calendar.php): Failed to open stream: No such file or directory in D:\xampp\htdocs\yalla-mandhi\admin\shifts.php on line 43
+
+Warning: include(): Failed opening 'includes/shift_calendar.php' for inclusion (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\yalla-mandhi\admin\shifts.php on line 43

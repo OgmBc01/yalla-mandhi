@@ -43,6 +43,18 @@ include "includes/sidebar.php";
             include "includes/shift_calendar.php";
             break;
             
+          case 'attendance':
+            include "includes/attendance.php";
+            break;
+            
+          case 'mark_attendance':
+            include "includes/mark_attendance.php";
+            break;
+            
+          case 'view_attendance':
+            include "includes/view_attendance_details.php";
+            break;
+            
           default:
             include "includes/view_all_shifts.php";
             break;
