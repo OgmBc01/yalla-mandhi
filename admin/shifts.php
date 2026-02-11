@@ -24,40 +24,40 @@ include "includes/sidebar.php";
 
         switch($source) {
           case 'add_shift':
-            include "includes/add_shift.php";
-            break;
-            
+              include "includes/add_shift.php";
+              break;
+              
           case 'edit_shift':
-            include "includes/edit_shift.php";
-            break;
-            
+              include "includes/edit_shift.php";
+              break;
+              
           case 'view_shift':
-            include "includes/view_shift_details.php";
-            break;
-            
+              include "includes/view_shift_details.php";
+              break;
+              
           case 'bulk_assign':
-            include "includes/bulk_assign_shifts.php";
-            break;
-            
+              include "includes/bulk_assign_shifts.php";
+              break;
+              
           case 'calendar_view':
-            include "includes/shift_calendar.php";
-            break;
-            
+              include "includes/shift_calendar.php";
+              break;
+              
           case 'attendance':
-            include "includes/attendance.php";
-            break;
-            
+              include "includes/attendance.php";
+              break;
+              
           case 'mark_attendance':
-            include "includes/mark_attendance.php";
-            break;
-            
+              include "includes/mark_attendance.php";
+              break;
+              
           case 'view_attendance':
-            include "includes/view_attendance_details.php";
-            break;
-            
+              include "includes/view_attendance_details.php";
+              break;
+              
           default:
-            include "includes/view_all_shifts.php";
-            break;
+              include "includes/view_all_shifts.php";
+              break;
         }
       ?>
     </div>

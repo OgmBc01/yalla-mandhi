@@ -295,6 +295,44 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li>
 
+        <!-- Shift Schedule Dropdown -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#shiftMenu" data-bs-toggle="collapse" data-bs-target="#shiftMenu">
+                <i class="bi bi-clock-history nav-icon"></i>
+                <span class="nav-text">Shift Schedule</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <div class="collapse" id="shiftMenu">
+                <ul class="nav flex-column ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="shifts.php">
+                            <i class="bi bi-table"></i> All Shifts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shifts.php?source=calendar_view">
+                            <i class="bi bi-calendar-week"></i> Calendar View
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shifts.php?source=add_shift">
+                            <i class="bi bi-plus-circle"></i> Add Single Shift
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shifts.php?source=bulk_assign">
+                            <i class="bi bi-people-fill"></i> Bulk Assign
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shifts.php?source=attendance">
+                            <i class="bi bi-calendar-check"></i> Attendance
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <!-- Reports -->
         <li class="nav-item">
             <a class="nav-link <?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>" href="reports.php">
