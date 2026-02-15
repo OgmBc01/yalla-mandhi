@@ -1,4 +1,3 @@
-
 <?php
 
 // Include database configuration and connection

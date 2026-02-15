@@ -1,27 +1,36 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
-    container_name: my_mysql
+    container_name: yalla_mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-    ports:
-      - "3306:3306"
+      MYSQL_DATABASE: yallaalmandhi
     volumes:
       - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: my_phpmyadmin
+    container_name: yalla_phpmyadmin
     restart: always
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: rootpassword
     ports:
       - "8080:80"
+    depends_on:
+      - mysql
+
+  web:
+    build: .
+    container_name: yalla_web
+    restart: always
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
 
 volumes:
   mysql_data:
