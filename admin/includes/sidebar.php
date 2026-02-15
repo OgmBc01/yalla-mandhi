@@ -324,11 +324,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             <i class="bi bi-people-fill"></i> Bulk Assign
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shifts.php?source=attendance">
-                            <i class="bi bi-calendar-check"></i> Attendance
-                        </a>
-                    </li>
                 </ul>
             </div>
         </li>

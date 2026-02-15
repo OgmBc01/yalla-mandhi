@@ -53,7 +53,7 @@
                     <ul class="footer-links">
                         <li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px;">
                             <i class="bi bi-geo-alt" style="color: var(--color-red);"></i>
-                            <span>Shop No.:00 Royal Class Building, Dubai Investment<br> Park 1, Green Community <br>Village, Dubai.</span>
+                            <span>Shop No.:008 Royal Class Building, Dubai Investment<br> Park 1, Green Community <br>Village, Dubai.</span>
                         </li>
                         <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
                             <i class="bi bi-telephone" style="color: var(--color-red);"></i>

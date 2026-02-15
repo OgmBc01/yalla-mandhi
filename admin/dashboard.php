@@ -188,9 +188,9 @@ $monthly_revenue = getMonthlyRevenue($connection, date('Y'));
                 <div class="card shadow">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Recent Reservations</h6>
-                        <a class="btn btn-sm btn-primary" href="reservations.php">
-                            View All
-                        </a>
+                           <a class="btn btn-sm btn-primary" href="includes/view_all_reservations.php">
+                               View All
+                           </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
