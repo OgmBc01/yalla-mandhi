@@ -107,11 +107,10 @@ if (!function_exists('getDashboardStats')) {
         $result = $connection->query($sql);
         $stats['pending_reservations'] = $result->fetch_assoc()['total'] ?? 0;
         
-        // Pending orders
-        $sql = "SELECT COUNT(*) as total FROM orders WHERE status = 'pending'";
+        // Pending orders - FIXED: Changed from 'status' to 'order_status'
+        $sql = "SELECT COUNT(*) as total FROM orders WHERE order_status = 'pending'";
         $result = $connection->query($sql);
         $stats['pending_orders'] = $result->fetch_assoc()['total'] ?? 0;
-        
         return $stats;
     }
 }

@@ -28,6 +28,131 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
+        <!-- POS / Orders Menu - ENHANCED -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn <?php echo (in_array($current_page, ['orders.php']) && (!isset($_GET['source']) || $_GET['source'] == 'pos_view' || $_GET['source'] == 'pos')) ? 'active' : ''; ?>" href="#" data-menu="orders">
+                <i class="bi bi-cart nav-icon"></i>
+                <span class="nav-text">POS & Orders</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="orders-menu">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && ($_GET['source'] == 'pos_view' || $_GET['source'] == 'pos')) ? 'active' : ''; ?>" href="orders.php?source=pos_view">
+                        <i class="bi bi-cart-plus nav-icon"></i>
+                        <span class="nav-text">POS Terminal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'add_order') ? 'active' : ''; ?>" href="orders.php?source=add_order">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">New Order</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'order_list') ? 'active' : ''; ?>" href="orders.php?source=order_list">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">All Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'online_orders') ? 'active' : ''; ?>" href="orders.php?source=online_orders">
+                        <i class="bi bi-globe nav-icon"></i>
+                        <span class="nav-text">Online Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="orders.php?status=pending">
+                        <i class="bi bi-clock-history nav-icon"></i>
+                        <span class="nav-text">Pending Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Kitchen Display - NEW -->
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'kitchen_display') ? 'active' : ''; ?>" href="orders.php?source=kitchen_display">
+                <i class="bi bi-tv nav-icon"></i>
+                <span class="nav-text">Kitchen Display</span>
+            </a>
+        </li>
+
+        <!-- Inventory Management - NEW SECTION -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="inventory">
+                <i class="bi bi-boxes nav-icon"></i>
+                <span class="nav-text">Inventory</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="inventory-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="inventory.php?source=add_stock">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Stock</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventory.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View Inventory</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventory.php?source=stock_history">
+                        <i class="bi bi-clock-history nav-icon"></i>
+                        <span class="nav-text">Stock History</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventory.php?source=low_stock">
+                        <i class="bi bi-exclamation-triangle nav-icon"></i>
+                        <span class="nav-text">Low Stock Alert</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Sales & Reports - NEW SECTION -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="sales">
+                <i class="bi bi-graph-up nav-icon"></i>
+                <span class="nav-text">Sales & Reports</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="sales-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="sales.php?source=daily_sales">
+                        <i class="bi bi-calendar-day nav-icon"></i>
+                        <span class="nav-text">Daily Sales</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sales.php?source=monthly_report">
+                        <i class="bi bi-calendar-month nav-icon"></i>
+                        <span class="nav-text">Monthly Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sales.php?source=vendor_reconciliation">
+                        <i class="bi bi-truck nav-icon"></i>
+                        <span class="nav-text">Vendor Reconciliation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sales.php?source=top_items">
+                        <i class="bi bi-bar-chart nav-icon"></i>
+                        <span class="nav-text">Top Items</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sales.php?source=export">
+                        <i class="bi bi-download nav-icon"></i>
+                        <span class="nav-text">Export Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!-- Reservations Menu -->
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="reservations">
@@ -52,35 +177,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link" href="reservation.php?source=view_pending">
                         <i class="bi bi-clock-history nav-icon"></i>
                         <span class="nav-text">Pending</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- Orders Menu -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="orders">
-                <i class="bi bi-cart nav-icon"></i>
-                <span class="nav-text">Orders</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="orders-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="orders.php?source=add_order">
-                        <i class="bi bi-plus-circle nav-icon"></i>
-                        <span class="nav-text">Add Order</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="orders.php">
-                        <i class="bi bi-card-checklist nav-icon"></i>
-                        <span class="nav-text">View All</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="orders.php?status=pending">
-                        <i class="bi bi-clock-history nav-icon"></i>
-                        <span class="nav-text">Pending Orders</span>
                     </a>
                 </li>
             </ul>
