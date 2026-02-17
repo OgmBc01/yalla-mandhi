@@ -39,6 +39,12 @@
 <?php
 // Close database connection if open
 if (isset($connection) && $connection instanceof mysqli) {
-    $connection->close();
+    try {
+        if (@$connection->thread_id && @$connection->ping()) {
+            $connection->close();
+        }
+    } catch (Throwable $e) {
+        // Connection already closed or error, do nothing
+    }
 }
 ?>
