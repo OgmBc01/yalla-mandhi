@@ -30,12 +30,25 @@ if ($categories && $categories->num_rows > 0) {
 
 <!-- ================= HEADER ================= -->
 
-<div class="d-flex align-items-center mb-3">
-    <button class="btn btn-theme-gradient me-3" id="btnNewOrder" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; border-radius: 14px; border: none; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 16px rgba(196,30,58,0.12); padding: 12px 24px;">
+<!-- Page Title -->
+<div class="mt-3 mb-2">
+    <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin-bottom:0.2em; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
+</div>
+<!-- Active Orders Card with Breakdown (compact, above row) -->
+<div id="activeOrdersCard" class="card shadow-sm mb-2" style="max-width:100%; border-radius:12px; border:1px solid #f39c12; background:linear-gradient(135deg,#fffbe6,#fff);">
+    <div class="card-body py-2 px-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div style="font-size:1.05rem; color:#c41e3a; font-weight:600;">Active Orders: <span id="activeOrdersCount" style="font-size:1.5rem; font-weight:700; color:#f39c12;">0</span></div>
+            <div id="ordersTypeBreakdown" class="d-flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+</div>
+<!-- Main Row: New Order Button and Tabs -->
+<div class="d-flex align-items-center mb-3" style="gap:18px;">
+    <button class="btn btn-theme-gradient" id="btnNewOrder" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; border-radius: 14px; border: none; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 16px rgba(196,30,58,0.12); padding: 12px 24px;">
         <i class="bi bi-plus-circle display-6 me-2"></i> Punch New Order
     </button>
-
-    <div id="ordersTabsContainer" class="orders-tabs-card" style="background:#fff;border-radius:12px;padding:12px 8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);overflow-x:auto;white-space:nowrap;scroll-behavior:smooth;">
+    <div id="ordersTabsContainer" class="orders-tabs-card" style="background:#fff;border-radius:12px;padding:12px 8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);overflow-x:auto;white-space:nowrap;scroll-behavior:smooth;flex:1;">
         <div id="ordersTabs" class="d-flex flex-row gap-2"></div>
     </div>
 </div>
@@ -52,50 +65,136 @@ if ($categories && $categories->num_rows > 0) {
             </div>
             <?php $catIndex++; ?>
         <?php endwhile; ?>
+                <div class="d-flex flex-column align-items-center my-3">
+                    <a href="categories.php?source=add_category" class="btn btn-outline-success btn-sm mb-2 w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Category</a>
+                </div>
     </div>
 
     <!-- 2️⃣ MENU PANEL -->
     <div class="menu-panel">
         <div id="menuItems" class="row g-2"></div>
+            <div class="d-flex flex-column align-items-center my-3">
+                <a href="menu_items.php?source=add_item" class="btn btn-outline-primary btn-sm w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Menu Item</a>
+            </div>
     </div>
 
     <!-- 3️⃣ ORDER PANEL -->
-    <div class="order-panel">
+    <!-- 3️⃣ ORDER PANEL -->
+<div class="order-panel">
 
-        <table class="table table-bordered mb-2">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th width="70">Qty</th>
-                    <th width="100">Price</th>
-                    <th width="100">Total</th>
-                    <th width="40"></th>
-                </tr>
-            </thead>
-            <tbody id="orderItemsBody">
-                <tr class="empty-row">
-                    <td colspan="5" class="text-center text-muted">
-                        Create or select an order to begin
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table table-bordered mb-2">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th width="70">Qty</th>
+                <th width="100">Price</th>
+                <th width="100">Total</th>
+                <th width="40"></th>
+            </tr>
+        </thead>
+        <tbody id="orderItemsBody">
+            <tr class="empty-row">
+                <td colspan="5" class="text-center text-muted">
+                    Create or select an order to begin
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        <div class="mt-auto border-top pt-2">
-            <h5>Total: <span id="orderTotal">0.00</span> AED</h5>
-
-            <div class="d-flex gap-2">
-                <button class="btn btn-warning w-50" id="btnSendKitchen" disabled>
-                    Send to Kitchen
-                </button>
-                <button class="btn btn-primary w-50" id="btnPrint" disabled>
-                    Print Receipt
-                </button>
+    <!-- ================= ENHANCED FINANCIAL SUMMARY ================= -->
+    <div class="financial-summary mt-3">
+        <!-- Subtotal -->
+        <div class="summary-row d-flex justify-content-between align-items-center py-2">
+            <span class="summary-label">
+                <i class="bi bi-calculator me-2" style="color: #c41e3a;"></i>Subtotal:
+            </span>
+            <span class="summary-value fw-bold" id="summarySubtotal">0.00 AED</span>
+        </div>
+        
+        <!-- Discount Row with Edit -->
+        <div class="summary-row d-flex justify-content-between align-items-center py-2 bg-light rounded px-2">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-tag-fill me-2" style="color: #f39c12;"></i>
+                <span class="summary-label me-2">Discount:</span>
+                <div class="input-group input-group-sm" style="width: 110px;">
+                    <input type="number" class="form-control form-control-sm" id="discountAmount" value="0" min="0" step="0.01" style="border-color: #f39c12;">
+                    <span class="input-group-text bg-white" style="border-color: #f39c12;">AED</span>
+                </div>
+            </div>
+            <span class="summary-value text-warning fw-bold" id="summaryDiscount">-0.00 AED</span>
+        </div>
+        
+        <!-- Discount Type Toggle -->
+        <div class="d-flex justify-content-end mb-2">
+            <div class="btn-group btn-group-sm" role="group" id="discountTypeGroup">
+                <button type="button" class="btn btn-outline-warning active" data-discount-type="fixed">Fixed</button>
+                <button type="button" class="btn btn-outline-warning" data-discount-type="percentage">%</button>
             </div>
         </div>
-
+        
+        <!-- Tax -->
+        <div class="summary-row d-flex justify-content-between align-items-center py-2">
+            <span class="summary-label">
+                <i class="bi bi-percent me-2" style="color: #3498db;"></i>Tax (15%):
+            </span>
+            <span class="summary-value" id="summaryTax">0.00 AED</span>
+        </div>
+        
+        <!-- Delivery Fee (conditional) -->
+        <div class="summary-row d-flex justify-content-between align-items-center py-2" id="deliveryFeeRow" style="display: none;">
+            <span class="summary-label">
+                <i class="bi bi-truck me-2" style="color: #2ecc71;"></i>Delivery Fee:
+            </span>
+            <span class="summary-value" id="summaryDeliveryFee">0.00 AED</span>
+        </div>
+        
+        <!-- Divider -->
+        <div class="dropdown-divider my-2"></div>
+        
+        <!-- Net Total -->
+        <div class="summary-row d-flex justify-content-between align-items-center py-3" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); border-radius: 8px; padding: 10px 15px !important; margin-top: 5px;">
+            <span class="summary-label text-white fw-bold fs-5">
+                <i class="bi bi-cash-stack me-2"></i>NET TOTAL:
+            </span>
+            <span class="summary-value text-white fw-bold fs-4" id="orderTotal">0.00 AED</span>
+        </div>
+        
+        <!-- Quick Discount Presets -->
+        <div class="discount-presets mt-2">
+            <small class="text-muted me-2">Quick discounts:</small>
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-secondary discount-preset" data-preset="5">5%</button>
+                <button class="btn btn-outline-secondary discount-preset" data-preset="10">10%</button>
+                <button class="btn btn-outline-secondary discount-preset" data-preset="15">15%</button>
+                <button class="btn btn-outline-secondary discount-preset" data-preset="20">20%</button>
+                <button class="btn btn-outline-secondary discount-preset" data-preset="25">25%</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Action Buttons -->
+    <div class="d-flex gap-2 mt-3">
+        <button class="btn btn-warning w-50" id="btnSendKitchen" disabled>
+            <i class="bi bi-send me-2"></i> Send to Kitchen
+        </button>
+        <button class="btn btn-primary w-50" id="btnPrint" disabled>
+            <i class="bi bi-printer me-2"></i> Print Receipt
+        </button>
+    </div>
+    
+    <!-- Additional Action Buttons Row -->
+    <div class="d-flex gap-2 mt-2">
+        <button class="btn btn-outline-secondary btn-sm flex-fill" id="btnHoldOrder">
+            <i class="bi bi-pause-circle me-1"></i> Hold
+        </button>
+        <button class="btn btn-outline-info btn-sm flex-fill" id="btnAddNote">
+            <i class="bi bi-chat-dots me-1"></i> Add Note
+        </button>
+        <button class="btn btn-outline-danger btn-sm flex-fill" id="btnCancelOrder">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+        </button>
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -168,6 +267,88 @@ if ($categories && $categories->num_rows > 0) {
     </div>
 </div>
 
+
+<!-- Soft Delete Confirmation Modal -->
+<div class="modal fade delete-confirm-modal" id="deleteOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Delete Order
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-icon">
+                    <i class="bi bi-trash3-fill"></i>
+                </div>
+                <h4 class="mb-3">Are you sure?</h4>
+                <p class="text-muted mb-4">This order will be moved to trash. You can restore it later from the recovery panel.</p>
+                
+                <div class="order-details" id="deleteOrderDetails">
+                    <!-- Will be filled dynamically -->
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="permanentDeleteCheck">
+                    <label class="form-check-label" for="permanentDeleteCheck">
+                        <strong class="text-danger">Permanently delete</strong> <span class="text-muted">(cannot be undone)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    <i class="bi bi-trash me-2"></i> Delete Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recovery Modal (Trash Bin) -->
+<div class="modal fade recovery-modal" id="recoveryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #6c757d, #495057); color: white;">
+                <h5 class="modal-title">
+                    <i class="bi bi-trash3-fill me-2"></i>
+                    Deleted Orders Recovery
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="deletedOrdersList">
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-secondary"></div>
+                        <p class="mt-2">Loading deleted orders...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="emptyTrashBtn" style="display: none;">
+                    <i class="bi bi-trash3 me-2"></i> Empty Trash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Undo Toast -->
+<div id="undoToast" class="undo-toast" style="display: none;">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <span id="undoMessage">Order deleted</span>
+    <button class="undo-btn" id="undoDeleteBtn">UNDO</button>
+</div>
+
+<!-- Trash Bin Button -->
+<div class="trash-bin-panel">
+    <button class="trash-bin-btn" id="trashBinBtn" title="View deleted orders">
+        <i class="bi bi-trash3-fill"></i>
+    </button>
+</div>
 
 <style>
 .pos-container{
@@ -262,6 +443,322 @@ if ($categories && $categories->num_rows > 0) {
     background:#c41e3a;
     border-radius:8px;
 }
+
+/* Enhanced Financial Summary Styling */
+.financial-summary {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.summary-row {
+    transition: all 0.2s ease;
+}
+
+.summary-row:hover {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+.summary-label {
+    font-size: 0.95rem;
+    color: #2c3e50;
+}
+
+.summary-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+#discountAmount {
+    text-align: right;
+    font-weight: 600;
+}
+
+#discountAmount:focus {
+    border-color: #c41e3a;
+    box-shadow: 0 0 0 0.2rem rgba(196,30,58,0.25);
+}
+
+.discount-presets {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.discount-presets .btn-group {
+    flex-wrap: wrap;
+}
+
+.discount-presets .btn-outline-secondary {
+    border-color: #e0e0e0;
+    color: #2c3e50;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.discount-presets .btn-outline-secondary:hover {
+    background: #f39c12;
+    border-color: #f39c12;
+    color: #fff;
+}
+
+#discountTypeGroup .btn-outline-warning {
+    border-color: #f39c12;
+    color: #f39c12;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.8rem;
+}
+
+#discountTypeGroup .btn-outline-warning.active {
+    background: #f39c12;
+    border-color: #f39c12;
+    color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .discount-presets {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .discount-presets .btn-group {
+        width: 100%;
+    }
+    
+    .discount-presets .btn {
+        flex: 1;
+    }
+}
+
+
+/* Add to your existing style section */
+
+/* Delete button styling */
+.order-card .delete-order-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 14px;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-card:hover .delete-order-btn {
+    opacity: 1;
+}
+
+.order-card .delete-order-btn:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Deleted order styling */
+.order-card.deleted {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+    border-left-color: #6c757d !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.order-card.deleted::after {
+    content: 'DELETED';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgba(220, 53, 69, 0.2);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Delete confirmation modal */
+.delete-confirm-modal .modal-header {
+    background: #dc3545;
+    color: white;
+}
+
+.delete-confirm-modal .modal-body {
+    text-align: center;
+    padding: 30px;
+}
+
+.delete-confirm-modal .warning-icon {
+    font-size: 4rem;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.delete-confirm-modal .order-details {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+/* Trash bin / Recovery panel */
+.trash-bin-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.trash-bin-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.trash-bin-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.trash-bin-btn.has-items {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+/* Recovery modal */
+.recovery-modal .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.recovery-modal .order-item:hover {
+    background: #f8f9fa;
+}
+
+.recovery-modal .order-item.deleted {
+    opacity: 0.6;
+}
+
+.recovery-modal .restore-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.recovery-modal .restore-btn:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.recovery-modal .hard-delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+}
+
+.recovery-modal .hard-delete-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Undo toast */
+.undo-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: slideUp 0.3s ease;
+}
+
+.undo-toast .undo-btn {
+    background: white;
+    color: #28a745;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.undo-toast .undo-btn:hover {
+    background: #f8f9fa;
+    transform: scale(1.05);
+}
+
+@keyframes slideUp {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+    to {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
 </style>
 
 <!-- Add Bootstrap and jQuery scripts since footer is not included -->
@@ -271,15 +768,24 @@ if ($categories && $categories->num_rows > 0) {
 <script>
 let orders = [];
 let activeOrderId = null;
-let isLoading = true; // Flag to prevent rendering before data is loaded
-let savedScrollPosition = 0; // Store scroll position
+let isLoading = true;
+let savedScrollPosition = 0;
+
+// Financial variables
+let discountAmount = 0;
+let discountType = 'fixed';
+let deliveryFee = 0;
+const TAX_RATE = 0.15;
+
+// Soft delete variables
+let deletedOrders = [];
+let lastDeletedOrder = null;
+let undoTimeout = null;
 
 // --- DRAFT ORDER PERSISTENCE FUNCTIONS ---
 function saveDraftOrders() {
-    // Save to localStorage
     localStorage.setItem('pos_orders', JSON.stringify(orders));
     
-    // Save to server
     orders.forEach(order => {
         $.ajax({
             url: 'includes/pos_order_drafts.php',
@@ -330,26 +836,22 @@ function loadDraftOrdersFromDB(callback) {
 function mergeOrders(local, db) {
     let map = {};
     
-    // Add DB orders first (server is source of truth)
     db.forEach(o => {
         if (o && o.id) {
             map[o.id] = o;
         }
     });
     
-    // Merge local orders, preferring local items if they exist
     local.forEach(o => {
         if (!o || !o.id) return;
         
         if (!map[o.id]) {
             map[o.id] = o;
         } else {
-            // If local has items and DB doesn't, use local items
             if (o.items && o.items.length > 0) {
                 if (!map[o.id].items || map[o.id].items.length === 0) {
                     map[o.id].items = o.items;
                 } else if (o.items.length > map[o.id].items.length) {
-                    // Prefer the one with more items (more recent activity)
                     map[o.id].items = o.items;
                 }
             }
@@ -359,7 +861,7 @@ function mergeOrders(local, db) {
     return Object.values(map);
 }
 
-// Function to save current scroll position
+// --- SCROLL POSITION FUNCTIONS ---
 function saveScrollPosition() {
     let container = document.querySelector('.orders-tabs-card');
     if (container) {
@@ -367,7 +869,6 @@ function saveScrollPosition() {
     }
 }
 
-// Function to restore scroll position
 function restoreScrollPosition() {
     let container = document.querySelector('.orders-tabs-card');
     if (container) {
@@ -375,7 +876,6 @@ function restoreScrollPosition() {
     }
 }
 
-// Function to scroll active tab into view
 function scrollActiveTabIntoView() {
     setTimeout(() => {
         let container = document.querySelector('.orders-tabs-card');
@@ -385,35 +885,119 @@ function scrollActiveTabIntoView() {
             let containerRect = container.getBoundingClientRect();
             let tabRect = activeTab.getBoundingClientRect();
             
-            // Calculate if tab is outside visible area
             let tabLeft = tabRect.left - containerRect.left + container.scrollLeft;
             let tabRight = tabLeft + tabRect.width;
             
             if (tabLeft < container.scrollLeft) {
-                // Tab is to the left of visible area
-                container.scrollLeft = tabLeft - 20; // 20px padding
+                container.scrollLeft = tabLeft - 20;
             } else if (tabRight > container.scrollLeft + container.clientWidth) {
-                // Tab is to the right of visible area
                 container.scrollLeft = tabRight - container.clientWidth + 20;
             }
         }
-    }, 50); // Small delay to ensure DOM is updated
+    }, 50);
+}
+
+// --- FINANCIAL CALCULATION FUNCTIONS ---
+function calculateFinancials() {
+    let order = orders.find(o => o.id === activeOrderId);
+    if (!order) return { subtotal: 0, discount: 0, tax: 0, deliveryFee: 0, total: 0 };
+    
+    let subtotal = 0;
+    if (order.items && order.items.length > 0) {
+        subtotal = order.items.reduce((sum, item) => {
+            return sum + (item.qty * item.price);
+        }, 0);
+    }
+    
+    let discount = 0;
+    if (discountType === 'fixed') {
+        discount = Math.min(discountAmount, subtotal);
+    } else {
+        discount = (subtotal * discountAmount) / 100;
+        discount = Math.min(discount, subtotal);
+    }
+    
+    let deliveryFee = 0;
+    if (order.type === 'delivery') {
+        deliveryFee = 10;
+        $('#deliveryFeeRow').show();
+    } else {
+        $('#deliveryFeeRow').hide();
+    }
+    
+    let taxableAmount = subtotal - discount;
+    let tax = taxableAmount * TAX_RATE;
+    let total = taxableAmount + tax + deliveryFee;
+    
+    return {
+        subtotal: subtotal,
+        discount: discount,
+        tax: tax,
+        deliveryFee: deliveryFee,
+        total: total
+    };
+}
+
+function calculateOrderTotal(order) {
+    if (!order || !order.items) return 0;
+    return order.items.reduce((sum, item) => {
+        return sum + (item.qty * item.price);
+    }, 0);
 }
 
 // --- RENDERING FUNCTIONS ---
 function renderTabs() {
-    // Save current scroll position before re-rendering
     saveScrollPosition();
     
     let html = '';
-    orders.forEach(order => {
-        if (!order || !order.id) return;
-        
+    let visibleOrders = orders.filter(order => order && !order.is_deleted);
+    // Update active orders count card
+    $('#activeOrdersCount').text(visibleOrders.length);
+    // Breakdown by type
+    let typeMap = {
+        dine_in: { label: 'Dine In', icon: 'bi-shop', color: '#3498db' },
+        pickup: { label: 'Pickup', icon: 'bi-bag', color: '#f39c12' },
+        delivery: { label: 'Delivery', icon: 'bi-truck', color: '#27ae60' },
+        noon: { label: 'Noon', icon: 'bi-sun', color: '#fbb034' },
+        keeta: { label: 'Keeta', icon: 'bi-bicycle', color: '#e74c3c' },
+        deliveroo: { label: 'Deliveroo', icon: 'bi-bag-check', color: '#00c3e3' },
+        smile: { label: 'Smile', icon: 'bi-emoji-smile', color: '#f1c40f' }
+    };
+    let breakdown = {
+        dine_in: 0,
+        pickup: 0,
+        delivery_internal: 0,
+        delivery_noon: 0,
+        delivery_keeta: 0,
+        delivery_deliveroo: 0,
+        delivery_smile: 0
+    };
+    visibleOrders.forEach(order => {
+        if (order.type === 'dine_in') breakdown.dine_in++;
+        else if (order.type === 'pickup') breakdown.pickup++;
+        else if (order.type === 'delivery') {
+            let src = order.delivery_source || 'internal';
+            if (src === 'internal') breakdown.delivery_internal++;
+            else if (src === 'noon') breakdown.delivery_noon++;
+            else if (src === 'keeta') breakdown.delivery_keeta++;
+            else if (src === 'deliveroo') breakdown.delivery_deliveroo++;
+            else if (src === 'smile') breakdown.delivery_smile++;
+        }
+    });
+    let breakdownHtml = '';
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#3498db; color:#fff; font-size:1em;"><i class="bi bi-shop me-1"></i> Dine In: <b>${breakdown.dine_in}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#f39c12; color:#fff; font-size:1em;"><i class="bi bi-bag me-1"></i> Pickup: <b>${breakdown.pickup}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#27ae60; color:#fff; font-size:1em;"><i class="bi bi-truck me-1"></i> Delivery: <b>${breakdown.delivery_internal}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#fbb034; color:#fff; font-size:1em;"><i class="bi bi-sun me-1"></i> Noon: <b>${breakdown.delivery_noon}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#e74c3c; color:#fff; font-size:1em;"><i class="bi bi-bicycle me-1"></i> Keeta: <b>${breakdown.delivery_keeta}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#00c3e3; color:#fff; font-size:1em;"><i class="bi bi-bag-check me-1"></i> Deliveroo: <b>${breakdown.delivery_deliveroo}</b></span></div>`;
+    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#f1c40f; color:#fff; font-size:1em;"><i class="bi bi-emoji-smile me-1"></i> Smile: <b>${breakdown.delivery_smile}</b></span></div>`;
+    $('#ordersTypeBreakdown').html(breakdownHtml);
+    visibleOrders.forEach(order => {
         let active = order.id === activeOrderId ? 'active' : '';
         let typeColor = '';
         let typeIcon = '';
         let deliveryBadge = '';
-        
         if(order.type === 'dine_in'){
             typeColor = 'background:linear-gradient(135deg,#3498db,#6dd5fa);color:#fff;';
             typeIcon = '<i class="bi bi-shop me-1"></i>';
@@ -435,13 +1019,13 @@ function renderTabs() {
                 deliveryBadge = `<span class="badge ms-1" style="background:${srcMap[src].color};color:#fff;font-size:0.8em;vertical-align:middle;">${srcMap[src].icon} ${srcMap[src].label}</span>`;
             }
         }
-        
         let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
-        
+        // Add delete (X) button directly here
         html += `
             <div class="order-tab ${active}" 
-                 style="${typeColor}margin-right:8px;min-width:180px;display:inline-block;cursor:pointer;border-radius:8px;padding:8px 16px;box-shadow:0 2px 6px rgba(0,0,0,0.07);border:2px solid ${active ? "#c41e3a" : "transparent"};" 
+                 style="${typeColor}margin-right:8px;min-width:180px;display:inline-block;cursor:pointer;border-radius:8px;padding:8px 16px;box-shadow:0 2px 6px rgba(0,0,0,0.07);border:2px solid ${active ? "#c41e3a" : "transparent"};position:relative;" 
                  onclick="switchOrder('${order.id}')">
+                <button class="delete-order-tab-btn" onclick="event.stopPropagation(); showDeleteModal('${order.id}')" title="Delete order" style="position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.9); border:1px solid #dc3545; color:#dc3545; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10; font-size:13px; padding:0; box-shadow:0 2px 4px rgba(0,0,0,0.1);"><i class="bi bi-x"></i></button>
                 <div style="font-weight:600;">
                     ${typeIcon}${order.type.toUpperCase()} - ${customerName} ${deliveryBadge}
                 </div>
@@ -451,46 +1035,40 @@ function renderTabs() {
             </div>
         `;
     });
-    
-    if (orders.length === 0) {
+    if (visibleOrders.length === 0) {
         html = '<div class="text-muted p-2">No active orders. Click "Punch New Order" to start.</div>';
     }
-    
     $('#ordersTabs').html(html);
-    
-    // Restore scroll position after re-rendering
     restoreScrollPosition();
-    
-    // Ensure active tab is visible
     scrollActiveTabIntoView();
 }
 
 function renderOrder() {
-    if (isLoading) return; // Don't render while loading
+    if (isLoading) return;
     
     let order = orders.find(o => o.id === activeOrderId);
     if (!order) {
         $('#orderItemsBody').html('<tr><td colspan="5" class="text-center text-muted">Select an order to begin</td></tr>');
-        $('#orderTotal').text('0.00');
+        $('#summarySubtotal').text('0.00 AED');
+        $('#summaryDiscount').text('-0.00 AED');
+        $('#summaryTax').text('0.00 AED');
+        $('#summaryDeliveryFee').text('0.00 AED');
+        $('#orderTotal').text('0.00 AED');
         $('#btnSendKitchen, #btnPrint').prop('disabled', true);
         return;
     }
 
-    // Ensure items array exists
     if (!order.items) order.items = [];
 
     let body = $('#orderItemsBody');
     body.html('');
-    let total = 0;
 
     order.items.forEach((item, i) => {
-        // Ensure item has required properties
         if (!item.name) item.name = 'Unknown Item';
         if (!item.price) item.price = 0;
         if (!item.qty) item.qty = 1;
         
         let line = item.qty * item.price;
-        total += line;
         
         body.append(`
             <tr>
@@ -510,13 +1088,31 @@ function renderOrder() {
     });
 
     if (order.items.length === 0) {
-        body.html('<tr><td colspan="5" class="text-center text-muted">No items added. Click on menu items to add.</td></tr>');
+        body.html(`
+            <tr>
+                <td colspan="5">
+                    <div class="d-flex flex-column align-items-center justify-content-center py-4">
+                        <div style="font-size:2.2rem; color:#f39c12; margin-bottom:0.5em;"><i class="bi bi-emoji-neutral"></i></div>
+                        <div class="card shadow-sm p-3 mb-2" style="border-radius:12px; background:linear-gradient(135deg,#fffbe6,#fff); border:1px solid #f39c12; max-width:340px;">
+                            <div style="font-size:1.1rem; color:#c41e3a; font-weight:600;">No items added</div>
+                            <div style="font-size:0.98rem; color:#495057;">Click on menu items to add them to the order.</div>
+                        </div>
+                        <button class="btn btn-theme-gradient mt-2" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; border-radius: 10px; font-weight: 600;" onclick="$('.category-panel').get(0).scrollIntoView({behavior:'smooth'});">Browse Menu</button>
+                    </div>
+                </td>
+            </tr>
+        `);
     }
 
-    $('#orderTotal').text(total.toFixed(2));
-    $('#btnSendKitchen, #btnPrint').prop('disabled', order.items.length === 0);
+    let finances = calculateFinancials();
     
-    // Save after rendering to ensure data persistence
+    $('#summarySubtotal').text(finances.subtotal.toFixed(2) + ' AED');
+    $('#summaryDiscount').text('-' + finances.discount.toFixed(2) + ' AED');
+    $('#summaryTax').text(finances.tax.toFixed(2) + ' AED');
+    $('#summaryDeliveryFee').text(finances.deliveryFee.toFixed(2) + ' AED');
+    $('#orderTotal').text(finances.total.toFixed(2) + ' AED');
+    
+    $('#btnSendKitchen, #btnPrint').prop('disabled', order.items.length === 0);
     saveDraftOrders();
 }
 
@@ -528,6 +1124,10 @@ function ordersChanged() {
 
 function switchOrder(id) {
     activeOrderId = id;
+    discountAmount = 0;
+    discountType = 'fixed';
+    $('#discountAmount').val(0);
+    $('#discountTypeGroup .btn[data-discount-type="fixed"]').click();
     renderTabs();
     renderOrder();
 }
@@ -548,26 +1148,282 @@ function loadMenu(category) {
     });
 }
 
+// --- TABLE SELECTOR FUNCTIONS ---
+function renderTableSelector() {
+    const tables = Array.from({length: 15}, (_, i) => ({ id: 'T'+(i+1), label: 'Table ' + (i+1), type: 'table' }));
+    const halls = [
+        { id: 'HALL', label: 'Hall', type: 'hall' },
+        { id: 'FAMILY', label: 'Family Hall', type: 'family' }
+    ];
+    
+    let occupied = new Set();
+    orders.forEach(o => {
+        if(o.type === 'dine_in' && o.table_number && o.items && o.items.length > 0) {
+            occupied.add(o.table_number);
+        }
+    });
+    
+    let html = '';
+    tables.concat(halls).forEach(t => {
+        let isOccupied = occupied.has(t.id);
+        html += `<button type="button" class="btn btn-outline-${isOccupied ? 'secondary' : 'danger'} table-btn mb-1" data-table="${t.id}" style="min-width:90px;${isOccupied?'opacity:0.5;pointer-events:none;':''}">${t.label}</button>`;
+    });
+    
+    $('#tableSelector').html(html);
+    $('#tableSelector .table-btn').removeClass('active');
+    $('#tableNumber').val('');
+}
+
+// --- SOFT DELETE FUNCTIONS ---
+function softDeleteOrder(orderId, permanent = false) {
+    let order = orders.find(o => o.id === orderId);
+    if (!order) return;
+    if (permanent) {
+        $.ajax({
+            url: 'includes/pos_order_drafts.php',
+            method: 'POST',
+            data: { action: 'hard_delete', id: orderId },
+            success: function(response) {
+                if (response.success) {
+                    let index = orders.findIndex(o => o.id === orderId);
+                    if (index !== -1) {
+                        orders.splice(index, 1);
+                    }
+                    if (activeOrderId === orderId) {
+                        let next = orders.find(o => o && !o.is_deleted && o.id !== orderId);
+                        activeOrderId = next ? next.id : null;
+                    }
+                    ordersChanged();
+                    showNotification('Order permanently deleted', 'danger');
+                } else {
+                    alert('Error: ' + (response.error || 'Failed to delete order'));
+                }
+            },
+            error: function(xhr) {
+                console.error('Failed to delete order:', xhr.responseText);
+                alert('Server error occurred');
+            }
+        });
+    } else {
+        $.ajax({
+            url: 'includes/pos_order_drafts.php',
+            method: 'POST',
+            data: { action: 'soft_delete', id: orderId },
+            success: function(response) {
+                if (response.success) {
+                    lastDeletedOrder = {...order};
+                    let idx = orders.findIndex(o => o.id === orderId);
+                    if (idx !== -1) {
+                        orders[idx].is_deleted = 1;
+                    }
+                    if (activeOrderId === orderId) {
+                        let next = orders.find(o => o && !o.is_deleted && o.id !== orderId);
+                        activeOrderId = next ? next.id : null;
+                    }
+                    ordersChanged();
+                    showUndoToast(order);
+                    updateTrashBinIndicator();
+                } else {
+                    alert('Error: ' + (response.error || 'Failed to delete order'));
+                }
+            },
+            error: function(xhr) {
+                console.error('Failed to delete order:', xhr.responseText);
+                alert('Server error occurred');
+            }
+        });
+    }
+}
+
+function restoreOrder(orderId) {
+    $.ajax({
+        url: 'includes/pos_order_drafts.php',
+        method: 'POST',
+        data: { 
+            action: 'restore', 
+            id: orderId 
+        },
+        success: function(response) {
+            if (response.success) {
+                loadDraftOrdersFromDB(function(dbOrders) {
+                    let localOrders = loadDraftOrdersFromLocal();
+                    orders = mergeOrders(localOrders, dbOrders);
+                    activeOrderId = orderId;
+                    ordersChanged();
+                    showNotification('Order restored successfully', 'success');
+                    updateTrashBinIndicator();
+                });
+            } else {
+                alert('Error: ' + (response.error || 'Failed to restore order'));
+            }
+        },
+        error: function(xhr) {
+            console.error('Failed to restore order:', xhr.responseText);
+            alert('Server error occurred');
+        }
+    });
+}
+
+function loadDeletedOrders() {
+    $.ajax({
+        url: 'includes/pos_order_drafts.php',
+        method: 'GET',
+        data: { action: 'load_deleted' },
+        dataType: 'json',
+        success: function(data) {
+            deletedOrders = Array.isArray(data) ? data : [];
+            displayDeletedOrders();
+            updateTrashBinIndicator();
+        },
+        error: function(xhr) {
+            console.error('Failed to load deleted orders:', xhr.responseText);
+            $('#deletedOrdersList').html('<div class="alert alert-danger">Failed to load deleted orders</div>');
+        }
+    });
+}
+
+function displayDeletedOrders() {
+    let html = '';
+    
+    if (deletedOrders.length === 0) {
+        html = '<div class="text-center py-4"><i class="bi bi-trash3 display-1 text-muted mb-3"></i><h5 class="text-muted">Trash is empty</h5><p class="text-muted">No deleted orders found</p></div>';
+        $('#emptyTrashBtn').hide();
+    } else {
+        html = '<div class="list-group">';
+        deletedOrders.forEach(order => {
+            let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
+            let itemCount = order.items ? order.items.length : 0;
+            let deletedTime = order.deleted_at ? new Date(order.deleted_at).toLocaleString() : 'Unknown';
+            
+            html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">
+                                <span class="badge bg-secondary me-2">#${order.id.substr(-6)}</span>
+                                ${order.type.toUpperCase()} - ${customerName}
+                            </h6>
+                            <small class="text-muted">
+                                <i class="bi bi-box me-1"></i>${itemCount} items |
+                                <i class="bi bi-clock me-1"></i>Deleted: ${deletedTime}
+                            </small>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-success restore-btn" data-order-id="${order.id}">
+                                <i class="bi bi-arrow-counterclockwise"></i> Restore
+                            </button>
+                            <button class="btn btn-sm btn-danger hard-delete-btn" data-order-id="${order.id}">
+                                <i class="bi bi-trash3"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        $('#emptyTrashBtn').show();
+    }
+    
+    $('#deletedOrdersList').html(html);
+    
+    $('.restore-btn').click(function() {
+        let orderId = $(this).data('order-id');
+        restoreOrder(orderId);
+        $('#recoveryModal').modal('hide');
+    });
+    
+    $('.hard-delete-btn').click(function() {
+        let orderId = $(this).data('order-id');
+        if (confirm('Permanently delete this order? This cannot be undone!')) {
+            softDeleteOrder(orderId, true);
+            loadDeletedOrders();
+        }
+    });
+}
+
+function updateTrashBinIndicator() {
+    if (deletedOrders.length > 0) {
+        $('#trashBinBtn').addClass('has-items');
+    } else {
+        $('#trashBinBtn').removeClass('has-items');
+    }
+}
+
+function showUndoToast(order) {
+    if (undoTimeout) {
+        clearTimeout(undoTimeout);
+    }
+    
+    let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
+    $('#undoMessage').text(`Order for ${customerName} deleted`);
+    $('#undoToast').fadeIn(300);
+    
+    undoTimeout = setTimeout(() => {
+        $('#undoToast').fadeOut(300);
+        lastDeletedOrder = null;
+    }, 5000);
+}
+
+function showNotification(message, type = 'success') {
+    let toast = $(`
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+            <div class="toast align-items-center text-bg-${type} border-0 show" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        </div>
+    `);
+    
+    $('body').append(toast);
+    setTimeout(() => toast.fadeOut(300, function() { $(this).remove(); }), 3000);
+}
+
+function addDeleteButtonToOrderCard(orderId) {
+    return `<button class="delete-order-btn" onclick="event.stopPropagation(); showDeleteModal('${orderId}')" title="Delete order" style="position:absolute; top:5px; right:5px; width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.9); border:1px solid #dc3545; color:#dc3545; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:all 0.3s ease; z-index:10; font-size:14px; padding:0; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+        <i class="bi bi-x"></i>
+    </button>`;
+}
+
+window.showDeleteModal = function(orderId) {
+    let order = orders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
+    let itemCount = order.items ? order.items.length : 0;
+    
+    $('#deleteOrderDetails').html(`
+        <strong>Order #${orderId.substr(-6)}</strong><br>
+        Type: ${order.type.toUpperCase()}<br>
+        Customer: ${customerName}<br>
+        Items: ${itemCount}<br>
+        Total: ${calculateOrderTotal(order).toFixed(2)} AED
+    `);
+    
+    $('#confirmDeleteBtn').data('order-id', orderId);
+    $('#deleteOrderModal').modal('show');
+};
+
 // --- INITIALIZATION ---
 $(document).ready(function() {
-    // Load categories and set first category active
     $('.category-item:first').addClass('active');
     
-    // Load all orders first
     loadDraftOrdersFromDB(function(dbOrders) {
         let localOrders = loadDraftOrdersFromLocal();
         orders = mergeOrders(localOrders, dbOrders);
         
-        // Set active order to first order if exists
         if (orders.length > 0) {
             activeOrderId = orders[0].id;
         }
         
-        isLoading = false; // Data loaded, allow rendering
+        isLoading = false;
         renderTabs();
         renderOrder();
         
-        // Load menu items for first category
         let firstCat = <?= json_encode($firstCat) ?>;
         if (firstCat) loadMenu(firstCat);
     });
@@ -593,7 +1449,6 @@ $(document).ready(function() {
         let name = $(this).data('name');
         let price = parseFloat($(this).data('price'));
 
-        // Check if item already exists in order
         let existing = order.items.find(item => item.id === id);
         if (existing) {
             existing.qty += 1;
@@ -628,7 +1483,6 @@ $(document).ready(function() {
 
     // New order button
     $('#btnNewOrder').click(function() {
-        // Clear modal fields and selections
         $('#orderTypeSelect').val("");
         $('#deliverySource').val("internal");
         $('#customerName').val("");
@@ -641,65 +1495,41 @@ $(document).ready(function() {
         $('#initOrderModal').modal('show');
     });
 
+    // Order type selection
     $(document).on('click', '.order-type-card', function() {
         $('.order-type-card').removeClass('border border-3 border-primary shadow');
         $(this).addClass('border border-3 border-primary shadow');
         let type = $(this).data('type');
         $('#orderTypeSelect').val(type);
+        
         if(type === 'delivery'){
             $('#deliveryOptions').removeClass('d-none');
             $('#customerAddress').removeClass('d-none');
             $('#dineInFields').addClass('d-none');
-        }else if(type === 'dine_in'){
+        } else if(type === 'dine_in'){
             $('#deliveryOptions').addClass('d-none');
             $('#customerAddress').addClass('d-none');
             $('#dineInFields').removeClass('d-none');
             renderTableSelector();
-        }else{
+        } else {
             $('#deliveryOptions').addClass('d-none');
             $('#customerAddress').addClass('d-none');
             $('#dineInFields').addClass('d-none');
         }
     });
-// Render table/hall/family hall selector
-function renderTableSelector() {
-    // Define tables and halls
-    const tables = Array.from({length: 15}, (_, i) => ({ id: 'T'+(i+1), label: 'Table ' + (i+1), type: 'table' }));
-    const halls = [
-        { id: 'HALL', label: 'Hall', type: 'hall' },
-        { id: 'FAMILY', label: 'Family Hall', type: 'family' }
-    ];
-    // Find occupied tables from open orders
-    let occupied = new Set();
-    orders.forEach(o => {
-        if(o.type === 'dine_in' && o.table_number && o.items && o.items.length > 0) {
-            occupied.add(o.table_number);
+
+    // Table selection
+    $(document).on('click', '#tableSelector .table-btn', function() {
+        $('#tableSelector .table-btn').removeClass('active');
+        $(this).addClass('active');
+        let table = $(this).data('table');
+        if($('#tableNumber').length === 0) {
+            $('<input type="hidden" id="tableNumber">').appendTo('#dineInFields');
         }
+        $('#tableNumber').val(table);
     });
-    let html = '';
-    tables.concat(halls).forEach(t => {
-        let isOccupied = occupied.has(t.id);
-        html += `<button type="button" class="btn btn-outline-${isOccupied ? 'secondary' : 'danger'} table-btn mb-1" data-table="${t.id}" style="min-width:90px;${isOccupied?'opacity:0.5;pointer-events:none;':''}">${t.label}</button>`;
-    });
-    $('#tableSelector').html(html);
-    // Preselect none
-    $('#tableSelector .table-btn').removeClass('active');
-    $('#tableNumber').val('');
-}
 
-// Table selection logic
-$(document).on('click', '#tableSelector .table-btn', function() {
-    $('#tableSelector .table-btn').removeClass('active');
-    $(this).addClass('active');
-    let table = $(this).data('table');
-    // Store selected table in a hidden input for order creation
-    if($('#tableNumber').length === 0) {
-        $('<input type="hidden" id="tableNumber">').appendTo('#dineInFields');
-    }
-    $('#tableNumber').val(table);
-});
-
-    // Delivery source card selection
+    // Delivery source selection
     $(document).on('click', '.delivery-source-card', function() {
         $('.delivery-source-card').removeClass('border border-3 border-warning shadow');
         $(this).addClass('border border-3 border-warning shadow');
@@ -709,23 +1539,25 @@ $(document).on('click', '#tableSelector .table-btn', function() {
 
     // Confirm create order
     $('#confirmCreateOrder').off('click').on('click', function(){
-        let type=$('#orderTypeSelect').val();
-        if(!type)return alert('Select type');
-        let order={
-            id:'ORD'+Date.now(),
-            type:type,
-            delivery_source:$('#deliverySource').val(),
-            customer:{
-                name:$('#customerName').val(),
-                phone:$('#customerPhone').val(),
-                address:$('#customerAddress').val()
+        let type = $('#orderTypeSelect').val();
+        if(!type) return alert('Select type');
+        
+        let order = {
+            id: 'ORD' + Date.now(),
+            type: type,
+            delivery_source: $('#deliverySource').val(),
+            customer: {
+                name: $('#customerName').val() || 'Guest',
+                phone: $('#customerPhone').val() || '',
+                address: $('#customerAddress').val() || ''
             },
-            table_number: type==='dine_in' ? $('#tableNumber').val() : null,
-            num_customers: type==='dine_in' ? $('#numCustomers').val() : null,
-            items:[]
+            table_number: type === 'dine_in' ? $('#tableNumber').val() : null,
+            num_customers: type === 'dine_in' ? $('#numCustomers').val() : null,
+            items: []
         };
+        
         orders.push(order);
-        activeOrderId=order.id;
+        activeOrderId = order.id;
         ordersChanged();
         $('#initOrderModal').modal('hide');
     });
@@ -740,12 +1572,8 @@ $(document).on('click', '#tableSelector .table-btn', function() {
             return;
         }
         
-        // Update order status
         order.status = 'sent_to_kitchen';
         ordersChanged();
-        
-        // Print kitchen receipt
-        // window.open(`orders.php?source=print_receipt&id=${order.id}&type=kitchen`, '_blank');
         alert('Order sent to kitchen!');
     });
 
@@ -759,16 +1587,127 @@ $(document).on('click', '#tableSelector .table-btn', function() {
             return;
         }
         
-        // window.open(`orders.php?source=print_receipt&id=${order.id}&type=counter`, '_blank');
         alert('Print receipt!');
     });
-    
-    // Save scroll position when user manually scrolls
+
+    // Discount handlers
+    $('#discountAmount').on('input', function() {
+        let val = parseFloat($(this).val()) || 0;
+        if (val < 0) val = 0;
+        discountAmount = val;
+        renderOrder();
+    });
+
+    $('#discountTypeGroup .btn').click(function() {
+        $('#discountTypeGroup .btn').removeClass('active');
+        $(this).addClass('active');
+        discountType = $(this).data('discount-type');
+        
+        if (discountType === 'fixed') {
+            $('#discountAmount').attr('placeholder', 'Amount');
+        } else {
+            $('#discountAmount').attr('placeholder', 'Percentage');
+        }
+        
+        renderOrder();
+    });
+
+    $('.discount-preset').click(function() {
+        let preset = $(this).data('preset');
+        $('#discountTypeGroup .btn[data-discount-type="percentage"]').click();
+        $('#discountAmount').val(preset);
+        discountAmount = preset;
+        renderOrder();
+    });
+
+    // Hold order button
+    $('#btnHoldOrder').click(function() {
+        if (!activeOrderId) return;
+        
+        let order = orders.find(o => o.id === activeOrderId);
+        if (order) {
+            order.status = 'on_hold';
+            ordersChanged();
+            alert('Order placed on hold');
+        }
+    });
+
+    // Add note button
+    $('#btnAddNote').click(function() {
+        if (!activeOrderId) return;
+        
+        let note = prompt('Enter order note:');
+        if (note !== null) {
+            let order = orders.find(o => o.id === activeOrderId);
+            if (order) {
+                if (!order.notes) order.notes = [];
+                order.notes.push({
+                    text: note,
+                    timestamp: new Date().toISOString()
+                });
+                saveDraftOrders();
+                alert('Note added');
+            }
+        }
+    });
+
+    // Cancel order button now triggers soft delete modal
+    $('#btnCancelOrder').click(function() {
+        if (!activeOrderId) return;
+        showDeleteModal(activeOrderId);
+    });
+
+    // Delete confirmation
+    $('#confirmDeleteBtn').click(function() {
+        let orderId = $(this).data('order-id');
+        let permanent = $('#permanentDeleteCheck').is(':checked');
+        
+        softDeleteOrder(orderId, permanent);
+        $('#deleteOrderModal').modal('hide');
+        $('#permanentDeleteCheck').prop('checked', false);
+    });
+
+    // Undo delete
+    $('#undoDeleteBtn').click(function() {
+        if (lastDeletedOrder) {
+            restoreOrder(lastDeletedOrder.id);
+            $('#undoToast').fadeOut(300);
+            lastDeletedOrder = null;
+            if (undoTimeout) {
+                clearTimeout(undoTimeout);
+            }
+        }
+    });
+
+    // Trash bin button
+    $('#trashBinBtn').click(function() {
+        loadDeletedOrders();
+        $('#recoveryModal').modal('show');
+    });
+
+    // Empty trash button
+    $('#emptyTrashBtn').click(function() {
+        if (deletedOrders.length === 0) return;
+        
+        if (confirm(`Permanently delete ${deletedOrders.length} orders? This cannot be undone!`)) {
+            alert('Bulk delete functionality - implement based on your needs');
+        }
+    });
+
+    // Modal reset
+    $('#deleteOrderModal').on('hidden.bs.modal', function() {
+        $('#permanentDeleteCheck').prop('checked', false);
+    });
+
+    // Scroll position save
     $('.orders-tabs-card').on('scroll', function() {
         savedScrollPosition = this.scrollLeft;
     });
 });
 
-// Make removeItem globally available
+// Make functions globally available
 window.removeItem = removeItem;
+window.switchOrder = switchOrder;
+window.showDeleteModal = showDeleteModal;
+window.calculateOrderTotal = calculateOrderTotal;
 </script>
