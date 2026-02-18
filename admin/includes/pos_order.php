@@ -34,6 +34,7 @@ if ($categories && $categories->num_rows > 0) {
 <div class="mt-3 mb-2">
     <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin-bottom:0.2em; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
 </div>
+
 <!-- Active Orders Card with Breakdown (compact, above row) -->
 <div id="activeOrdersCard" class="card shadow-sm mb-2" style="max-width:100%; border-radius:12px; border:1px solid #f39c12; background:linear-gradient(135deg,#fffbe6,#fff);">
     <div class="card-body py-2 px-3">
@@ -43,6 +44,7 @@ if ($categories && $categories->num_rows > 0) {
         </div>
     </div>
 </div>
+
 <!-- Main Row: New Order Button and Tabs -->
 <div class="d-flex align-items-center mb-3" style="gap:18px;">
     <button class="btn btn-theme-gradient" id="btnNewOrder" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; border-radius: 14px; border: none; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 16px rgba(196,30,58,0.12); padding: 12px 24px;">
@@ -65,145 +67,249 @@ if ($categories && $categories->num_rows > 0) {
             </div>
             <?php $catIndex++; ?>
         <?php endwhile; ?>
-                <div class="d-flex flex-column align-items-center my-3">
-                    <a href="categories.php?source=add_category" class="btn btn-outline-success btn-sm mb-2 w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Category</a>
-                </div>
+        <div class="d-flex flex-column align-items-center my-3">
+            <a href="categories.php?source=add_category" class="btn btn-outline-success btn-sm mb-2 w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Category</a>
+        </div>
     </div>
 
     <!-- 2️⃣ MENU PANEL -->
     <div class="menu-panel">
         <div id="menuItems" class="row g-2"></div>
-            <div class="d-flex flex-column align-items-center my-3">
-                <a href="menu_items.php?source=add_item" class="btn btn-outline-primary btn-sm w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Menu Item</a>
-            </div>
+        <div class="d-flex flex-column align-items-center my-3">
+            <a href="menu_items.php?source=add_item" class="btn btn-outline-primary btn-sm w-100" style="border-radius:8px; font-weight:600;"><i class="bi bi-plus-circle me-1"></i> Add Menu Item</a>
+        </div>
     </div>
 
     <!-- 3️⃣ ORDER PANEL -->
-    <!-- 3️⃣ ORDER PANEL -->
-<div class="order-panel">
+    <div class="order-panel">
+        <table class="table table-bordered mb-2">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th width="70">Qty</th>
+                    <th width="100">Price</th>
+                    <th width="100">Total</th>
+                    <th width="40"></th>
+                </tr>
+            </thead>
+            <tbody id="orderItemsBody">
+                <tr class="empty-row">
+                    <td colspan="5" class="text-center text-muted">
+                        Create or select an order to begin
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table class="table table-bordered mb-2">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th width="70">Qty</th>
-                <th width="100">Price</th>
-                <th width="100">Total</th>
-                <th width="40"></th>
-            </tr>
-        </thead>
-        <tbody id="orderItemsBody">
-            <tr class="empty-row">
-                <td colspan="5" class="text-center text-muted">
-                    Create or select an order to begin
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- ================= ENHANCED FINANCIAL SUMMARY ================= -->
-    <div class="financial-summary mt-3">
-        <!-- Subtotal -->
-        <div class="summary-row d-flex justify-content-between align-items-center py-2">
-            <span class="summary-label">
-                <i class="bi bi-calculator me-2" style="color: #c41e3a;"></i>Subtotal:
-            </span>
-            <span class="summary-value fw-bold" id="summarySubtotal">0.00 AED</span>
-        </div>
-        
-        <!-- Discount Row with Edit -->
-        <div class="summary-row d-flex justify-content-between align-items-center py-2 bg-light rounded px-2">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-tag-fill me-2" style="color: #f39c12;"></i>
-                <span class="summary-label me-2">Discount:</span>
-                <div class="input-group input-group-sm" style="width: 110px;">
-                    <input type="number" class="form-control form-control-sm" id="discountAmount" value="0" min="0" step="0.01" style="border-color: #f39c12;">
-                    <span class="input-group-text bg-white" style="border-color: #f39c12;">AED</span>
+        <!-- ================= ENHANCED FINANCIAL SUMMARY ================= -->
+        <div class="financial-summary mt-3">
+            <!-- Subtotal -->
+            <div class="summary-row d-flex justify-content-between align-items-center py-2">
+                <span class="summary-label">
+                    <i class="bi bi-calculator me-2" style="color: #c41e3a;"></i>Subtotal:
+                </span>
+                <span class="summary-value fw-bold" id="summarySubtotal">0.00 AED</span>
+            </div>
+            
+            <!-- Discount Row with Edit -->
+            <div class="summary-row d-flex justify-content-between align-items-center py-2 bg-light rounded px-2">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-tag-fill me-2" style="color: #f39c12;"></i>
+                    <span class="summary-label me-2">Discount:</span>
+                    <div class="input-group input-group-sm" style="width: 110px;">
+                        <input type="number" class="form-control form-control-sm" id="discountAmount" value="0" min="0" step="0.01" style="border-color: #f39c12;">
+                        <span class="input-group-text bg-white" style="border-color: #f39c12;">AED</span>
+                    </div>
+                </div>
+                <span class="summary-value text-warning fw-bold" id="summaryDiscount">-0.00 AED</span>
+            </div>
+            
+            <!-- Discount Type Toggle -->
+            <div class="d-flex justify-content-end mb-2">
+                <div class="btn-group btn-group-sm" role="group" id="discountTypeGroup">
+                    <button type="button" class="btn btn-outline-warning active" data-discount-type="fixed">Fixed</button>
+                    <button type="button" class="btn btn-outline-warning" data-discount-type="percentage">%</button>
                 </div>
             </div>
-            <span class="summary-value text-warning fw-bold" id="summaryDiscount">-0.00 AED</span>
-        </div>
-        
-        <!-- Discount Type Toggle -->
-        <div class="d-flex justify-content-end mb-2">
-            <div class="btn-group btn-group-sm" role="group" id="discountTypeGroup">
-                <button type="button" class="btn btn-outline-warning active" data-discount-type="fixed">Fixed</button>
-                <button type="button" class="btn btn-outline-warning" data-discount-type="percentage">%</button>
+            
+            <!-- Tax -->
+            <div class="summary-row d-flex justify-content-between align-items-center py-2">
+                <span class="summary-label">
+                    <i class="bi bi-percent me-2" style="color: #3498db;"></i>Tax (15%):
+                </span>
+                <span class="summary-value" id="summaryTax">0.00 AED</span>
+            </div>
+            
+            <!-- Delivery Fee (conditional) -->
+            <div class="summary-row d-flex justify-content-between align-items-center py-2" id="deliveryFeeRow" style="display: none;">
+                <span class="summary-label">
+                    <i class="bi bi-truck me-2" style="color: #2ecc71;"></i>Delivery Fee:
+                </span>
+                <span class="summary-value" id="summaryDeliveryFee">0.00 AED</span>
+            </div>
+            
+            <!-- Divider -->
+            <div class="dropdown-divider my-2"></div>
+            
+            <!-- Net Total -->
+            <div class="summary-row d-flex justify-content-between align-items-center py-3" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); border-radius: 8px; padding: 10px 15px !important; margin-top: 5px;">
+                <span class="summary-label text-white fw-bold fs-5">
+                    <i class="bi bi-cash-stack me-2"></i>NET TOTAL:
+                </span>
+                <span class="summary-value text-white fw-bold fs-4" id="orderTotal">0.00 AED</span>
+            </div>
+            
+            <!-- Quick Discount Presets -->
+            <div class="discount-presets mt-2">
+                <small class="text-muted me-2">Quick discounts:</small>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-secondary discount-preset" data-preset="5">5%</button>
+                    <button class="btn btn-outline-secondary discount-preset" data-preset="10">10%</button>
+                    <button class="btn btn-outline-secondary discount-preset" data-preset="15">15%</button>
+                    <button class="btn btn-outline-secondary discount-preset" data-preset="20">20%</button>
+                    <button class="btn btn-outline-secondary discount-preset" data-preset="25">25%</button>
+                </div>
             </div>
         </div>
-        
-        <!-- Tax -->
-        <div class="summary-row d-flex justify-content-between align-items-center py-2">
-            <span class="summary-label">
-                <i class="bi bi-percent me-2" style="color: #3498db;"></i>Tax (15%):
-            </span>
-            <span class="summary-value" id="summaryTax">0.00 AED</span>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-warning w-50" id="btnSendKitchen" disabled>
+                <i class="bi bi-send me-2"></i> Send to Kitchen
+            </button>
+            <button class="btn btn-primary w-50" id="btnPrint" disabled>
+                <i class="bi bi-printer me-2"></i> Print Receipt
+            </button>
         </div>
         
-        <!-- Delivery Fee (conditional) -->
-        <div class="summary-row d-flex justify-content-between align-items-center py-2" id="deliveryFeeRow" style="display: none;">
-            <span class="summary-label">
-                <i class="bi bi-truck me-2" style="color: #2ecc71;"></i>Delivery Fee:
-            </span>
-            <span class="summary-value" id="summaryDeliveryFee">0.00 AED</span>
+        <!-- Additional Action Buttons Row -->
+        <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-outline-secondary btn-sm flex-fill" id="btnHoldOrder">
+                <i class="bi bi-pause-circle me-1"></i> Hold
+            </button>
+            <button class="btn btn-outline-info btn-sm flex-fill" id="btnAddNote">
+                <i class="bi bi-chat-dots me-1"></i> Add Note
+            </button>
+            <button class="btn btn-outline-danger btn-sm flex-fill" id="btnCancelOrder">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+            </button>
         </div>
-        
-        <!-- Divider -->
-        <div class="dropdown-divider my-2"></div>
-        
-        <!-- Net Total -->
-        <div class="summary-row d-flex justify-content-between align-items-center py-3" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); border-radius: 8px; padding: 10px 15px !important; margin-top: 5px;">
-            <span class="summary-label text-white fw-bold fs-5">
-                <i class="bi bi-cash-stack me-2"></i>NET TOTAL:
-            </span>
-            <span class="summary-value text-white fw-bold fs-4" id="orderTotal">0.00 AED</span>
+
+        <!-- Save & Close Order Button -->
+        <div class="d-flex mt-3 justify-content-center">
+            <button class="btn btn-success btn-lg fw-bold" id="btnSaveCloseOrder" style="font-size:1.15rem; border-radius:12px; box-shadow:0 2px 8px rgba(39,174,96,0.08); min-width:240px;">
+                <i class="bi bi-check2-circle me-2"></i>Save & Close Order
+            </button>
         </div>
-        
-        <!-- Quick Discount Presets -->
-        <div class="discount-presets mt-2">
-            <small class="text-muted me-2">Quick discounts:</small>
-            <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-secondary discount-preset" data-preset="5">5%</button>
-                <button class="btn btn-outline-secondary discount-preset" data-preset="10">10%</button>
-                <button class="btn btn-outline-secondary discount-preset" data-preset="15">15%</button>
-                <button class="btn btn-outline-secondary discount-preset" data-preset="20">20%</button>
-                <button class="btn btn-outline-secondary discount-preset" data-preset="25">25%</button>
+    </div> <!-- Close order-panel -->
+</div> <!-- Close pos-container -->
+</div> <!-- Close container-fluid -->
+</div> <!-- Close main-content -->
+
+<!-- ================= MODALS ================= -->
+
+<!-- Save & Close Order Modal -->
+<div class="modal fade" id="saveOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content reservation-modal-theme">
+            <div class="modal-header reservation-modal-header" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-credit-card-2-front display-6 text-white"></i>
+                    <h5 class="modal-title mb-0 text-white">Close & Save Order</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body reservation-modal-body">
+                <!-- Order Summary -->
+                <div class="card mb-3 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted mb-3">Order Summary</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Order #:</strong> <span id="modalOrderNumber"></span></p>
+                                <p class="mb-1"><strong>Customer:</strong> <span id="modalCustomerName"></span></p>
+                                <p class="mb-1"><strong>Type:</strong> <span id="modalOrderType"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Items:</strong> <span id="modalItemCount"></span></p>
+                                <p class="mb-1"><strong>Subtotal:</strong> <span id="modalSubtotal"></span></p>
+                                <p class="mb-1"><strong>Total:</strong> <span id="modalTotal" class="fw-bold text-success"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method Selection -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold fs-5 mb-3">Select Payment Method</label>
+                    <div class="row g-3">
+                        <div class="col-md-3 col-6">
+                            <div class="payment-method-card" data-method="cash" style="background: linear-gradient(135deg, #f39c12 0%, #f7b733 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
+                                <i class="bi bi-cash-coin display-5 mb-2"></i>
+                                <h6 class="mb-0">Cash</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="payment-method-card" data-method="card" style="background: linear-gradient(135deg, #3498db 0%, #6dd5fa 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
+                                <i class="bi bi-credit-card-2-front display-5 mb-2"></i>
+                                <h6 class="mb-0">POS Card</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="payment-method-card" data-method="credit" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
+                                <i class="bi bi-credit-card display-5 mb-2"></i>
+                                <h6 class="mb-0">Credit Card</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="payment-method-card" data-method="debit" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
+                                <i class="bi bi-credit-card-2-back display-5 mb-2"></i>
+                                <h6 class="mb-0">Debit Card</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Payment Details -->
+                <div id="paymentDetails" class="d-none">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Reference/Transaction ID</label>
+                            <input type="text" class="form-control" id="paymentReference" placeholder="Optional">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Amount Paid</label>
+                            <input type="number" class="form-control" id="amountPaid" step="0.01" min="0">
+                        </div>
+                    </div>
+                    <div class="form-check mt-2">
+                        <!-- Payment confirmation checkbox removed -->
+                        <!-- <input class="form-check-input" type="checkbox" id="paymentConfirmed"> -->
+                        <!-- <label class="form-check-label" for="paymentConfirmed"> -->
+                        <!--     Payment confirmed -->
+                        <!-- </label> -->
+                        <input class="form-check-input" type="checkbox" id="paymentConfirmed">
+                        <label class="form-check-label" for="paymentConfirmed">
+                            Payment confirmed
+                        </label>
+                    </div>
+                </div>
+
+                <input type="hidden" id="selectedPaymentMethod">
+            </div>
+            <div class="modal-footer reservation-modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" id="confirmSaveOrder" disabled>
+                    <i class="bi bi-check2-circle me-2"></i>Confirm & Save
+                </button>
             </div>
         </div>
     </div>
-
-    <!-- Action Buttons -->
-    <div class="d-flex gap-2 mt-3">
-        <button class="btn btn-warning w-50" id="btnSendKitchen" disabled>
-            <i class="bi bi-send me-2"></i> Send to Kitchen
-        </button>
-        <button class="btn btn-primary w-50" id="btnPrint" disabled>
-            <i class="bi bi-printer me-2"></i> Print Receipt
-        </button>
-    </div>
-    
-    <!-- Additional Action Buttons Row -->
-    <div class="d-flex gap-2 mt-2">
-        <button class="btn btn-outline-secondary btn-sm flex-fill" id="btnHoldOrder">
-            <i class="bi bi-pause-circle me-1"></i> Hold
-        </button>
-        <button class="btn btn-outline-info btn-sm flex-fill" id="btnAddNote">
-            <i class="bi bi-chat-dots me-1"></i> Add Note
-        </button>
-        <button class="btn btn-outline-danger btn-sm flex-fill" id="btnCancelOrder">
-            <i class="bi bi-x-circle me-1"></i> Cancel
-        </button>
-    </div>
-</div>
-</div>
-</div>
 </div>
 
-
-<!-- ================= MODAL ================= -->
-
-
-<div class="modal fade" id="initOrderModal">
+<!-- New Order Modal -->
+<div class="modal fade" id="initOrderModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content reservation-modal-theme">
             <div class="modal-header reservation-modal-header">
@@ -266,7 +372,6 @@ if ($categories && $categories->num_rows > 0) {
         </div>
     </div>
 </div>
-
 
 <!-- Soft Delete Confirmation Modal -->
 <div class="modal fade delete-confirm-modal" id="deleteOrderModal" tabindex="-1">
@@ -443,8 +548,6 @@ if ($categories && $categories->num_rows > 0) {
     background:#c41e3a;
     border-radius:8px;
 }
-
-/* Enhanced Financial Summary Styling */
 .financial-summary {
     background: #fff;
     border-radius: 12px;
@@ -452,270 +555,78 @@ if ($categories && $categories->num_rows > 0) {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     border: 1px solid #e0e0e0;
 }
-
 .summary-row {
     transition: all 0.2s ease;
 }
-
 .summary-row:hover {
     background-color: #f8f9fa;
     border-radius: 6px;
 }
-
 .summary-label {
     font-size: 0.95rem;
     color: #2c3e50;
 }
-
 .summary-value {
     font-size: 1rem;
     font-weight: 600;
     color: #2c3e50;
 }
-
 #discountAmount {
     text-align: right;
     font-weight: 600;
 }
-
 #discountAmount:focus {
     border-color: #c41e3a;
     box-shadow: 0 0 0 0.2rem rgba(196,30,58,0.25);
 }
-
 .discount-presets {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 5px;
 }
-
 .discount-presets .btn-group {
     flex-wrap: wrap;
 }
-
 .discount-presets .btn-outline-secondary {
     border-color: #e0e0e0;
     color: #2c3e50;
     font-size: 0.85rem;
     padding: 0.25rem 0.5rem;
 }
-
 .discount-presets .btn-outline-secondary:hover {
     background: #f39c12;
     border-color: #f39c12;
     color: #fff;
 }
-
 #discountTypeGroup .btn-outline-warning {
     border-color: #f39c12;
     color: #f39c12;
     font-size: 0.8rem;
     padding: 0.2rem 0.8rem;
 }
-
 #discountTypeGroup .btn-outline-warning.active {
     background: #f39c12;
     border-color: #f39c12;
     color: #fff;
 }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .discount-presets {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .discount-presets .btn-group {
-        width: 100%;
-    }
-    
-    .discount-presets .btn {
-        flex: 1;
-    }
-}
-
-
-/* Add to your existing style section */
-
-/* Delete button styling */
-.order-card .delete-order-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #dc3545;
-    color: #dc3545;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
+.payment-method-card {
     transition: all 0.3s ease;
-    z-index: 10;
-    font-size: 14px;
-    padding: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
 }
-
-.order-card:hover .delete-order-btn {
-    opacity: 1;
+.payment-method-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
-
-.order-card .delete-order-btn:hover {
-    background: #dc3545;
-    color: white;
-    transform: scale(1.1);
+.payment-method-card.selected {
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 3px #27ae60;
+    transform: scale(1.02);
 }
-
-/* Deleted order styling */
-.order-card.deleted {
-    opacity: 0.6;
-    filter: grayscale(0.5);
-    border-left-color: #6c757d !important;
-    position: relative;
-    overflow: hidden;
+.delete-order-tab-btn:hover {
+    background: #dc3545 !important;
+    color: #fff !important;
 }
-
-.order-card.deleted::after {
-    content: 'DELETED';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: rgba(220, 53, 69, 0.2);
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Delete confirmation modal */
-.delete-confirm-modal .modal-header {
-    background: #dc3545;
-    color: white;
-}
-
-.delete-confirm-modal .modal-body {
-    text-align: center;
-    padding: 30px;
-}
-
-.delete-confirm-modal .warning-icon {
-    font-size: 4rem;
-    color: #dc3545;
-    margin-bottom: 20px;
-}
-
-.delete-confirm-modal .order-details {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0;
-    text-align: left;
-}
-
-/* Trash bin / Recovery panel */
-.trash-bin-panel {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1050;
-}
-
-.trash-bin-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6c757d, #495057);
-    color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-}
-
-.trash-bin-btn:hover {
-    transform: scale(1.1);
-    background: linear-gradient(135deg, #dc3545, #c82333);
-}
-
-.trash-bin-btn.has-items {
-    background: linear-gradient(135deg, #dc3545, #c82333);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
-    }
-}
-
-/* Recovery modal */
-.recovery-modal .order-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    transition: all 0.3s ease;
-}
-
-.recovery-modal .order-item:hover {
-    background: #f8f9fa;
-}
-
-.recovery-modal .order-item.deleted {
-    opacity: 0.6;
-}
-
-.recovery-modal .restore-btn {
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.recovery-modal .restore-btn:hover {
-    background: #218838;
-    transform: translateY(-2px);
-}
-
-.recovery-modal .hard-delete-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 5px;
-}
-
-.recovery-modal .hard-delete-btn:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-}
-
-/* Undo toast */
 .undo-toast {
     position: fixed;
     bottom: 20px;
@@ -732,7 +643,6 @@ if ($categories && $categories->num_rows > 0) {
     gap: 15px;
     animation: slideUp 0.3s ease;
 }
-
 .undo-toast .undo-btn {
     background: white;
     color: #28a745;
@@ -743,12 +653,10 @@ if ($categories && $categories->num_rows > 0) {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 .undo-toast .undo-btn:hover {
     background: #f8f9fa;
     transform: scale(1.05);
 }
-
 @keyframes slideUp {
     from {
         bottom: -100px;
@@ -759,9 +667,49 @@ if ($categories && $categories->num_rows > 0) {
         opacity: 1;
     }
 }
+.trash-bin-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+.trash-bin-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+.trash-bin-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+.trash-bin-btn.has-items {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
 </style>
 
-<!-- Add Bootstrap and jQuery scripts since footer is not included -->
+<!-- Add Bootstrap and jQuery scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -782,6 +730,9 @@ let deletedOrders = [];
 let lastDeletedOrder = null;
 let undoTimeout = null;
 
+// Save & Close variables
+let selectedPaymentMethod = null;
+
 // --- DRAFT ORDER PERSISTENCE FUNCTIONS ---
 function saveDraftOrders() {
     localStorage.setItem('pos_orders', JSON.stringify(orders));
@@ -794,9 +745,7 @@ function saveDraftOrders() {
                 action: 'save', 
                 order: JSON.stringify(order) 
             },
-            success: function(response) {
-                console.log('Order saved:', order.id);
-            },
+            success: function(response) {},
             error: function(xhr) {
                 console.error('Failed to save order:', order.id, xhr.responseText);
             }
@@ -951,18 +900,11 @@ function renderTabs() {
     
     let html = '';
     let visibleOrders = orders.filter(order => order && !order.is_deleted);
+    
     // Update active orders count card
     $('#activeOrdersCount').text(visibleOrders.length);
+    
     // Breakdown by type
-    let typeMap = {
-        dine_in: { label: 'Dine In', icon: 'bi-shop', color: '#3498db' },
-        pickup: { label: 'Pickup', icon: 'bi-bag', color: '#f39c12' },
-        delivery: { label: 'Delivery', icon: 'bi-truck', color: '#27ae60' },
-        noon: { label: 'Noon', icon: 'bi-sun', color: '#fbb034' },
-        keeta: { label: 'Keeta', icon: 'bi-bicycle', color: '#e74c3c' },
-        deliveroo: { label: 'Deliveroo', icon: 'bi-bag-check', color: '#00c3e3' },
-        smile: { label: 'Smile', icon: 'bi-emoji-smile', color: '#f1c40f' }
-    };
     let breakdown = {
         dine_in: 0,
         pickup: 0,
@@ -972,6 +914,7 @@ function renderTabs() {
         delivery_deliveroo: 0,
         delivery_smile: 0
     };
+    
     visibleOrders.forEach(order => {
         if (order.type === 'dine_in') breakdown.dine_in++;
         else if (order.type === 'pickup') breakdown.pickup++;
@@ -984,20 +927,23 @@ function renderTabs() {
             else if (src === 'smile') breakdown.delivery_smile++;
         }
     });
+    
     let breakdownHtml = '';
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#3498db; color:#fff; font-size:1em;"><i class="bi bi-shop me-1"></i> Dine In: <b>${breakdown.dine_in}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#f39c12; color:#fff; font-size:1em;"><i class="bi bi-bag me-1"></i> Pickup: <b>${breakdown.pickup}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#27ae60; color:#fff; font-size:1em;"><i class="bi bi-truck me-1"></i> Delivery: <b>${breakdown.delivery_internal}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#fbb034; color:#fff; font-size:1em;"><i class="bi bi-sun me-1"></i> Noon: <b>${breakdown.delivery_noon}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#e74c3c; color:#fff; font-size:1em;"><i class="bi bi-bicycle me-1"></i> Keeta: <b>${breakdown.delivery_keeta}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#00c3e3; color:#fff; font-size:1em;"><i class="bi bi-bag-check me-1"></i> Deliveroo: <b>${breakdown.delivery_deliveroo}</b></span></div>`;
-    breakdownHtml += `<div class="col-auto"><span class="badge" style="background:#f1c40f; color:#fff; font-size:1em;"><i class="bi bi-emoji-smile me-1"></i> Smile: <b>${breakdown.delivery_smile}</b></span></div>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#3498db;"><i class="bi bi-shop"></i> Dine: ${breakdown.dine_in}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#f39c12;"><i class="bi bi-bag"></i> Pickup: ${breakdown.pickup}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#27ae60;"><i class="bi bi-truck"></i> Del: ${breakdown.delivery_internal}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#fbb034;"><i class="bi bi-sun"></i> Noon: ${breakdown.delivery_noon}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#e74c3c;"><i class="bi bi-bicycle"></i> Keeta: ${breakdown.delivery_keeta}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#00c3e3;"><i class="bi bi-bag-check"></i> Roo: ${breakdown.delivery_deliveroo}</span>`;
+    breakdownHtml += `<span class="badge me-1" style="background:#f1c40f;"><i class="bi bi-emoji-smile"></i> Smile: ${breakdown.delivery_smile}</span>`;
     $('#ordersTypeBreakdown').html(breakdownHtml);
+    
     visibleOrders.forEach(order => {
         let active = order.id === activeOrderId ? 'active' : '';
         let typeColor = '';
         let typeIcon = '';
         let deliveryBadge = '';
+        
         if(order.type === 'dine_in'){
             typeColor = 'background:linear-gradient(135deg,#3498db,#6dd5fa);color:#fff;';
             typeIcon = '<i class="bi bi-shop me-1"></i>';
@@ -1019,8 +965,9 @@ function renderTabs() {
                 deliveryBadge = `<span class="badge ms-1" style="background:${srcMap[src].color};color:#fff;font-size:0.8em;vertical-align:middle;">${srcMap[src].icon} ${srcMap[src].label}</span>`;
             }
         }
+        
         let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
-        // Add delete (X) button directly here
+        
         html += `
             <div class="order-tab ${active}" 
                  style="${typeColor}margin-right:8px;min-width:180px;display:inline-block;cursor:pointer;border-radius:8px;padding:8px 16px;box-shadow:0 2px 6px rgba(0,0,0,0.07);border:2px solid ${active ? "#c41e3a" : "transparent"};position:relative;" 
@@ -1035,9 +982,11 @@ function renderTabs() {
             </div>
         `;
     });
+    
     if (visibleOrders.length === 0) {
         html = '<div class="text-muted p-2">No active orders. Click "Punch New Order" to start.</div>';
     }
+    
     $('#ordersTabs').html(html);
     restoreScrollPosition();
     scrollActiveTabIntoView();
@@ -1097,7 +1046,6 @@ function renderOrder() {
                             <div style="font-size:1.1rem; color:#c41e3a; font-weight:600;">No items added</div>
                             <div style="font-size:0.98rem; color:#495057;">Click on menu items to add them to the order.</div>
                         </div>
-                        <button class="btn btn-theme-gradient mt-2" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; border-radius: 10px; font-weight: 600;" onclick="$('.category-panel').get(0).scrollIntoView({behavior:'smooth'});">Browse Menu</button>
                     </div>
                 </td>
             </tr>
@@ -1178,6 +1126,7 @@ function renderTableSelector() {
 function softDeleteOrder(orderId, permanent = false) {
     let order = orders.find(o => o.id === orderId);
     if (!order) return;
+    
     if (permanent) {
         $.ajax({
             url: 'includes/pos_order_drafts.php',
@@ -1190,8 +1139,7 @@ function softDeleteOrder(orderId, permanent = false) {
                         orders.splice(index, 1);
                     }
                     if (activeOrderId === orderId) {
-                        let next = orders.find(o => o && !o.is_deleted && o.id !== orderId);
-                        activeOrderId = next ? next.id : null;
+                        activeOrderId = orders.length > 0 ? orders[0].id : null;
                     }
                     ordersChanged();
                     showNotification('Order permanently deleted', 'danger');
@@ -1214,11 +1162,10 @@ function softDeleteOrder(orderId, permanent = false) {
                     lastDeletedOrder = {...order};
                     let idx = orders.findIndex(o => o.id === orderId);
                     if (idx !== -1) {
-                        orders[idx].is_deleted = 1;
+                        orders.splice(idx, 1);
                     }
                     if (activeOrderId === orderId) {
-                        let next = orders.find(o => o && !o.is_deleted && o.id !== orderId);
-                        activeOrderId = next ? next.id : null;
+                        activeOrderId = orders.length > 0 ? orders[0].id : null;
                     }
                     ordersChanged();
                     showUndoToast(order);
@@ -1313,7 +1260,7 @@ function displayDeletedOrders() {
                                 <i class="bi bi-arrow-counterclockwise"></i> Restore
                             </button>
                             <button class="btn btn-sm btn-danger hard-delete-btn" data-order-id="${order.id}">
-                                <i class="bi bi-trash3"></i> Delete
+                                <i class="bi bi-trash3"></i> Permanent
                             </button>
                         </div>
                     </div>
@@ -1383,12 +1330,6 @@ function showNotification(message, type = 'success') {
     setTimeout(() => toast.fadeOut(300, function() { $(this).remove(); }), 3000);
 }
 
-function addDeleteButtonToOrderCard(orderId) {
-    return `<button class="delete-order-btn" onclick="event.stopPropagation(); showDeleteModal('${orderId}')" title="Delete order" style="position:absolute; top:5px; right:5px; width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.9); border:1px solid #dc3545; color:#dc3545; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:all 0.3s ease; z-index:10; font-size:14px; padding:0; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-        <i class="bi bi-x"></i>
-    </button>`;
-}
-
 window.showDeleteModal = function(orderId) {
     let order = orders.find(o => o.id === orderId);
     if (!order) return;
@@ -1407,6 +1348,137 @@ window.showDeleteModal = function(orderId) {
     $('#confirmDeleteBtn').data('order-id', orderId);
     $('#deleteOrderModal').modal('show');
 };
+
+// --- SAVE & CLOSE ORDER FUNCTIONS ---
+function openSaveCloseModal() {
+    if (!activeOrderId) {
+        alert('No active order selected');
+        return;
+    }
+    
+    let order = orders.find(o => o.id === activeOrderId);
+    if (!order || order.items.length === 0) {
+        alert('Cannot close an empty order');
+        return;
+    }
+    
+    // Reset modal
+    selectedPaymentMethod = null;
+    $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
+    $('#selectedPaymentMethod').val('');
+    $('#paymentDetails').addClass('d-none');
+    $('#paymentReference').val('');
+    $('#amountPaid').val('');
+    // $('#paymentConfirmed').prop('checked', false); // Removed
+    $('#confirmSaveOrder').prop('disabled', true);
+    
+    // Calculate finances
+    let finances = calculateFinancials();
+    
+    // Fill modal summary
+    $('#modalOrderNumber').text(order.id.substr(-8));
+    $('#modalCustomerName').text(order.customer ? order.customer.name : 'Guest');
+    $('#modalOrderType').text(order.type.toUpperCase());
+    $('#modalItemCount').text(order.items.length);
+    $('#modalSubtotal').text(finances.subtotal.toFixed(2) + ' AED');
+    $('#modalTotal').text(finances.total.toFixed(2) + ' AED');
+    
+    // Set default amount paid
+    $('#amountPaid').val(finances.total.toFixed(2));
+    
+    $('#saveOrderModal').modal('show');
+}
+
+function saveCompletedOrder() {
+    if (!selectedPaymentMethod) {
+        alert('Please select a payment method');
+        return;
+    }
+    
+    if (!selectedPaymentMethod) {
+        alert('Please select a payment method');
+        return;
+    }
+    
+    let order = orders.find(o => o.id === activeOrderId);
+    if (!order) return;
+    
+    let finances = calculateFinancials();
+    let amountPaid = parseFloat($('#amountPaid').val());
+    
+    if (isNaN(amountPaid) || amountPaid < finances.total) {
+        alert('Amount paid must be at least ' + finances.total.toFixed(2) + ' AED');
+        return;
+    }
+    
+    // Disable button
+    let btn = $('#confirmSaveOrder');
+    btn.html('<span class="spinner-border spinner-border-sm me-2"></span>Saving...');
+    btn.prop('disabled', true);
+    
+    // Prepare data
+    let saveData = {
+        order_id: activeOrderId,
+        payment_method: selectedPaymentMethod,
+        payment_reference: $('#paymentReference').val(),
+        amount_paid: amountPaid,
+        discount_amount: discountAmount,
+        discount_type: discountType,
+        order_data: order
+    };
+    
+    $.ajax({
+        url: 'includes/ajax/save_completed_order.php',
+        method: 'POST',
+        data: JSON.stringify(saveData),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                // Remove order from active orders
+                orders = orders.filter(o => o.id !== activeOrderId);
+                
+                // Set active order to next available
+                if (orders.length > 0) {
+                    activeOrderId = orders[0].id;
+                } else {
+                    activeOrderId = null;
+                }
+                
+                // Update UI
+                ordersChanged();
+                
+                // Hide modal
+                $('#saveOrderModal').modal('hide');
+                
+                // Show success message
+                showNotification(`Order #${response.order_number} saved successfully!`, 'success');
+                
+                // Clear from localStorage
+                let localOrders = JSON.parse(localStorage.getItem('pos_orders') || '[]');
+                localOrders = localOrders.filter(o => o.id !== activeOrderId);
+                localStorage.setItem('pos_orders', JSON.stringify(localOrders));
+                
+            } else {
+                alert('Error: ' + response.message);
+                btn.html('Confirm & Save');
+                btn.prop('disabled', false);
+            }
+        },
+        error: function(xhr) {
+            let errorMsg = 'Server error occurred';
+            try {
+                const resp = JSON.parse(xhr.responseText);
+                if (resp && resp.message) errorMsg = resp.message;
+            } catch (e) {
+                if (xhr.responseText) errorMsg = xhr.responseText;
+            }
+            console.error('Save error:', xhr.responseText);
+            alert('Error: ' + errorMsg);
+            btn.html('Confirm & Save');
+            btn.prop('disabled', false);
+        }
+    });
+}
 
 // --- INITIALIZATION ---
 $(document).ready(function() {
@@ -1492,6 +1564,7 @@ $(document).ready(function() {
         $('.delivery-source-card').removeClass('border border-3 border-warning shadow');
         $('#deliveryOptions').addClass('d-none');
         $('#customerAddress').addClass('d-none');
+        $('#dineInFields').addClass('d-none');
         $('#initOrderModal').modal('show');
     });
 
@@ -1651,10 +1724,45 @@ $(document).ready(function() {
         }
     });
 
-    // Cancel order button now triggers soft delete modal
+    // Cancel order button
     $('#btnCancelOrder').click(function() {
         if (!activeOrderId) return;
         showDeleteModal(activeOrderId);
+    });
+
+    // Save & Close Order button
+    $('#btnSaveCloseOrder').click(function() {
+        openSaveCloseModal();
+    });
+
+    // Payment method selection
+    $(document).on('click', '.payment-method-card', function() {
+        $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
+        $(this).addClass('selected border border-3 border-success shadow');
+        
+        selectedPaymentMethod = $(this).data('method');
+        $('#selectedPaymentMethod').val(selectedPaymentMethod);
+        $('#paymentDetails').removeClass('d-none');
+        $('#confirmSaveOrder').prop('disabled', false);
+    });
+
+    // Enable Confirm & Save when payment method is selected (no payment confirmation checkbox)
+
+    // Confirm save order
+    $('#confirmSaveOrder').click(function() {
+        saveCompletedOrder();
+    });
+
+    // Reset modal when hidden
+    $('#saveOrderModal').on('hidden.bs.modal', function() {
+        selectedPaymentMethod = null;
+        $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
+        $('#selectedPaymentMethod').val('');
+        $('#paymentDetails').addClass('d-none');
+        $('#paymentReference').val('');
+        $('#amountPaid').val('');
+        // $('#paymentConfirmed').prop('checked', false); // Removed
+        $('#confirmSaveOrder').prop('disabled', true);
     });
 
     // Delete confirmation
