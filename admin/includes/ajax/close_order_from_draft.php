@@ -1,15 +1,9 @@
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 <?php
 session_start();
 require_once __DIR__ . '/../../../includes/database.php';
 require_once __DIR__ . '/../../../includes/functions.php';
 
 header('Content-Type: application/json');
-
 
 // Auth check
 if (!isset($_SESSION['user_id'])) {
@@ -18,56 +12,58 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
+
 if (!$data) {
     echo json_encode(['success' => false, 'message' => 'Invalid data']);
     exit;
 }
 
-$order_id = $data['order_id'] ?? '';
-$payment_method = $data['payment_method'] ?? '';
+$draft_id = $data['order_id'] ?? ''; // This is the draft ID from pos_order_drafts
+    // Map payment_method to allowed ENUM values
+    $allowed_methods = ['cash', 'card', 'online'];
+    $raw_method = isset($data['payment_method']) ? strtolower(strval($data['payment_method'])) : '';
+    if (in_array($raw_method, $allowed_methods)) {
+        $payment_method = $raw_method;
+    } else if ($raw_method === 'credit' || $raw_method === 'debit' || $raw_method === 'pos') {
+        $payment_method = 'card';
+    } else if ($raw_method === 'online' || $raw_method === 'bank' || $raw_method === 'upi') {
+        $payment_method = 'online';
+    } else {
+        $payment_method = 'cash'; // fallback
+    }
 $payment_reference = $data['payment_reference'] ?? '';
-$amount_paid = floatval($data['amount_paid'] ?? 0);
 $discount_amount = floatval($data['discount_amount'] ?? 0);
 $discount_type = $data['discount_type'] ?? 'fixed';
 $user_id = $_SESSION['user_id'];
 
-// Only require payment_method and order_id
-if (!$order_id || !$payment_method) {
+if (!$draft_id || !$payment_method) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
-    exit;
-}
-
-// Optionally validate amount_paid
-if ($amount_paid <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Amount paid must be greater than zero']);
     exit;
 }
 
 $connection->begin_transaction();
 
 try {
-    // Generate order number and invoice number
-    $date_prefix = date('Ymd');
-    $order_number = generateOrderNumber($connection, $date_prefix);
-    $invoice_number = 'INV-' . $date_prefix . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-    
-
-    // Get order data from drafts
-    $stmt = $connection->prepare("SELECT data FROM pos_order_drafts WHERE id = ?");
-    $stmt->bind_param("s", $order_id);
+    // 1. Fetch the draft order from pos_order_drafts
+    $stmt = $connection->prepare("SELECT data FROM pos_order_drafts WHERE id = ? AND is_deleted = 0");
+    $stmt->bind_param("s", $draft_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $draft = $result->fetch_assoc();
     $stmt->close();
     
     if (!$draft) {
-        echo json_encode(['success' => false, 'message' => 'Order draft not found']);
-        exit;
+        throw new Exception("Order draft not found or has been deleted");
     }
     
     $order_data = json_decode($draft['data'], true);
     
-    // Calculate financials
+    // 2. Generate order number and invoice number
+    $date_prefix = date('Ymd');
+    $order_number = generateOrderNumber($connection, $date_prefix);
+    $invoice_number = 'INV-' . $date_prefix . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+    
+    // 3. Calculate financials
     $subtotal = 0;
     foreach ($order_data['items'] as $item) {
         $subtotal += $item['qty'] * $item['price'];
@@ -86,18 +82,13 @@ try {
     $total = $taxable_amount + $tax + $delivery_fee;
     $item_count = count($order_data['items'] ?? []);
     
-    // Handle customer (find or create)
+    // 4. Handle customer (find or create)
     $customer_id = null;
     if (!empty($order_data['customer']['phone'])) {
         $customer_id = findOrCreateCustomer($connection, $order_data['customer']);
     }
     
-    // Set payment status
-    $payment_status = 'paid';
-    
-
-
-    // Prepare order data for insertion - align with SQL table
+    // 5. Prepare data for orders table
     $customer_name = $order_data['customer']['name'] ?? 'Guest';
     $customer_phone = $order_data['customer']['phone'] ?? '';
     $customer_address = $order_data['customer']['address'] ?? '';
@@ -106,9 +97,10 @@ try {
     $order_type = $order_data['type'] ?? 'dine_in';
     $num_customers = $order_data['num_customers'] ?? null;
     $branch_id = 1; // Default branch ID
-
-    $sql = "INSERT INTO orders (
-        order_number, invoice_number, customer_name,
+    
+    // 6. Insert into orders table
+    $order_sql = "INSERT INTO orders (
+        order_number, invoice_number, customer_id, customer_name,
         customer_name_snapshot, customer_phone, customer_phone_snapshot,
         customer_address, delivery_address_snapshot, order_type, 
         delivery_source, table_number, branch_id, subtotal, 
@@ -116,67 +108,62 @@ try {
         item_count, num_customers, order_status, payment_method, 
         payment_status, payment_reference, punched_by_admin_id, 
         closed_by_admin_id, closed_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), NOW())";
-
-    $stmt = $connection->prepare($sql);
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'closed', ?, 'paid', ?, ?, ?, NOW(), NOW(), NOW())";
+    
+    $stmt = $connection->prepare($order_sql);
+    
     if (!$stmt) {
-        echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $connection->error]);
-        exit;
+        throw new Exception("Failed to prepare statement: " . $connection->error);
     }
-
-    $params = [
-        $order_number ?: '',                      // order_number (s)
-        $invoice_number ?: '',                    // invoice_number (s)
-        $customer_name ?: '',                     // customer_name (s)
-        $customer_name ?: '',                     // customer_name_snapshot (s)
-        $customer_phone ?: '',                    // customer_phone (s)
-        $customer_phone ?: '',                    // customer_phone_snapshot (s)
-        $customer_address ?: '',                  // customer_address (s)
-        $customer_address ?: '',                  // delivery_address_snapshot (s)
-        $order_type ?: '',                        // order_type (s)
-        $delivery_source ?: '',                   // delivery_source (s)
-        $table_number ?: '',                      // table_number (s)
-        $branch_id,                               // branch_id (i)
-        $subtotal,                                // subtotal (d)
-        $discount,                                // discount_amount (d)
-        $tax,                                     // tax_amount (d)
-        $delivery_fee,                            // delivery_fee (d)
-        $total,                                   // total_amount (d)
-        $item_count,                              // item_count (i)
-        $num_customers,                           // num_customers (i)
-        'closed',                                 // order_status (s)
-        $payment_method ?: '',                    // payment_method (s)
-        $payment_status ?: '',                    // payment_status (s)
-        $payment_reference ?: '',                 // payment_reference (s)
-        $user_id,                                 // punched_by_admin_id (i)
-        $user_id,                                 // closed_by_admin_id (i)
-    ];
-    $types = "sssssssssssiddddiiissssii";
-    $types = str_replace(' ', '', $types);
-    if (strlen($types) !== count($params)) {
-        throw new Exception("Type string length (" . strlen($types) . ") does not match parameter count (" . count($params) . ")\nTypes: " . $types . "\nParams: " . print_r($params, true));
-    }
-    $stmt->bind_param($types, ...$params);
-
+    
+    // Get the punched_by_admin_id from the draft or use current user
+    // You might want to store this in the draft when creating the order
+    $punched_by = $user_id; // Default to current user
+    
+    // Define the types string - 25 parameters before the NOW() functions
+    // There are 24 parameters before NOW() functions, types must match:
+    // order_number (s), invoice_number (s), customer_id (i), customer_name (s), customer_name_snapshot (s), customer_phone (s), customer_phone_snapshot (s), customer_address (s), delivery_address_snapshot (s), order_type (s), delivery_source (s), table_number (s), branch_id (i), subtotal (d), discount_amount (d), tax_amount (d), delivery_fee (d), total_amount (d), item_count (i), num_customers (i), payment_method (s), payment_reference (s), punched_by_admin_id (i), closed_by_admin_id (i)
+    $types = "ssi" . str_repeat("s", 8) . "si" . str_repeat("d", 5) . "ii" . str_repeat("s", 2) . "ii";
+    
+    $stmt->bind_param(
+        $types,
+        $order_number,
+        $invoice_number,
+        $customer_id,
+        $customer_name,
+        $customer_name,
+        $customer_phone,
+        $customer_phone,
+        $customer_address,
+        $customer_address,
+        $order_type,
+        $delivery_source,
+        $table_number,
+        $branch_id,
+        $subtotal,
+        $discount,
+        $tax,
+        $delivery_fee,
+        $total,
+        $item_count,
+        $num_customers,
+        $payment_method,
+        $payment_reference,
+        $punched_by,
+        $user_id
+    );
+    
     if (!$stmt->execute()) {
-        echo json_encode(['success' => false, 'message' => 'Failed to create order: ' . $stmt->error]);
-        exit;
+        throw new Exception("Failed to create order: " . $stmt->error);
     }
-
+    
     $new_order_id = $stmt->insert_id;
     $stmt->close();
     
-    // Insert order items
+    // 7. Insert order items
     $item_sql = "INSERT INTO order_items (
-        order_id, 
-        menu_item_id, 
-        item_name_snapshot,
-        menu_item_name,
-        quantity, 
-        unit_price_snapshot,
-        unit_price,
-        total_price,
-        special_instructions
+        order_id, menu_item_id, item_name_snapshot, menu_item_name,
+        quantity, unit_price_snapshot, unit_price, total_price, special_instructions
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $item_stmt = $connection->prepare($item_sql);
@@ -193,19 +180,19 @@ try {
         
         $item_stmt->bind_param(
             "iissiddds",
-            $new_order_id, 
-            $menu_item_id, 
+            $new_order_id,
+            $menu_item_id,
             $item_name,
             $item_name,
-            $item['qty'], 
-            $item['price'], 
+            $item['qty'],
+            $item['price'],
             $item['price'],
             $total_price,
             $instructions
         );
         
         if (!$item_stmt->execute()) {
-            throw new Exception("Failed to add order item: " . $item_stmt->error . " - " . json_encode($item));
+            throw new Exception("Failed to add order item: " . $item_stmt->error);
         }
         
         // Update inventory if tracking
@@ -216,13 +203,13 @@ try {
     
     $item_stmt->close();
     
-    // Delete the draft (hard delete since it's now saved)
+    // 8. Delete the draft (hard delete since it's now saved)
     $delete_draft = $connection->prepare("DELETE FROM pos_order_drafts WHERE id = ?");
-    $delete_draft->bind_param("s", $order_id);
+    $delete_draft->bind_param("s", $draft_id);
     $delete_draft->execute();
     $delete_draft->close();
     
-    // Create audit log
+    // 9. Create audit log
     logAudit($connection, $user_id, 'create', 'order', $new_order_id, null, json_encode([
         'order_number' => $order_number,
         'invoice_number' => $invoice_number,
@@ -238,25 +225,18 @@ try {
         'order_number' => $order_number,
         'invoice_number' => $invoice_number,
         'total' => $total,
-        'message' => 'Order saved successfully'
+        'message' => 'Order closed and saved successfully'
     ]);
     
-} catch (Throwable $e) {
-    if (isset($connection) && $connection->errno === 0) {
-        // Only rollback if a transaction is active
-        $connection->rollback();
-    }
-    // Output detailed error for debugging
+} catch (Exception $e) {
+    $connection->rollback();
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage(),
         'trace' => $e->getTraceAsString(),
         'file' => $e->getFile(),
-        'line' => $e->getLine(),
-        'type' => get_class($e)
+        'line' => $e->getLine()
     ]);
-    // Also log to error_log for server-side review
-    error_log('Order Save Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
 }
 
 function generateOrderNumber($connection, $prefix) {

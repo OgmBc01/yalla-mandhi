@@ -195,10 +195,10 @@ if ($categories && $categories->num_rows > 0) {
             </button>
         </div>
 
-        <!-- Save & Close Order Button -->
+        <!-- Payment/Close Button - Will be toggled between states -->
         <div class="d-flex mt-3 justify-content-center">
-            <button class="btn btn-success btn-lg fw-bold" id="btnSaveCloseOrder" style="font-size:1.15rem; border-radius:12px; box-shadow:0 2px 8px rgba(39,174,96,0.08); min-width:240px;">
-                <i class="bi bi-check2-circle me-2"></i>Save & Close Order
+            <button class="btn btn-success btn-lg fw-bold" id="btnPaymentAction" style="font-size:1.15rem; border-radius:12px; box-shadow:0 2px 8px rgba(39,174,96,0.08); min-width:240px;">
+                <i class="bi bi-credit-card me-2"></i>Choose Payment Method
             </button>
         </div>
     </div> <!-- Close order-panel -->
@@ -208,60 +208,50 @@ if ($categories && $categories->num_rows > 0) {
 
 <!-- ================= MODALS ================= -->
 
-<!-- Save & Close Order Modal -->
-<div class="modal fade" id="saveOrderModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- Payment Method Modal (Simplified) -->
+<div class="modal fade" id="paymentMethodModal" tabindex="-1">
+    <div class="modal-dialog modal-md">
         <div class="modal-content reservation-modal-theme">
             <div class="modal-header reservation-modal-header" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
                 <div class="d-flex align-items-center gap-2">
                     <i class="bi bi-credit-card-2-front display-6 text-white"></i>
-                    <h5 class="modal-title mb-0 text-white">Close & Save Order</h5>
+                    <h5 class="modal-title mb-0 text-white">Select Payment Method</h5>
                 </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body reservation-modal-body">
-                <!-- Order Summary -->
-                <div class="card mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h6 class="card-title text-muted mb-3">Order Summary</h6>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p class="mb-1"><strong>Order #:</strong> <span id="modalOrderNumber"></span></p>
-                                <p class="mb-1"><strong>Customer:</strong> <span id="modalCustomerName"></span></p>
-                                <p class="mb-1"><strong>Type:</strong> <span id="modalOrderType"></span></p>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="mb-1"><strong>Items:</strong> <span id="modalItemCount"></span></p>
-                                <p class="mb-1"><strong>Subtotal:</strong> <span id="modalSubtotal"></span></p>
-                                <p class="mb-1"><strong>Total:</strong> <span id="modalTotal" class="fw-bold text-success"></span></p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Order Summary (Brief) -->
+                <div class="alert alert-info mb-3">
+                    <small>
+                        <strong>Closing order:</strong> <span id="modalOrderNumber"></span> - 
+                        <span id="modalCustomerName"></span><br>
+                        <strong>Total:</strong> <span id="modalTotal" class="fw-bold text-success"></span>
+                    </small>
                 </div>
 
                 <!-- Payment Method Selection -->
                 <div class="mb-4">
                     <label class="form-label fw-bold fs-5 mb-3">Select Payment Method</label>
                     <div class="row g-3">
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-6">
                             <div class="payment-method-card" data-method="cash" style="background: linear-gradient(135deg, #f39c12 0%, #f7b733 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
                                 <i class="bi bi-cash-coin display-5 mb-2"></i>
                                 <h6 class="mb-0">Cash</h6>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-6">
                             <div class="payment-method-card" data-method="card" style="background: linear-gradient(135deg, #3498db 0%, #6dd5fa 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
                                 <i class="bi bi-credit-card-2-front display-5 mb-2"></i>
                                 <h6 class="mb-0">POS Card</h6>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-6">
                             <div class="payment-method-card" data-method="credit" style="background: linear-gradient(135deg, #c41e3a 0%, #f39c12 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
                                 <i class="bi bi-credit-card display-5 mb-2"></i>
                                 <h6 class="mb-0">Credit Card</h6>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-6">
                             <div class="payment-method-card" data-method="debit" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); color: #fff; cursor:pointer; border-radius:12px; padding:20px; text-align:center; transition:all 0.3s;">
                                 <i class="bi bi-credit-card-2-back display-5 mb-2"></i>
                                 <h6 class="mb-0">Debit Card</h6>
@@ -270,39 +260,42 @@ if ($categories && $categories->num_rows > 0) {
                     </div>
                 </div>
 
-                <!-- Additional Payment Details -->
-                <div id="paymentDetails" class="d-none">
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label">Reference/Transaction ID</label>
-                            <input type="text" class="form-control" id="paymentReference" placeholder="Optional">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Amount Paid</label>
-                            <input type="number" class="form-control" id="amountPaid" step="0.01" min="0">
-                        </div>
-                    </div>
-                    <div class="form-check mt-2">
-                        <!-- Payment confirmation checkbox removed -->
-                        <!-- <input class="form-check-input" type="checkbox" id="paymentConfirmed"> -->
-                        <!-- <label class="form-check-label" for="paymentConfirmed"> -->
-                        <!--     Payment confirmed -->
-                        <!-- </label> -->
-                        <input class="form-check-input" type="checkbox" id="paymentConfirmed">
-                        <label class="form-check-label" for="paymentConfirmed">
-                            Payment confirmed
-                        </label>
-                    </div>
+                <!-- Reference (Optional) -->
+                <div class="mb-3" id="referenceField" style="display: none;">
+                    <label class="form-label">Reference/Transaction ID (Optional)</label>
+                    <input type="text" class="form-control" id="paymentReference" placeholder="e.g., Transaction ID">
                 </div>
 
                 <input type="hidden" id="selectedPaymentMethod">
             </div>
             <div class="modal-footer reservation-modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" id="confirmSaveOrder" disabled>
-                    <i class="bi bi-check2-circle me-2"></i>Confirm & Save
+                <button class="btn btn-success" id="confirmPaymentMethod" disabled>
+                    <i class="bi bi-check2-circle me-2"></i>Confirm Payment Method
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-check2-circle me-2"></i>
+                    Order Saved Successfully
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                <h4 class="mt-3" id="successOrderNumber">Order #</h4>
+                <p class="text-muted">The order has been closed and saved to the database.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
@@ -730,8 +723,9 @@ let deletedOrders = [];
 let lastDeletedOrder = null;
 let undoTimeout = null;
 
-// Save & Close variables
+// Payment variables
 let selectedPaymentMethod = null;
+let paymentReference = '';
 
 // --- DRAFT ORDER PERSISTENCE FUNCTIONS ---
 function saveDraftOrders() {
@@ -1076,8 +1070,20 @@ function switchOrder(id) {
     discountType = 'fixed';
     $('#discountAmount').val(0);
     $('#discountTypeGroup .btn[data-discount-type="fixed"]').click();
+    
+    // Reset payment button when switching orders
+    resetPaymentButton();
     renderTabs();
     renderOrder();
+}
+
+function resetPaymentButton() {
+    selectedPaymentMethod = null;
+    paymentReference = '';
+    $('#btnPaymentAction')
+        .removeClass('btn-primary')
+        .addClass('btn-success')
+        .html('<i class="bi bi-credit-card me-2"></i>Choose Payment Method');
 }
 
 function removeItem(i) {
@@ -1349,8 +1355,8 @@ window.showDeleteModal = function(orderId) {
     $('#deleteOrderModal').modal('show');
 };
 
-// --- SAVE & CLOSE ORDER FUNCTIONS ---
-function openSaveCloseModal() {
+// --- PAYMENT & CLOSE ORDER FUNCTIONS ---
+function openPaymentModal() {
     if (!activeOrderId) {
         alert('No active order selected');
         return;
@@ -1362,41 +1368,28 @@ function openSaveCloseModal() {
         return;
     }
     
-    // Reset modal
-    selectedPaymentMethod = null;
-    $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
-    $('#selectedPaymentMethod').val('');
-    $('#paymentDetails').addClass('d-none');
-    $('#paymentReference').val('');
-    $('#amountPaid').val('');
-    // $('#paymentConfirmed').prop('checked', false); // Removed
-    $('#confirmSaveOrder').prop('disabled', true);
-    
     // Calculate finances
     let finances = calculateFinancials();
     
     // Fill modal summary
     $('#modalOrderNumber').text(order.id.substr(-8));
     $('#modalCustomerName').text(order.customer ? order.customer.name : 'Guest');
-    $('#modalOrderType').text(order.type.toUpperCase());
-    $('#modalItemCount').text(order.items.length);
-    $('#modalSubtotal').text(finances.subtotal.toFixed(2) + ' AED');
     $('#modalTotal').text(finances.total.toFixed(2) + ' AED');
     
-    // Set default amount paid
-    $('#amountPaid').val(finances.total.toFixed(2));
+    // Reset modal fields
+    $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
+    $('#selectedPaymentMethod').val('');
+    $('#referenceField').hide();
+    $('#paymentReference').val('');
+    $('#confirmPaymentMethod').prop('disabled', true);
     
-    $('#saveOrderModal').modal('show');
+    // Show modal
+    $('#paymentMethodModal').modal('show');
 }
 
-function saveCompletedOrder() {
+function closeOrderAndSave() {
     if (!selectedPaymentMethod) {
-        alert('Please select a payment method');
-        return;
-    }
-    
-    if (!selectedPaymentMethod) {
-        alert('Please select a payment method');
+        alert('Please select a payment method first');
         return;
     }
     
@@ -1404,35 +1397,32 @@ function saveCompletedOrder() {
     if (!order) return;
     
     let finances = calculateFinancials();
-    let amountPaid = parseFloat($('#amountPaid').val());
-    
-    if (isNaN(amountPaid) || amountPaid < finances.total) {
-        alert('Amount paid must be at least ' + finances.total.toFixed(2) + ' AED');
-        return;
-    }
+    paymentReference = $('#paymentReference').val();
     
     // Disable button
-    let btn = $('#confirmSaveOrder');
+    let btn = $('#btnPaymentAction');
     btn.html('<span class="spinner-border spinner-border-sm me-2"></span>Saving...');
     btn.prop('disabled', true);
     
-    // Prepare data
+    // Prepare data - only send what's needed
     let saveData = {
         order_id: activeOrderId,
         payment_method: selectedPaymentMethod,
-        payment_reference: $('#paymentReference').val(),
-        amount_paid: amountPaid,
+        payment_reference: paymentReference,
         discount_amount: discountAmount,
-        discount_type: discountType,
-        order_data: order
+        discount_type: discountType
     };
     
+    console.log('Sending data:', saveData); // Debug log
+    
     $.ajax({
-        url: 'includes/ajax/save_completed_order.php',
+        url: 'includes/ajax/close_order_from_draft.php',
         method: 'POST',
         data: JSON.stringify(saveData),
         contentType: 'application/json',
+        dataType: 'json',
         success: function(response) {
+            console.log('Success response:', response); // Debug log
             if (response.success) {
                 // Remove order from active orders
                 orders = orders.filter(o => o.id !== activeOrderId);
@@ -1447,11 +1437,13 @@ function saveCompletedOrder() {
                 // Update UI
                 ordersChanged();
                 
-                // Hide modal
-                $('#saveOrderModal').modal('hide');
+                // Show success modal
+                $('#successOrderNumber').text('Order #' + response.order_number);
+                let successModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+                successModal.show();
                 
-                // Show success message
-                showNotification(`Order #${response.order_number} saved successfully!`, 'success');
+                // Reset payment button
+                resetPaymentButton();
                 
                 // Clear from localStorage
                 let localOrders = JSON.parse(localStorage.getItem('pos_orders') || '[]');
@@ -1460,11 +1452,13 @@ function saveCompletedOrder() {
                 
             } else {
                 alert('Error: ' + response.message);
-                btn.html('Confirm & Save');
+                btn.html('<i class="bi bi-check2-circle me-2"></i>Save & Close Order');
                 btn.prop('disabled', false);
             }
         },
-        error: function(xhr) {
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+            console.error('Response Text:', xhr.responseText);
             let errorMsg = 'Server error occurred';
             try {
                 const resp = JSON.parse(xhr.responseText);
@@ -1472,9 +1466,8 @@ function saveCompletedOrder() {
             } catch (e) {
                 if (xhr.responseText) errorMsg = xhr.responseText;
             }
-            console.error('Save error:', xhr.responseText);
             alert('Error: ' + errorMsg);
-            btn.html('Confirm & Save');
+            btn.html('<i class="bi bi-check2-circle me-2"></i>Save & Close Order');
             btn.prop('disabled', false);
         }
     });
@@ -1730,39 +1723,54 @@ $(document).ready(function() {
         showDeleteModal(activeOrderId);
     });
 
-    // Save & Close Order button
-    $('#btnSaveCloseOrder').click(function() {
-        openSaveCloseModal();
+    // Main payment/close button - handles both states
+    $('#btnPaymentAction').click(function() {
+        if (!selectedPaymentMethod) {
+            // No payment method selected yet - show payment modal
+            openPaymentModal();
+        } else {
+            // Payment method already selected - close and save order
+            closeOrderAndSave();
+        }
     });
 
-    // Payment method selection
+    // Payment method selection in modal
     $(document).on('click', '.payment-method-card', function() {
         $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
         $(this).addClass('selected border border-3 border-success shadow');
-        
         selectedPaymentMethod = $(this).data('method');
         $('#selectedPaymentMethod').val(selectedPaymentMethod);
-        $('#paymentDetails').removeClass('d-none');
-        $('#confirmSaveOrder').prop('disabled', false);
+        
+        // Show reference field for card payments
+        if (selectedPaymentMethod === 'card' || selectedPaymentMethod === 'credit' || selectedPaymentMethod === 'debit') {
+            $('#referenceField').show();
+        } else {
+            $('#referenceField').hide();
+        }
+        
+        // Enable confirm button
+        $('#confirmPaymentMethod').prop('disabled', false);
     });
 
-    // Enable Confirm & Save when payment method is selected (no payment confirmation checkbox)
-
-    // Confirm save order
-    $('#confirmSaveOrder').click(function() {
-        saveCompletedOrder();
+    // Confirm payment method button
+    $('#confirmPaymentMethod').click(function() {
+        // Close modal
+        $('#paymentMethodModal').modal('hide');
+        
+        // Update main button to "Save & Close Order"
+        $('#btnPaymentAction')
+            .removeClass('btn-success')
+            .addClass('btn-primary')
+            .html('<i class="bi bi-check2-circle me-2"></i>Save & Close Order');
     });
 
     // Reset modal when hidden
-    $('#saveOrderModal').on('hidden.bs.modal', function() {
-        selectedPaymentMethod = null;
-        $('.payment-method-card').removeClass('selected border border-3 border-success shadow');
-        $('#selectedPaymentMethod').val('');
-        $('#paymentDetails').addClass('d-none');
-        $('#paymentReference').val('');
-        $('#amountPaid').val('');
-        // $('#paymentConfirmed').prop('checked', false); // Removed
-        $('#confirmSaveOrder').prop('disabled', true);
+    $('#paymentMethodModal').on('hidden.bs.modal', function() {
+        // Don't reset selectedPaymentMethod if we're just closing after selection
+        // Only reset if modal is closed without selection
+        if (!$('#selectedPaymentMethod').val()) {
+            // Modal was closed without selecting - do nothing
+        }
     });
 
     // Delete confirmation
@@ -1773,6 +1781,11 @@ $(document).ready(function() {
         softDeleteOrder(orderId, permanent);
         $('#deleteOrderModal').modal('hide');
         $('#permanentDeleteCheck').prop('checked', false);
+        
+        // Reset payment button if the deleted order was active
+        if (orderId === activeOrderId) {
+            resetPaymentButton();
+        }
     });
 
     // Undo delete
@@ -1818,4 +1831,5 @@ window.removeItem = removeItem;
 window.switchOrder = switchOrder;
 window.showDeleteModal = showDeleteModal;
 window.calculateOrderTotal = calculateOrderTotal;
+window.resetPaymentButton = resetPaymentButton;
 </script>
