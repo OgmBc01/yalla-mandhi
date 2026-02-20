@@ -55,7 +55,7 @@ $result = $connection->query($query);
                             <div>
                                 <h6 class="card-title"><?php echo ucfirst($vendor); ?></h6>
                                 <h3 class="mb-0"><?php echo $stats['count'] ?? 0; ?> orders</h3>
-                                <small><?php echo number_format($stats['total'] ?? 0, 2); ?> SAR</small>
+                                <small><?php echo number_format($stats['total'] ?? 0, 2); ?> AED</small>
                             </div>
                             <i class="bi <?php echo $style['icon']; ?> display-4 opacity-50"></i>
                         </div>
@@ -98,7 +98,7 @@ $result = $connection->query($query);
                                     <td><?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?></td>
                                     <td><?php echo htmlspecialchars($order['customer_name_snapshot'] ?? 'N/A'); ?></td>
                                     <td class="text-center"><?php echo $order['item_count']; ?></td>
-                                    <td><strong><?php echo number_format($order['total_amount'], 2); ?> SAR</strong></td>
+                                    <td><strong><?php echo number_format($order['total_amount'], 2); ?> AED</strong></td>
                                     <td>
                                         <span class="badge bg-<?php echo $status_badges[$order['order_status']] ?? 'secondary'; ?>">
                                             <?php echo ucfirst($order['order_status']); ?>

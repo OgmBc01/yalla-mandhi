@@ -149,10 +149,8 @@ if ($receipt_type == 'kitchen') {
     
     // Totals
     echo sprintf("%-30s %10.2f\n", "Subtotal:", $order['subtotal']);
-    echo sprintf("%-30s %10.2f\n", "Tax (15%):", $order['tax_amount']);
-    if ($order['delivery_fee'] > 0) {
-        echo sprintf("%-30s %10.2f\n", "Delivery Fee:", $order['delivery_fee']);
-    }
+
+
     if ($order['discount_amount'] > 0) {
         echo sprintf("%-30s %10.2f\n", "Discount:", -$order['discount_amount']);
     }

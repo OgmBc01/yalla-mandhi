@@ -135,7 +135,7 @@ if ($categories && $categories->num_rows > 0) {
             <!-- Tax -->
             <div class="summary-row d-flex justify-content-between align-items-center py-2">
                 <span class="summary-label">
-                    <i class="bi bi-percent me-2" style="color: #3498db;"></i>Tax (15%):
+                    <i class="bi bi-percent me-2" style="color: #3498db;"></i>Tax (0%):
                 </span>
                 <span class="summary-value" id="summaryTax">0.00 AED</span>
             </div>
@@ -716,7 +716,7 @@ let savedScrollPosition = 0;
 let discountAmount = 0;
 let discountType = 'fixed';
 let deliveryFee = 0;
-const TAX_RATE = 0.15;
+const TAX_RATE = 0.0;
 
 // Soft delete variables
 let deletedOrders = [];
@@ -1015,7 +1015,7 @@ function renderOrder() {
         
         body.append(`
             <tr>
-                <td>${item.name}</td>
+                <td style="font-size:1.15rem; font-weight:700; color:#222;">${item.name}</td>
                 <td>
                     <div class="input-group input-group-sm justify-content-center">
                         <button class="btn btn-qty-minus btn-sm" data-index="${i}" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;border:none;width:32px;">-</button>
@@ -1083,7 +1083,8 @@ function resetPaymentButton() {
     $('#btnPaymentAction')
         .removeClass('btn-primary')
         .addClass('btn-success')
-        .html('<i class="bi bi-credit-card me-2"></i>Choose Payment Method');
+        .html('<i class="bi bi-credit-card me-2"></i>Choose Payment Method')
+        .prop('disabled', false);
 }
 
 function removeItem(i) {
@@ -1405,9 +1406,11 @@ function closeOrderAndSave() {
     btn.prop('disabled', true);
     
     // Prepare data - only send what's needed
+    // Map 'debit' to 'online' for DB
+    let paymentMethodToSend = selectedPaymentMethod === 'debit' ? 'online' : selectedPaymentMethod;
     let saveData = {
         order_id: activeOrderId,
-        payment_method: selectedPaymentMethod,
+        payment_method: paymentMethodToSend,
         payment_reference: paymentReference,
         discount_amount: discountAmount,
         discount_type: discountType
@@ -1756,12 +1759,17 @@ $(document).ready(function() {
     $('#confirmPaymentMethod').click(function() {
         // Close modal
         $('#paymentMethodModal').modal('hide');
-        
+
         // Update main button to "Save & Close Order"
         $('#btnPaymentAction')
             .removeClass('btn-success')
             .addClass('btn-primary')
             .html('<i class="bi bi-check2-circle me-2"></i>Save & Close Order');
+
+        // For all payment methods, immediately close and save order
+        setTimeout(function() {
+            closeOrderAndSave();
+        }, 300); // slight delay to allow modal to close smoothly
     });
 
     // Reset modal when hidden

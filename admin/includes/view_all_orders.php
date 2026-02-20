@@ -10,7 +10,7 @@ $current_user_role = $_SESSION['role'] ?? '';
 // Get filters
 $filter_status = $_GET['status'] ?? '';
 $filter_type = $_GET['type'] ?? '';
-$filter_source = $_GET['source'] ?? '';
+$filter_delivery_source = $_GET['delivery_source'] ?? '';
 $filter_date_from = $_GET['date_from'] ?? date('Y-m-d', strtotime('-7 days'));
 $filter_date_to = $_GET['date_to'] ?? date('Y-m-d');
 $filter_search = $_GET['search'] ?? '';
@@ -40,9 +40,9 @@ if (!empty($filter_type)) {
     $types .= "s";
 }
 
-if (!empty($filter_source)) {
+if (!empty($filter_delivery_source)) {
     $query .= " AND o.delivery_source = ?";
-    $params[] = $filter_source;
+    $params[] = $filter_delivery_source;
     $types .= "s";
 }
 
@@ -174,7 +174,7 @@ $payment_status_badges = [
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="card-title">Today's Sales</h6>
-                                <h2 class="mb-0"><?php echo number_format($stats['total_sales'] ?? 0, 2); ?> SAR</h2>
+                                <h2 class="mb-0"><?php echo number_format($stats['total_sales'] ?? 0, 2); ?> AED</h2>
                             </div>
                             <i class="bi bi-cash-stack display-4 opacity-50"></i>
                         </div>
@@ -186,7 +186,7 @@ $payment_status_badges = [
         <!-- Filters -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <form method="GET" action="" class="row g-3">
+                <form method="GET" action="orders.php" class="row g-3">
                     <input type="hidden" name="source" value="order_list">
                     
                     <div class="col-md-2">
@@ -216,13 +216,13 @@ $payment_status_badges = [
                     
                     <div class="col-md-2">
                         <label class="form-label">Delivery Source</label>
-                        <select class="form-select" name="source">
+                        <select class="form-select" name="delivery_source">
                             <option value="">All Sources</option>
-                            <option value="internal" <?php echo $filter_source == 'internal' ? 'selected' : ''; ?>>Internal</option>
-                            <option value="noon" <?php echo $filter_source == 'noon' ? 'selected' : ''; ?>>Noon</option>
-                            <option value="deliveroo" <?php echo $filter_source == 'deliveroo' ? 'selected' : ''; ?>>Deliveroo</option>
-                            <option value="keeta" <?php echo $filter_source == 'keeta' ? 'selected' : ''; ?>>Keeta</option>
-                            <option value="smile" <?php echo $filter_source == 'smile' ? 'selected' : ''; ?>>Smile</option>
+                            <option value="internal" <?php echo $filter_delivery_source == 'internal' ? 'selected' : ''; ?>>Internal</option>
+                            <option value="noon" <?php echo $filter_delivery_source == 'noon' ? 'selected' : ''; ?>>Noon</option>
+                            <option value="deliveroo" <?php echo $filter_delivery_source == 'deliveroo' ? 'selected' : ''; ?>>Deliveroo</option>
+                            <option value="keeta" <?php echo $filter_delivery_source == 'keeta' ? 'selected' : ''; ?>>Keeta</option>
+                            <option value="smile" <?php echo $filter_delivery_source == 'smile' ? 'selected' : ''; ?>>Smile</option>
                         </select>
                     </div>
                     
@@ -307,7 +307,7 @@ $payment_status_badges = [
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center"><?php echo $order['item_count']; ?></td>
-                                    <td><strong><?php echo number_format($order['total_amount'], 2); ?> SAR</strong></td>
+                                    <td><strong><?php echo number_format($order['total_amount'], 2); ?> AED</strong></td>
                                     <td>
                                         <span class="badge bg-<?php echo $status_badges[$order['order_status']] ?? 'secondary'; ?>">
                                             <?php echo ucfirst(str_replace('_', ' ', $order['order_status'])); ?>

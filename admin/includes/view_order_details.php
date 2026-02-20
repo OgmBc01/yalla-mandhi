@@ -236,35 +236,26 @@ $status_transitions = [
                                             <?php endif; ?>
                                         </td>
                                         <td class="text-center"><?php echo $item['quantity']; ?></td>
-                                        <td class="text-end"><?php echo number_format($item['unit_price_snapshot'], 2); ?> SAR</td>
-                                        <td class="text-end"><?php echo number_format($item['total_price'], 2); ?> SAR</td>
+                                        <td class="text-end"><?php echo number_format($item['unit_price_snapshot'], 2); ?> AED</td>
+                                        <td class="text-end"><?php echo number_format($item['total_price'], 2); ?> AED</td>
                                     </tr>
                                     <?php endwhile; ?>
                                 </tbody>
                                 <tfoot class="table-dark">
                                     <tr>
                                         <th colspan="3" class="text-end">Subtotal:</th>
-                                        <th class="text-end"><?php echo number_format($subtotal, 2); ?> SAR</th>
+                                        <th class="text-end"><?php echo number_format($subtotal, 2); ?> AED</th>
                                     </tr>
-                                    <tr>
-                                        <th colspan="3" class="text-end">Tax (15%):</th>
-                                        <th class="text-end"><?php echo number_format($order['tax_amount'] ?? 0, 2); ?> SAR</th>
-                                    </tr>
-                                    <?php if ($order['delivery_fee'] > 0): ?>
-                                    <tr>
-                                        <th colspan="3" class="text-end">Delivery Fee:</th>
-                                        <th class="text-end"><?php echo number_format($order['delivery_fee'], 2); ?> SAR</th>
-                                    </tr>
-                                    <?php endif; ?>
+
                                     <?php if ($order['discount_amount'] > 0): ?>
                                     <tr>
                                         <th colspan="3" class="text-end">Discount:</th>
-                                        <th class="text-end">-<?php echo number_format($order['discount_amount'], 2); ?> SAR</th>
+                                        <th class="text-end">-<?php echo number_format($order['discount_amount'], 2); ?> AED</th>
                                     </tr>
                                     <?php endif; ?>
                                     <tr>
                                         <th colspan="3" class="text-end">Grand Total:</th>
-                                        <th class="text-end"><?php echo number_format($order['total_amount'], 2); ?> SAR</th>
+                                        <th class="text-end"><?php echo number_format($order['total_amount'], 2); ?> AED</th>
                                     </tr>
                                 </tfoot>
                             </table>

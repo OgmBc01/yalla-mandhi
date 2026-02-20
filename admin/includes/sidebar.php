@@ -37,12 +37,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
             <ul class="sub-menu" id="orders-menu">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo (isset($_GET['source']) && ($_GET['source'] == 'pos_view' || $_GET['source'] == 'pos')) ? 'active' : ''; ?>" href="orders.php?source=pos_view">
-                        <i class="bi bi-cart-plus nav-icon"></i>
-                        <span class="nav-text">POS Terminal</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'add_order') ? 'active' : ''; ?>" href="orders.php?source=add_order">
                         <i class="bi bi-plus-circle nav-icon"></i>
                         <span class="nav-text">New Order</span>

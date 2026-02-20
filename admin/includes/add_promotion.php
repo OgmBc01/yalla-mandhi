@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <option value="AED" <?php echo ($_POST['currency'] ?? 'AED') == 'AED' ? 'selected' : ''; ?>>AED</option>
                                     <option value="USD" <?php echo ($_POST['currency'] ?? '') == 'USD' ? 'selected' : ''; ?>>USD</option>
                                     <option value="EUR" <?php echo ($_POST['currency'] ?? '') == 'EUR' ? 'selected' : ''; ?>>EUR</option>
-                                    <option value="SAR" <?php echo ($_POST['currency'] ?? '') == 'SAR' ? 'selected' : ''; ?>>SAR</option>
+                                    <option value="AED" <?php echo ($_POST['currency'] ?? '') == 'AED' ? 'selected' : ''; ?>>AED</option>
                                 </select>
                             </div>
                         </div>
