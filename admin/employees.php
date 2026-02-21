@@ -4,7 +4,7 @@ require_once "../includes/database.php";
 
 // Check if user has permission
 if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] ?? '', ['admin', 'super-admin'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 

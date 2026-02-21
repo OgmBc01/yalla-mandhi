@@ -1,4 +1,3 @@
-
 <?php
 define('ADMIN_ROLES', ['admin', 'super-admin']);
 
@@ -80,34 +79,96 @@ if (!function_exists('getCurrentUser')) {
 if (!function_exists('getDashboardStats')) {
     function getDashboardStats($connection) {
         $stats = [];
-        
         // Total reservations
         $sql = "SELECT COUNT(*) as total FROM reservations";
         $result = $connection->query($sql);
         $stats['total_reservations'] = $result->fetch_assoc()['total'] ?? 0;
-        
+
+        // Last day reservations
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        $sql = "SELECT COUNT(*) as total FROM reservations WHERE DATE(reservation_date) = '$yesterday'";
+        $result = $connection->query($sql);
+        $stats['yesterday_reservations'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 7 days reservations
+        $week_start = date('Y-m-d', strtotime('-7 days'));
+        $sql = "SELECT COUNT(*) as total FROM reservations WHERE DATE(reservation_date) >= '$week_start'";
+        $result = $connection->query($sql);
+        $stats['week_reservations'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 30 days reservations
+        $month_start = date('Y-m-d', strtotime('-30 days'));
+        $sql = "SELECT COUNT(*) as total FROM reservations WHERE DATE(reservation_date) >= '$month_start'";
+        $result = $connection->query($sql);
+        $stats['month_reservations'] = $result->fetch_assoc()['total'] ?? 0;
+
         // Total orders
         $sql = "SELECT COUNT(*) as total FROM orders";
         $result = $connection->query($sql);
         $stats['total_orders'] = $result->fetch_assoc()['total'] ?? 0;
-        
+
+        // Last day orders
+        $sql = "SELECT COUNT(*) as total FROM orders WHERE DATE(created_at) = '$yesterday'";
+        $result = $connection->query($sql);
+        $stats['yesterday_orders'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 7 days orders
+        $sql = "SELECT COUNT(*) as total FROM orders WHERE DATE(created_at) >= '$week_start'";
+        $result = $connection->query($sql);
+        $stats['week_orders'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 30 days orders
+        $sql = "SELECT COUNT(*) as total FROM orders WHERE DATE(created_at) >= '$month_start'";
+        $result = $connection->query($sql);
+        $stats['month_orders'] = $result->fetch_assoc()['total'] ?? 0;
+
         // Total users
         $sql = "SELECT COUNT(*) as total FROM users";
         $result = $connection->query($sql);
         $stats['total_users'] = $result->fetch_assoc()['total'] ?? 0;
-        
+
+        // Last day users
+        $sql = "SELECT COUNT(*) as total FROM users WHERE DATE(created_at) = '$yesterday'";
+        $result = $connection->query($sql);
+        $stats['yesterday_users'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 7 days users
+        $sql = "SELECT COUNT(*) as total FROM users WHERE DATE(created_at) >= '$week_start'";
+        $result = $connection->query($sql);
+        $stats['week_users'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 30 days users
+        $sql = "SELECT COUNT(*) as total FROM users WHERE DATE(created_at) >= '$month_start'";
+        $result = $connection->query($sql);
+        $stats['month_users'] = $result->fetch_assoc()['total'] ?? 0;
+
         // Total revenue (today)
         $today = date('Y-m-d');
         $sql = "SELECT SUM(total_amount) as total FROM orders WHERE DATE(created_at) = '$today' AND payment_status = 'paid'";
         $result = $connection->query($sql);
         $stats['today_revenue'] = $result->fetch_assoc()['total'] ?? 0;
-        
+
+        // Last day revenue
+        $sql = "SELECT SUM(total_amount) as total FROM orders WHERE DATE(created_at) = '$yesterday' AND payment_status = 'paid'";
+        $result = $connection->query($sql);
+        $stats['yesterday_revenue'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 7 days revenue
+        $sql = "SELECT SUM(total_amount) as total FROM orders WHERE DATE(created_at) >= '$week_start' AND payment_status = 'paid'";
+        $result = $connection->query($sql);
+        $stats['week_revenue'] = $result->fetch_assoc()['total'] ?? 0;
+
+        // Last 30 days revenue
+        $sql = "SELECT SUM(total_amount) as total FROM orders WHERE DATE(created_at) >= '$month_start' AND payment_status = 'paid'";
+        $result = $connection->query($sql);
+        $stats['month_revenue'] = $result->fetch_assoc()['total'] ?? 0;
+
         // Pending reservations
         $sql = "SELECT COUNT(*) as total FROM reservations WHERE status = 'pending'";
         $result = $connection->query($sql);
         $stats['pending_reservations'] = $result->fetch_assoc()['total'] ?? 0;
-        
-        // Pending orders - FIXED: Changed from 'status' to 'order_status'
+
+        // Pending orders
         $sql = "SELECT COUNT(*) as total FROM orders WHERE order_status = 'pending'";
         $result = $connection->query($sql);
         $stats['pending_orders'] = $result->fetch_assoc()['total'] ?? 0;

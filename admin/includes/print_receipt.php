@@ -1,10 +1,15 @@
 <?php
-session_start();
-require_once "../includes/database.php";
+require_once __DIR__ . '/../../includes/database.php';
 
 // Check if user has permission
 if (!isset($_SESSION['user_id'])) {
     die("Unauthorized");
+}
+
+// Add a check to ensure this file is accessed directly, not included by another script
+if (basename(__FILE__) != basename($_SERVER['SCRIPT_FILENAME'])) {
+    // If included, do nothing (prevent output and header)
+    return;
 }
 
 $order_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -177,4 +182,30 @@ if ($receipt_type == 'kitchen') {
 echo "\n\n\n\n";
 
 $items_stmt->close();
-?>
+
+// Add auto-print for browser and QZ Tray integration for direct USB printing
+if (php_sapi_name() !== 'cli') {
+    echo "\n<script type=\"text/javascript\">\n";
+    echo "// Auto-print for browser\n";
+    echo "if (typeof window !== 'undefined' && window.print) { window.print(); }\n";
+    echo "\n// QZ Tray integration for direct USB printing (IRP-200D / POS-80C)\n";
+    echo "// Uncomment and configure the following if QZ Tray is installed on the POS system\n";
+    echo "/*\n";
+    echo "// QZ Tray sample\n";
+    echo "function printWithQZ() {\n";
+    echo "    if (!window.qz) { alert('QZ Tray is not available!'); return; }\n";
+    echo "    qz.websocket.connect().then(function() {\n";
+    echo "        return qz.printers.find('POS-80C'); // Use your printer name\n";
+    echo "    }).then(function(printer) {\n";
+    echo "        var config = qz.configs.create(printer, { encoding: 'UTF-8', copies: 1, \n";
+    echo "            size: { width: 72, height: 297, units: 'mm' } });\n";
+    echo "        var data = [\n";
+    echo "            { type: 'raw', format: 'plain', data: document.body.innerText }\n";
+    echo "        ];\n";
+    echo "        return qz.print(config, data);\n";
+    echo "    }).catch(function(e) { alert('QZ Print Error: ' + e); });\n";
+    echo "}\n";
+    echo "// To use: call printWithQZ() from a button or on page load\n";
+    echo "*/\n";
+    echo "</script>\n";
+}
