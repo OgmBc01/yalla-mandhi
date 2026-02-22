@@ -106,47 +106,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li>
 
-        <!-- Sales & Reports - NEW SECTION -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="sales">
-                <i class="bi bi-graph-up nav-icon"></i>
-                <span class="nav-text">Sales & Reports</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="sales-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="sales.php?source=daily_sales">
-                        <i class="bi bi-calendar-day nav-icon"></i>
-                        <span class="nav-text">Daily Sales</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sales.php?source=monthly_report">
-                        <i class="bi bi-calendar-month nav-icon"></i>
-                        <span class="nav-text">Monthly Report</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sales.php?source=vendor_reconciliation">
-                        <i class="bi bi-truck nav-icon"></i>
-                        <span class="nav-text">Vendor Reconciliation</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sales.php?source=top_items">
-                        <i class="bi bi-bar-chart nav-icon"></i>
-                        <span class="nav-text">Top Items</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sales.php?source=export">
-                        <i class="bi bi-download nav-icon"></i>
-                        <span class="nav-text">Export Reports</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         <!-- Reservations Menu -->
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="reservations">
@@ -418,13 +377,70 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
         </li>
 
-        <!-- Reports -->
+<!-- Reports Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-toggle-btn <?php echo (in_array($current_page, ['reports.php'])) ? 'active' : ''; ?>" href="#" data-menu="reports">
+        <i class="bi bi-graph-up nav-icon"></i>
+        <span class="nav-text">Reports & Analytics</span>
+        <i class="bi bi-chevron-right menu-toggle"></i>
+    </a>
+    <ul class="sub-menu" id="reports-menu">
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>" href="reports.php">
-                <i class="bi bi-graph-up nav-icon"></i>
-                <span class="nav-text">Reports</span>
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'dashboard') ? 'active' : ''; ?>" href="reports.php?source=dashboard">
+                <i class="bi bi-speedometer2 nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'daily') ? 'active' : ''; ?>" href="reports.php?source=daily">
+                <i class="bi bi-calendar-day nav-icon"></i>
+                <span class="nav-text">Daily Sales</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'monthly') ? 'active' : ''; ?>" href="reports.php?source=monthly">
+                <i class="bi bi-calendar-month nav-icon"></i>
+                <span class="nav-text">Monthly Summary</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'items') ? 'active' : ''; ?>" href="reports.php?source=items">
+                <i class="bi bi-box-seam nav-icon"></i>
+                <span class="nav-text">Item Performance</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'payment') ? 'active' : ''; ?>" href="reports.php?source=payment">
+                <i class="bi bi-credit-card nav-icon"></i>
+                <span class="nav-text">Payment Methods</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'vendor') ? 'active' : ''; ?>" href="reports.php?source=vendor">
+                <i class="bi bi-truck nav-icon"></i>
+                <span class="nav-text">Vendor Reconciliation</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'staff') ? 'active' : ''; ?>" href="reports.php?source=staff">
+                <i class="bi bi-person-badge nav-icon"></i>
+                <span class="nav-text">Staff Performance</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'tax') ? 'active' : ''; ?>" href="reports.php?source=tax">
+                <i class="bi bi-percent nav-icon"></i>
+                <span class="nav-text">Tax Report</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'export') ? 'active' : ''; ?>" href="reports.php?source=export">
+                <i class="bi bi-download nav-icon"></i>
+                <span class="nav-text">Export Reports</span>
+            </a>
+        </li>
+    </ul>
+</li>
 
         <!-- Settings -->
         <li class="nav-item">

@@ -4,8 +4,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-
-
 require_once __DIR__ . '/../../includes/database.php';
 $connection = getDBConnection();
 
@@ -704,7 +702,9 @@ if ($categories && $categories->num_rows > 0) {
 }
 </style>
 
-<!-- Bootstrap and jQuery scripts are included via header/footer in parent page -->
+<!-- Add Bootstrap and jQuery scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 let orders = [];
