@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Feb 22, 2026 at 07:06 PM
+-- Generation Time: Feb 18, 2026 at 05:48 PM
 -- Server version: 8.0.45
 -- PHP Version: 8.3.26
 
@@ -60,53 +60,6 @@ CREATE TABLE `audit_logs` (
   `user_agent` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `audit_logs`
---
-
-INSERT INTO `audit_logs` (`id`, `user_id`, `action_type`, `entity_type`, `entity_id`, `old_value`, `new_value`, `ip_address`, `user_agent`, `created_at`) VALUES
-(1, 2, 'create', 'order', 1, NULL, '{\"order_number\":\"202602200001\",\"invoice_number\":\"INV-20260220-3410\",\"total\":195.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 19:26:38'),
-(2, 2, 'create', 'order', 2, NULL, '{\"order_number\":\"202602200002\",\"invoice_number\":\"INV-20260220-1061\",\"total\":15.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-20 19:27:27'),
-(3, 2, 'create', 'order', 3, NULL, '{\"order_number\":\"202602200003\",\"invoice_number\":\"INV-20260220-2424\",\"total\":132.25,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:42:14'),
-(4, 2, 'create', 'order', 4, NULL, '{\"order_number\":\"202602200004\",\"invoice_number\":\"INV-20260220-2587\",\"total\":327.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-20 21:48:16'),
-(5, 2, 'create', 'order', 5, NULL, '{\"order_number\":\"202602200005\",\"invoice_number\":\"INV-20260220-6821\",\"total\":34.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:49:23'),
-(6, 2, 'create', 'order', 6, NULL, '{\"order_number\":\"202602200006\",\"invoice_number\":\"INV-20260220-9335\",\"total\":401,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:50:07'),
-(7, 2, 'create', 'order', 7, NULL, '{\"order_number\":\"202602200007\",\"invoice_number\":\"INV-20260220-9049\",\"total\":21.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:52:18'),
-(8, 2, 'create', 'order', 8, NULL, '{\"order_number\":\"202602200008\",\"invoice_number\":\"INV-20260220-7985\",\"total\":5.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:52:44'),
-(9, 2, 'create', 'order', 9, NULL, '{\"order_number\":\"202602200009\",\"invoice_number\":\"INV-20260220-9752\",\"total\":97.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 21:58:17'),
-(10, 2, 'create', 'order', 10, NULL, '{\"order_number\":\"202602200010\",\"invoice_number\":\"INV-20260220-4484\",\"total\":5.75,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:03:40'),
-(11, 2, 'create', 'order', 11, NULL, '{\"order_number\":\"202602200011\",\"invoice_number\":\"INV-20260220-9993\",\"total\":34.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 22:04:18'),
-(12, 2, 'create', 'order', 12, NULL, '{\"order_number\":\"202602200012\",\"invoice_number\":\"INV-20260220-5556\",\"total\":51.75,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:04:40'),
-(13, 2, 'create', 'order', 13, NULL, '{\"order_number\":\"202602200013\",\"invoice_number\":\"INV-20260220-0880\",\"total\":5.75,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:06:36'),
-(14, 2, 'create', 'order', 14, NULL, '{\"order_number\":\"202602200014\",\"invoice_number\":\"INV-20260220-2605\",\"total\":115,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:07:50'),
-(15, 2, 'create', 'order', 15, NULL, '{\"order_number\":\"202602200015\",\"invoice_number\":\"INV-20260220-9303\",\"total\":15.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 22:08:19'),
-(16, 2, 'create', 'order', 16, NULL, '{\"order_number\":\"202602200016\",\"invoice_number\":\"INV-20260220-8797\",\"total\":17.25,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-20 22:10:02'),
-(17, 2, 'create', 'order', 17, NULL, '{\"order_number\":\"202602200017\",\"invoice_number\":\"INV-20260220-9786\",\"total\":172.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 22:13:24'),
-(18, 2, 'create', 'order', 18, NULL, '{\"order_number\":\"202602200018\",\"invoice_number\":\"INV-20260220-9165\",\"total\":109.25,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:15:18'),
-(19, 2, 'create', 'order', 19, NULL, '{\"order_number\":\"202602200019\",\"invoice_number\":\"INV-20260220-9405\",\"total\":27.25,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-20 22:16:43'),
-(20, 2, 'create', 'order', 20, NULL, '{\"order_number\":\"202602200020\",\"invoice_number\":\"INV-20260220-1284\",\"total\":1512.25,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 22:22:00'),
-(21, 2, 'create', 'order', 21, NULL, '{\"order_number\":\"202602200021\",\"invoice_number\":\"INV-20260220-5196\",\"total\":17.25,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-20 23:09:19'),
-(22, 2, 'create', 'order', 22, NULL, '{\"order_number\":\"202602200022\",\"invoice_number\":\"INV-20260220-7782\",\"total\":189.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 23:09:47'),
-(23, 2, 'create', 'order', 23, NULL, '{\"order_number\":\"202602200023\",\"invoice_number\":\"INV-20260220-0613\",\"total\":5.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-20 23:11:42'),
-(24, 2, 'create', 'order', 24, NULL, '{\"order_number\":\"202602200024\",\"invoice_number\":\"INV-20260220-4141\",\"total\":23.8,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-20 23:15:48'),
-(25, 2, 'create', 'order', 25, NULL, '{\"order_number\":\"202602210001\",\"invoice_number\":\"INV-20260221-4535\",\"total\":5.75,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-21 15:20:32'),
-(26, 2, 'create', 'order', 26, NULL, '{\"order_number\":\"202602210002\",\"invoice_number\":\"INV-20260221-9217\",\"total\":23,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-21 17:36:19'),
-(27, 2, 'create', 'order', 27, NULL, '{\"order_number\":\"202602210003\",\"invoice_number\":\"INV-20260221-4550\",\"total\":142.25,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-21 17:42:17'),
-(28, 2, 'create', 'order', 28, NULL, '{\"order_number\":\"202602220001\",\"invoice_number\":\"INV-20260222-7761\",\"total\":5.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 16:50:06'),
-(29, 2, 'create', 'order', 29, NULL, '{\"order_number\":\"202602220002\",\"invoice_number\":\"INV-20260222-0668\",\"total\":109.25,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 17:35:26'),
-(30, 2, 'create', 'order', 30, NULL, '{\"order_number\":\"202602220003\",\"invoice_number\":\"INV-20260222-0634\",\"total\":5.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 17:44:59'),
-(31, 2, 'create', 'order', 31, NULL, '{\"order_number\":\"202602220004\",\"invoice_number\":\"INV-20260222-2633\",\"total\":5.75,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 17:48:35'),
-(32, 2, 'create', 'order', 32, NULL, '{\"order_number\":\"202602220005\",\"invoice_number\":\"INV-20260222-7894\",\"total\":27.25,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 17:49:55'),
-(33, 2, 'create', 'order', 33, NULL, '{\"order_number\":\"202602220006\",\"invoice_number\":\"INV-20260222-0738\",\"total\":224.25,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 17:52:06'),
-(34, 2, 'create', 'order', 34, NULL, '{\"order_number\":\"202602220007\",\"invoice_number\":\"INV-20260222-2001\",\"total\":17.25,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 17:56:44'),
-(35, 2, 'create', 'order', 35, NULL, '{\"order_number\":\"202602220008\",\"invoice_number\":\"INV-20260222-2108\",\"total\":5.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 18:02:05'),
-(36, 2, 'create', 'order', 36, NULL, '{\"order_number\":\"202602220009\",\"invoice_number\":\"INV-20260222-9671\",\"total\":80.5,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 18:04:49'),
-(37, 2, 'create', 'order', 37, NULL, '{\"order_number\":\"202602220010\",\"invoice_number\":\"INV-20260222-7485\",\"total\":15.75,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 18:17:17'),
-(38, 2, 'create', 'order', 38, NULL, '{\"order_number\":\"202602220011\",\"invoice_number\":\"INV-20260222-2215\",\"total\":15.75,\"payment_method\":\"online\"}', NULL, NULL, '2026-02-22 18:17:38'),
-(39, 2, 'create', 'order', 39, NULL, '{\"order_number\":\"202602220012\",\"invoice_number\":\"INV-20260222-9601\",\"total\":100,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 18:20:53'),
-(40, 2, 'create', 'order', 40, NULL, '{\"order_number\":\"202602220013\",\"invoice_number\":\"INV-20260222-9018\",\"total\":300,\"payment_method\":\"cash\"}', NULL, NULL, '2026-02-22 18:23:51'),
-(41, 2, 'create', 'order', 41, NULL, '{\"order_number\":\"202602220014\",\"invoice_number\":\"INV-20260222-6002\",\"total\":150,\"payment_method\":\"card\"}', NULL, NULL, '2026-02-22 18:25:49');
 
 -- --------------------------------------------------------
 
@@ -257,8 +210,7 @@ INSERT INTO `menu_items` (`id`, `name`, `description`, `category_id`, `price`, `
 (4, 'Chicken Kabsa', 'Fragrant rice with tender chicken, nuts, and authentic Arabic spices', 1, 65.00, 'menu_1770308897_5765.png', 1, 0, NULL, 0, 1, 0, NULL, 1.00, '2026-02-03 14:04:43', '2026-02-05 16:28:17'),
 (7, 'Testing', 'New Item', 7, 100.00, 'menu_1770306904_7770.jpg', 1, 1, NULL, 0, 1, 0, NULL, 1.00, '2026-02-05 15:55:04', '2026-02-05 15:55:04'),
 (8, 'Small Water', 'Small Masafi bottled water', 8, 5.00, 'menu_1771344153_3985.png', 1, 0, NULL, 0, 1, 0, NULL, 1.00, '2026-02-17 16:02:33', '2026-02-17 16:02:33'),
-(9, 'Kunafa', '', 9, 15.00, 'menu_1771344378_3587.png', 1, 0, NULL, 0, 1, 0, NULL, 1.00, '2026-02-17 16:06:18', '2026-02-17 16:06:18'),
-(10, 'Kunafa Cheese', '', 9, 15.00, 'menu_1771628729_9430.png', 1, 0, NULL, 0, 1, 0, NULL, 1.00, '2026-02-20 23:05:29', '2026-02-20 23:05:29');
+(9, 'Kunafa', '', 9, 15.00, 'menu_1771344378_3587.png', 1, 0, NULL, 0, 1, 0, NULL, 1.00, '2026-02-17 16:06:18', '2026-02-17 16:06:18');
 
 -- --------------------------------------------------------
 
@@ -303,53 +255,6 @@ CREATE TABLE `orders` (
   `num_customers` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `order_number`, `invoice_number`, `customer_id`, `customer_name`, `customer_name_snapshot`, `customer_email`, `customer_phone`, `customer_phone_snapshot`, `customer_address`, `delivery_address_snapshot`, `order_type`, `delivery_source`, `table_number`, `branch_id`, `subtotal`, `discount_amount`, `tax_amount`, `delivery_fee`, `total_amount`, `item_count`, `order_status`, `payment_method`, `payment_status`, `payment_reference`, `is_draft`, `punched_by_admin_id`, `closed_by_admin_id`, `closed_at`, `last_updated_by`, `special_instructions`, `created_at`, `updated_at`, `num_customers`) VALUES
-(1, '202602200001', 'INV-20260220-3410', 43, 'rrrr', 'rrrr', NULL, '66666', '66666', '', '', 'pickup', 'internal', NULL, 1, 170.00, 0.00, 0.00, 0.00, 195.50, 3, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 19:26:37', NULL, NULL, '2026-02-20 19:26:37', '2026-02-22 18:00:57', NULL),
-(2, '202602200002', 'INV-20260220-1061', NULL, '', '', NULL, '', '', '', '', 'delivery', 'noon', NULL, 1, 5.00, 0.00, 0.00, 10.00, 15.75, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-20 19:27:27', NULL, NULL, '2026-02-20 19:27:27', '2026-02-22 18:00:57', NULL),
-(3, '202602200003', 'INV-20260220-2424', 43, 'rrrrr', 'rrrrr', NULL, '66666', '66666', '', '', 'dine_in', 'internal', NULL, 1, 115.00, 0.00, 0.00, 0.00, 132.25, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:42:14', NULL, NULL, '2026-02-20 21:42:14', '2026-02-22 18:00:57', NULL),
-(4, '202602200004', 'INV-20260220-2587', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 285.00, 0.00, 0.00, 0.00, 327.75, 4, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-20 21:48:16', NULL, NULL, '2026-02-20 21:48:16', '2026-02-22 18:00:57', NULL),
-(5, '202602200005', 'INV-20260220-6821', 44, 'Well', 'Well', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'T4', 1, 30.00, 0.00, 0.00, 0.00, 34.50, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:49:23', NULL, NULL, '2026-02-20 21:49:23', '2026-02-22 18:00:57', 5),
-(6, '202602200006', 'INV-20260220-9335', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'keeta', NULL, 1, 340.00, 0.00, 0.00, 10.00, 401.00, 5, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:50:07', NULL, NULL, '2026-02-20 21:50:07', '2026-02-22 18:00:57', NULL),
-(7, '202602200007', 'INV-20260220-9049', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'internal', NULL, 1, 10.00, 0.00, 0.00, 10.00, 21.50, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:52:18', NULL, NULL, '2026-02-20 21:52:18', '2026-02-22 18:00:57', NULL),
-(8, '202602200008', 'INV-20260220-7985', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:52:44', NULL, NULL, '2026-02-20 21:52:44', '2026-02-22 18:00:57', NULL),
-(9, '202602200009', 'INV-20260220-9752', 43, 'rrrr', 'rrrr', NULL, '66666', '66666', '', '', 'pickup', 'internal', NULL, 1, 85.00, 0.00, 0.00, 0.00, 97.75, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 21:58:17', NULL, NULL, '2026-02-20 21:58:17', '2026-02-22 18:00:57', NULL),
-(10, '202602200010', 'INV-20260220-4484', 45, 'ttttt', 'ttttt', NULL, '777777', '777777', '', '', 'dine_in', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:03:40', NULL, NULL, '2026-02-20 22:03:40', '2026-02-22 18:00:57', NULL),
-(11, '202602200011', 'INV-20260220-9993', 46, 'eeee', 'eeee', NULL, '6666', '6666', '', '', 'dine_in', 'internal', NULL, 1, 30.00, 0.00, 0.00, 0.00, 34.50, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 22:04:18', NULL, NULL, '2026-02-20 22:04:18', '2026-02-22 18:00:57', NULL),
-(12, '202602200012', 'INV-20260220-5556', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 45.00, 0.00, 0.00, 0.00, 51.75, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:04:40', NULL, NULL, '2026-02-20 22:04:40', '2026-02-22 18:00:57', NULL),
-(13, '202602200013', 'INV-20260220-0880', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:06:36', NULL, NULL, '2026-02-20 22:06:36', '2026-02-22 18:00:57', NULL),
-(14, '202602200014', 'INV-20260220-2605', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 100.00, 0.00, 0.00, 0.00, 115.00, 2, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:07:50', NULL, NULL, '2026-02-20 22:07:50', '2026-02-22 18:00:57', NULL),
-(15, '202602200015', 'INV-20260220-9303', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'deliveroo', NULL, 1, 5.00, 0.00, 0.00, 10.00, 15.75, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 22:08:19', NULL, NULL, '2026-02-20 22:08:19', '2026-02-22 18:00:57', NULL),
-(16, '202602200016', 'INV-20260220-8797', 44, 'Me', 'Me', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'T1', 1, 15.00, 0.00, 0.00, 0.00, 17.25, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-20 22:10:02', NULL, NULL, '2026-02-20 22:10:02', '2026-02-22 18:00:57', 55),
-(17, '202602200017', 'INV-20260220-9786', 44, 'Abdullah', 'Abdullah', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 150.00, 0.00, 0.00, 0.00, 172.50, 4, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 22:13:24', NULL, NULL, '2026-02-20 22:13:24', '2026-02-22 18:00:57', NULL),
-(18, '202602200018', 'INV-20260220-9165', 45, 'ttttt', 'ttttt', NULL, '777777', '777777', '', '', 'dine_in', 'internal', NULL, 1, 95.00, 0.00, 0.00, 0.00, 109.25, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:15:18', NULL, NULL, '2026-02-20 22:15:18', '2026-02-22 18:00:57', NULL),
-(19, '202602200019', 'INV-20260220-9405', 43, 'Abdullah', 'Abdullah', NULL, '66666', '66666', '', '', 'delivery', 'smile', NULL, 1, 15.00, 0.00, 0.00, 10.00, 27.25, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-20 22:16:43', NULL, NULL, '2026-02-20 22:16:43', '2026-02-22 18:00:57', NULL),
-(20, '202602200020', 'INV-20260220-1284', 44, 'Karuna', 'Karuna', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'T13', 1, 1315.00, 0.00, 0.00, 0.00, 1512.25, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 22:22:00', NULL, NULL, '2026-02-20 22:22:00', '2026-02-22 18:00:57', 100),
-(21, '202602200021', 'INV-20260220-5196', 46, 'eeee', 'eeee', NULL, '6666', '6666', '', '', 'dine_in', 'internal', NULL, 1, 15.00, 0.00, 0.00, 0.00, 17.25, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-20 23:09:19', NULL, NULL, '2026-02-20 23:09:19', '2026-02-22 18:00:57', NULL),
-(22, '202602200022', 'INV-20260220-7782', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'HALL', 1, 165.00, 0.00, 0.00, 0.00, 189.75, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 23:09:47', NULL, NULL, '2026-02-20 23:09:47', '2026-02-22 18:00:57', 5),
-(23, '202602200023', 'INV-20260220-0613', NULL, '', '', NULL, '', '', '', '', 'pickup', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-20 23:11:42', NULL, NULL, '2026-02-20 23:11:42', '2026-02-22 18:00:57', NULL),
-(24, '202602200024', 'INV-20260220-4141', 44, 'Malam', 'Malam', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'internal', NULL, 1, 15.00, 3.00, 0.00, 10.00, 23.80, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-20 23:15:48', NULL, NULL, '2026-02-20 23:15:48', '2026-02-22 18:00:57', NULL),
-(25, '202602210001', 'INV-20260221-4535', 46, 'eeee', 'eeee', NULL, '6666', '6666', '', '', 'dine_in', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-21 15:20:32', NULL, NULL, '2026-02-21 15:20:32', '2026-02-22 18:00:57', NULL),
-(26, '202602210002', 'INV-20260221-9217', 44, 'Otak', 'Otak', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'T2', 1, 20.00, 0.00, 0.00, 0.00, 23.00, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-21 17:36:19', NULL, NULL, '2026-02-21 17:36:19', '2026-02-22 18:00:57', 3),
-(27, '202602210003', 'INV-20260221-4550', 43, 'Custom', 'Custom', NULL, '66666', '66666', 'Nearby', 'Nearby', 'delivery', 'noon', NULL, 1, 115.00, 0.00, 0.00, 10.00, 142.25, 2, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-21 17:42:17', NULL, NULL, '2026-02-21 17:42:17', '2026-02-22 18:00:57', NULL),
-(28, '202602220001', 'INV-20260222-7761', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 16:50:05', NULL, NULL, '2026-02-22 16:50:05', '2026-02-22 18:00:57', NULL),
-(29, '202602220002', 'INV-20260222-0668', 44, 'Sajid', 'Sajid', NULL, '5555555', '5555555', '', '', 'dine_in', 'internal', 'T2', 1, 95.00, 0.00, 0.00, 0.00, 109.25, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 17:35:26', NULL, NULL, '2026-02-22 17:35:26', '2026-02-22 18:00:57', 5),
-(30, '202602220003', 'INV-20260222-0634', 43, 'Mr Me', 'Mr Me', NULL, '66666', '66666', '', '', 'pickup', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 17:44:59', NULL, NULL, '2026-02-22 17:44:59', '2026-02-22 18:00:57', NULL),
-(31, '202602220004', 'INV-20260222-2633', 44, 'Otaksi Clients', 'Otaksi Clients', NULL, '5555555', '5555555', '', '', 'pickup', 'internal', NULL, 1, 5.00, 0.00, 0.00, 0.00, 5.75, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 17:48:35', NULL, NULL, '2026-02-22 17:48:35', '2026-02-22 18:00:57', NULL),
-(32, '202602220005', 'INV-20260222-7894', 46, 'Mr Test', 'Mr Test', NULL, '6666', '6666', '4444', '4444', 'delivery', 'internal', NULL, 1, 15.00, 0.00, 0.00, 10.00, 27.25, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 17:49:55', NULL, NULL, '2026-02-22 17:49:55', '2026-02-22 18:00:57', NULL),
-(33, '202602220006', 'INV-20260222-0738', 43, 'Dee', 'Dee', NULL, '66666', '66666', '', '', 'pickup', 'internal', NULL, 1, 195.00, 0.00, 0.00, 0.00, 224.25, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 17:52:06', NULL, NULL, '2026-02-22 17:52:06', '2026-02-22 18:00:57', NULL),
-(34, '202602220007', 'INV-20260222-2001', 46, 'Changed', 'Changed', NULL, '6666', '6666', '', '', 'pickup', 'internal', NULL, 1, 15.00, 0.00, 0.00, 0.00, 17.25, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 17:56:44', NULL, NULL, '2026-02-22 17:56:44', '2026-02-22 18:00:57', NULL),
-(35, '202602220008', 'INV-20260222-2108', 46, 'Hammod', 'Hammod', NULL, '6666', '6666', '', '', 'dine_in', 'internal', 'T2', 1, 5.00, 0.00, 0.75, 0.00, 5.75, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 18:02:05', NULL, NULL, '2026-02-22 18:02:05', '2026-02-22 18:02:05', 2),
-(36, '202602220009', 'INV-20260222-9671', 43, 'Tax', 'Tax', NULL, '66666', '66666', '', '', 'pickup', 'internal', NULL, 1, 70.00, 0.00, 10.50, 0.00, 80.50, 2, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 18:04:49', NULL, NULL, '2026-02-22 18:04:49', '2026-02-22 18:04:49', NULL),
-(37, '202602220010', 'INV-20260222-7485', 44, 'New', 'New', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'deliveroo', NULL, 1, 5.00, 0.00, 0.75, 10.00, 15.75, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 18:17:17', NULL, NULL, '2026-02-22 18:17:17', '2026-02-22 18:17:17', NULL),
-(38, '202602220011', 'INV-20260222-2215', 43, 'Tax2', 'Tax2', NULL, '66666', '66666', 'Nearby', 'Nearby', 'delivery', 'noon', NULL, 1, 5.00, 0.00, 0.75, 10.00, 15.75, 1, 'closed', 'online', 'paid', '', 0, 2, 2, '2026-02-22 18:17:38', NULL, NULL, '2026-02-22 18:17:38', '2026-02-22 18:17:38', NULL),
-(39, '202602220012', 'INV-20260222-9601', 43, 'Hmm', 'Hmm', NULL, '66666', '66666', '', '', 'dine_in', 'internal', 'T3', 1, 100.00, 0.00, 0.00, 0.00, 100.00, 1, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 18:20:53', NULL, NULL, '2026-02-22 18:20:53', '2026-02-22 18:20:53', 3),
-(40, '202602220013', 'INV-20260222-9018', NULL, 'Toyo', 'Toyo', NULL, '', '', '4444', '4444', 'delivery', 'keeta', NULL, 1, 300.00, 0.00, 0.00, 0.00, 300.00, 1, 'closed', 'cash', 'paid', '', 0, 2, 2, '2026-02-22 18:23:51', NULL, NULL, '2026-02-22 18:23:51', '2026-02-22 18:23:51', NULL),
-(41, '202602220014', 'INV-20260222-6002', 44, 'New', 'New', NULL, '5555555', '5555555', '4444', '4444', 'delivery', 'deliveroo', NULL, 1, 140.00, 0.00, 0.00, 10.00, 150.00, 3, 'closed', 'card', 'paid', '', 0, 2, 2, '2026-02-22 18:25:49', NULL, NULL, '2026-02-22 18:25:49', '2026-02-22 18:25:49', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -368,76 +273,6 @@ CREATE TABLE `order_items` (
   `total_price` decimal(10,2) NOT NULL,
   `special_instructions` text COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `menu_item_id`, `item_name_snapshot`, `unit_price_snapshot`, `menu_item_name`, `quantity`, `unit_price`, `total_price`, `special_instructions`) VALUES
-(1, 1, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(2, 1, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(3, 1, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 1, 65.00, 65.00, ''),
-(4, 2, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(5, 3, 8, 'Small Water', 5.00, 'Small Water', 3, 5.00, 15.00, ''),
-(6, 3, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(7, 4, 7, 'Testing', 100.00, 'Testing', 2, 100.00, 200.00, ''),
-(8, 4, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(9, 4, 4, 'Chicken Kabsa', 65.00, 'Chicken Kabsa', 1, 65.00, 65.00, ''),
-(10, 4, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(11, 5, 8, 'Small Water', 5.00, 'Small Water', 3, 5.00, 15.00, ''),
-(12, 5, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(13, 6, 3, 'Mixed Grill Platter', 95.00, 'Mixed Grill Platter', 1, 95.00, 95.00, ''),
-(14, 6, 4, 'Chicken Kabsa', 65.00, 'Chicken Kabsa', 1, 65.00, 65.00, ''),
-(15, 6, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 1, 65.00, 65.00, ''),
-(16, 6, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(17, 6, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(18, 7, 8, 'Small Water', 5.00, 'Small Water', 2, 5.00, 10.00, ''),
-(19, 8, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(20, 9, 8, 'Small Water', 5.00, 'Small Water', 2, 5.00, 10.00, ''),
-(21, 9, 9, 'Kunafa', 15.00, 'Kunafa', 5, 15.00, 75.00, ''),
-(22, 10, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(23, 11, 8, 'Small Water', 5.00, 'Small Water', 6, 5.00, 30.00, ''),
-(24, 12, 9, 'Kunafa', 15.00, 'Kunafa', 3, 15.00, 45.00, ''),
-(25, 13, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(26, 14, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(27, 14, 3, 'Mixed Grill Platter', 95.00, 'Mixed Grill Platter', 1, 95.00, 95.00, ''),
-(28, 15, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(29, 16, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(30, 17, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(31, 17, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(32, 17, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 1, 65.00, 65.00, ''),
-(33, 17, 4, 'Chicken Kabsa', 65.00, 'Chicken Kabsa', 1, 65.00, 65.00, ''),
-(34, 18, 3, 'Mixed Grill Platter', 95.00, 'Mixed Grill Platter', 1, 95.00, 95.00, ''),
-(35, 19, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(36, 20, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(37, 20, 7, 'Testing', 100.00, 'Testing', 13, 100.00, 1300.00, ''),
-(38, 21, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(39, 22, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(40, 22, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 1, 65.00, 65.00, ''),
-(41, 23, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(42, 24, 10, 'Kunafa Cheese', 15.00, 'Kunafa Cheese', 1, 15.00, 15.00, ''),
-(43, 25, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(44, 26, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(45, 26, 10, 'Kunafa Cheese', 15.00, 'Kunafa Cheese', 1, 15.00, 15.00, ''),
-(46, 27, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(47, 27, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(48, 28, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(49, 29, 3, 'Mixed Grill Platter', 95.00, 'Mixed Grill Platter', 1, 95.00, 95.00, ''),
-(50, 30, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(51, 31, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(52, 32, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(53, 33, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 3, 65.00, 195.00, ''),
-(54, 34, 9, 'Kunafa', 15.00, 'Kunafa', 1, 15.00, 15.00, ''),
-(55, 35, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(56, 36, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(57, 36, 4, 'Chicken Kabsa', 65.00, 'Chicken Kabsa', 1, 65.00, 65.00, ''),
-(58, 37, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(59, 38, 8, 'Small Water', 5.00, 'Small Water', 1, 5.00, 5.00, ''),
-(60, 39, 7, 'Testing', 100.00, 'Testing', 1, 100.00, 100.00, ''),
-(61, 40, 7, 'Testing', 100.00, 'Testing', 3, 100.00, 300.00, ''),
-(62, 41, 8, 'Small Water', 5.00, 'Small Water', 2, 5.00, 10.00, ''),
-(63, 41, 4, 'Chicken Kabsa', 65.00, 'Chicken Kabsa', 1, 65.00, 65.00, ''),
-(64, 41, 2, 'Chicken Mandhi', 65.00, 'Chicken Mandhi', 1, 65.00, 65.00, '');
 
 -- --------------------------------------------------------
 
@@ -485,11 +320,33 @@ CREATE TABLE `pos_order_drafts` (
 --
 
 INSERT INTO `pos_order_drafts` (`id`, `user_id`, `data`, `is_deleted`, `deleted_at`, `restored_at`, `updated_at`, `created_at`) VALUES
-('ORD1771374549293', 2, '{\"id\": \"ORD1771374549293\", \"type\": \"delivery\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"delivery_source\": \"deliveroo\"}', 1, '2026-02-18 18:07:27', NULL, '2026-02-18 18:07:22', '2026-02-18 13:03:48'),
-('ORD1771374825973', 2, '{\"id\": \"ORD1771374825973\", \"type\": \"pickup\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 1, '2026-02-18 18:07:33', NULL, '2026-02-18 18:07:28', '2026-02-18 13:03:48'),
-('ORD1771375150519', 2, '{\"id\": \"ORD1771375150519\", \"type\": \"delivery\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"6666\", \"address\": \"4444\"}, \"delivery_source\": \"internal\"}', 1, '2026-02-18 18:07:38', NULL, '2026-02-18 18:07:34', '2026-02-18 13:03:48'),
-('ORD1771383823013', 2, '{\"id\": \"ORD1771383823013\", \"type\": \"dine_in\", \"items\": [], \"customer\": {\"name\": \"Yawa\", \"phone\": \"5555555\", \"address\": \"\"}, \"is_deleted\": 1, \"table_number\": \"T1\", \"num_customers\": \"90\", \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-22 18:49:00', '2026-02-18 13:04:05'),
-('ORD1771610011715', 2, '{\"id\": \"ORD1771610011715\", \"type\": \"pickup\", \"items\": [{\"id\": 7, \"qty\": 1, \"name\": \"Testing\", \"price\": 100}, {\"id\": 9, \"qty\": 1, \"name\": \"Kunafa\", \"price\": 15}], \"customer\": {\"name\": \"Tester\", \"phone\": \"\", \"address\": \"\"}, \"table_number\": null, \"num_customers\": null, \"delivery_source\": \"internal\"}', 1, '2026-02-20 21:44:53', NULL, '2026-02-20 21:44:42', '2026-02-20 17:53:32');
+('ORD1771355885854', 2, '{\"id\": \"ORD1771355885854\", \"type\": \"pickup\", \"items\": [{\"id\": 8, \"qty\": 2, \"name\": \"Small Water\", \"price\": 5}, {\"id\": 9, \"qty\": 5, \"name\": \"Kunafa\", \"price\": 15}], \"status\": \"on_hold\", \"customer\": {\"name\": \"rrrr\", \"phone\": \"66666\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771355896711', 2, '{\"id\": \"ORD1771355896711\", \"type\": \"pickup\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}, {\"id\": 7, \"qty\": 1, \"name\": \"Testing\", \"price\": 100}, {\"id\": 2, \"qty\": 1, \"name\": \"Chicken Mandhi\", \"price\": 65}], \"customer\": {\"name\": \"rrrr\", \"phone\": \"66666\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771355951093', 2, '{\"id\": \"ORD1771355951093\", \"type\": \"dine_in\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"ttttt\", \"phone\": \"777777\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356002164', 2, '{\"id\": \"ORD1771356002164\", \"type\": \"dine_in\", \"items\": [], \"notes\": [{\"text\": \"He is my friend\", \"timestamp\": \"2026-02-18T02:02:10.740Z\"}], \"status\": \"cancelled\", \"customer\": {\"name\": \"ttttt\", \"phone\": \"777777\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"internal\"}', 0, NULL, '2026-02-18 02:45:30', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356249445', 2, '{\"id\": \"ORD1771356249445\", \"type\": \"dine_in\", \"items\": [], \"customer\": {\"name\": \"eeee\", \"phone\": \"6666\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"internal\"}', 0, NULL, '2026-02-18 02:46:08', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356253572', 2, '{\"id\": \"ORD1771356253572\", \"type\": \"dine_in\", \"items\": [{\"id\": 8, \"qty\": 6, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"eeee\", \"phone\": \"6666\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356301625', 2, '{\"id\": \"ORD1771356301625\", \"type\": \"pickup\", \"items\": [], \"customer\": {\"name\": \"\", \"phone\": \"\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"internal\"}', 0, NULL, '2026-02-18 02:46:27', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356398202', 2, '{\"id\": \"ORD1771356398202\", \"type\": \"pickup\", \"items\": [{\"id\": 9, \"qty\": 6, \"name\": \"Kunafa\", \"price\": 15}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"internal\"}', 0, NULL, '2026-02-18 02:54:12', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356436457', 2, '{\"id\": \"ORD1771356436457\", \"type\": \"pickup\", \"items\": [{\"id\": 9, \"qty\": 3, \"name\": \"Kunafa\", \"price\": 15}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356534938', 2, '{\"id\": \"ORD1771356534938\", \"type\": \"pickup\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356549617', 2, '{\"id\": \"ORD1771356549617\", \"type\": \"delivery\", \"items\": [{\"id\": 3, \"qty\": 1, \"name\": \"Mixed Grill Platter\", \"price\": 95}, {\"id\": 4, \"qty\": 1, \"name\": \"Chicken Kabsa\", \"price\": 65}, {\"id\": 2, \"qty\": 1, \"name\": \"Chicken Mandhi\", \"price\": 65}, {\"id\": 9, \"qty\": 1, \"name\": \"Kunafa\", \"price\": 15}, {\"id\": 7, \"qty\": 1, \"name\": \"Testing\", \"price\": 100}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"delivery_source\": \"keeta\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356599746', 2, '{\"id\": \"ORD1771356599746\", \"type\": \"pickup\", \"items\": [{\"id\": 7, \"qty\": 2, \"name\": \"Testing\", \"price\": 100}, {\"id\": 9, \"qty\": 1, \"name\": \"Kunafa\", \"price\": 15}, {\"id\": 4, \"qty\": 1, \"name\": \"Chicken Kabsa\", \"price\": 65}, {\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356700814', 2, '{\"id\": \"ORD1771356700814\", \"type\": \"dine_in\", \"items\": [{\"id\": 8, \"qty\": 3, \"name\": \"Small Water\", \"price\": 5}, {\"id\": 7, \"qty\": 1, \"name\": \"Testing\", \"price\": 100}], \"customer\": {\"name\": \"rrrrr\", \"phone\": \"66666\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771356716285', 2, '{\"id\": \"ORD1771356716285\", \"type\": \"delivery\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"\", \"phone\": \"\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"noon\"}', 0, NULL, '2026-02-18 03:30:48', '2026-02-18 17:46:00', '2026-02-18 13:03:48'),
+('ORD1771356842442', 2, '{\"id\": \"ORD1771356842442\", \"type\": \"pickup\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"is_deleted\": 1, \"delivery_source\": \"internal\"}', 0, NULL, '2026-02-18 03:02:28', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771362061296', 2, '{\"id\": \"ORD1771362061296\", \"type\": \"delivery\", \"items\": [], \"customer\": {\"name\": \"New\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"is_deleted\": 1, \"delivery_source\": \"deliveroo\"}', 0, NULL, '2026-02-18 02:50:33', '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771374549293', 2, '{\"id\": \"ORD1771374549293\", \"type\": \"delivery\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"delivery_source\": \"deliveroo\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771374825973', 2, '{\"id\": \"ORD1771374825973\", \"type\": \"pickup\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771375150519', 2, '{\"id\": \"ORD1771375150519\", \"type\": \"delivery\", \"items\": [], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"6666\", \"address\": \"4444\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771375483405', 2, '{\"id\": \"ORD1771375483405\", \"type\": \"dine_in\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771375489724', 2, '{\"id\": \"ORD1771375489724\", \"type\": \"pickup\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}, {\"id\": 3, \"qty\": 1, \"name\": \"Mixed Grill Platter\", \"price\": 95}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771378275020', 2, '{\"id\": \"ORD1771378275020\", \"type\": \"delivery\", \"items\": [{\"id\": 8, \"qty\": 1, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"table_number\": null, \"num_customers\": null, \"delivery_source\": \"deliveroo\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771378714632', 2, '{\"id\": \"ORD1771378714632\", \"type\": \"dine_in\", \"items\": [{\"id\": 7, \"qty\": 1, \"name\": \"Testing\", \"price\": 100}, {\"id\": 2, \"qty\": 1, \"name\": \"Chicken Mandhi\", \"price\": 65}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"\"}, \"table_number\": \"HALL\", \"num_customers\": \"5\", \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:03:48'),
+('ORD1771383823013', 2, '{\"id\": \"ORD1771383823013\", \"type\": \"dine_in\", \"items\": [], \"customer\": {\"name\": \"Yawa\", \"phone\": \"5555555\", \"address\": \"\"}, \"is_deleted\": 1, \"table_number\": \"T1\", \"num_customers\": \"90\", \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:04:05'),
+('ORD1771384709323', 2, '{\"id\": \"ORD1771384709323\", \"type\": \"dine_in\", \"items\": [{\"id\": 9, \"qty\": 1, \"name\": \"Kunafa\", \"price\": 15}], \"customer\": {\"name\": \"Me\", \"phone\": \"5555555\", \"address\": \"\"}, \"table_number\": \"T1\", \"num_customers\": \"55\", \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:04:05'),
+('ORD1771385296636', 2, '{\"id\": \"ORD1771385296636\", \"type\": \"delivery\", \"items\": [{\"id\": 8, \"qty\": 2, \"name\": \"Small Water\", \"price\": 5}], \"customer\": {\"name\": \"Otaksi Clients\", \"phone\": \"5555555\", \"address\": \"4444\"}, \"table_number\": null, \"num_customers\": null, \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:00', '2026-02-18 13:04:05'),
+('ORD1771414334620', 2, '{\"id\": \"ORD1771414334620\", \"type\": \"dine_in\", \"items\": [{\"id\": 8, \"qty\": 3, \"name\": \"Small Water\", \"price\": 5}, {\"id\": 9, \"qty\": 1, \"name\": \"Kunafa\", \"price\": 15}], \"customer\": {\"name\": \"Well\", \"phone\": \"5555555\", \"address\": \"\"}, \"table_number\": \"T4\", \"num_customers\": \"5\", \"delivery_source\": \"internal\"}', 0, NULL, NULL, '2026-02-18 17:46:01', '2026-02-18 13:04:05');
 
 -- --------------------------------------------------------
 
@@ -505,23 +362,6 @@ CREATE TABLE `printer_logs` (
   `printed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `is_reprint` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `printer_logs`
---
-
-INSERT INTO `printer_logs` (`id`, `order_id`, `receipt_type`, `printed_by`, `printed_at`, `is_reprint`) VALUES
-(1, 19, 'kitchen', 2, '2026-02-20 22:41:23', 0),
-(2, 19, 'counter', 2, '2026-02-20 22:41:34', 0),
-(3, 20, 'counter', 2, '2026-02-20 22:44:40', 0),
-(4, 24, 'counter', 2, '2026-02-21 11:22:04', 0),
-(5, 24, 'counter', 2, '2026-02-21 11:22:22', 0),
-(6, 24, 'counter', 2, '2026-02-21 11:24:55', 0),
-(7, 24, 'counter', 2, '2026-02-21 11:25:04', 0),
-(8, 24, 'counter', 2, '2026-02-21 11:27:48', 0),
-(9, 24, 'counter', 2, '2026-02-21 11:29:43', 0),
-(10, 24, 'counter', 2, '2026-02-21 11:29:53', 0),
-(11, 24, 'counter', 2, '2026-02-21 11:33:28', 0);
 
 -- --------------------------------------------------------
 
@@ -680,7 +520,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `employee_id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `created_at`, `updated_at`, `last_login`, `reset_token`, `reset_token_expiry`, `address`, `preferred_branch`, `loyalty_points`, `last_order_date`, `position`, `department`, `salary`, `hire_date`) VALUES
 (1, 'admin', NULL, 'admin@yallaalmandhi.com', '$2y$10$YourHashedPasswordHere', 'System Administrator', NULL, 'admin', 1, '2026-01-31 13:34:06', '2026-01-31 13:34:06', NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, 0.00, NULL),
-(2, 'New', NULL, 'abm@gmail.com', '$2y$10$lwUpy9pmKdGAIGF6IaEcPeKUMMouU45BjK02CstIo/Dp24WuBpSJq', 'Abdulla', '+971345264456', 'super-admin', 1, '2026-01-31 16:44:08', '2026-02-22 17:34:33', '2026-02-22 17:34:33', '06eb3d9d4bed5d240d0364b90f18978fadb719c2a4fdf00971f847bacf6a06fc', '2026-01-31 15:32:03', NULL, 1, 0, NULL, NULL, NULL, 0.00, NULL),
+(2, 'New', NULL, 'abm@gmail.com', '$2y$10$lwUpy9pmKdGAIGF6IaEcPeKUMMouU45BjK02CstIo/Dp24WuBpSJq', 'Abdulla', '+971345264456', 'super-admin', 1, '2026-01-31 16:44:08', '2026-02-18 16:55:49', '2026-02-18 16:55:49', '06eb3d9d4bed5d240d0364b90f18978fadb719c2a4fdf00971f847bacf6a06fc', '2026-01-31 15:32:03', NULL, 1, 0, NULL, NULL, NULL, 0.00, NULL),
 (3, 'deleted_user_1770383913_3', NULL, 'deleted_1770383913_3@deleted.com', '', 'Deleted User', '', 'customer', 1, '2026-01-31 17:19:01', '2026-02-06 13:30:48', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
 (4, 'ABM', NULL, 'abdaullahbalam@gmail.com', '$2y$10$S3mCZCYHzqUiIp.L/G/dQeqk2A34T.Y25myFeI/5Ltth/xPFRegbG', 'Doe', '+971501234567', 'customer', 0, '2026-01-31 18:06:54', '2026-02-06 13:30:58', '2026-01-31 18:06:54', NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
 (5, 'Test', '', 'test@example.com', '$2y$10$j7sIFix7TgNBTbrQ.PvCuu6ihow.RUbNuCtHSdp0hGpPzBZyaFtki', 'Test User22', '+971582551785', 'super-admin', 1, '2026-02-03 15:11:27', '2026-02-07 17:19:41', '2026-02-03 18:51:27', NULL, NULL, 'DIP Building, Somewhere Street, Earth.', 1, 0, NULL, '', '', 0.00, '2026-02-07'),
@@ -691,11 +531,7 @@ INSERT INTO `users` (`id`, `username`, `employee_id`, `email`, `password_hash`, 
 (10, '1770383929_10', NULL, 'deleted_1770383929_10@deleted.com', '', 'Once Deleted', '', 'customer', 1, '2026-02-06 12:32:23', '2026-02-06 13:26:03', NULL, NULL, NULL, 'Some address.', 1, 0, NULL, NULL, NULL, 0.00, NULL),
 (11, 'Admin1', NULL, 'jose9r5@example.com', '$2y$10$KiOBX4H0jhTVOD//HqdicO9ZRtRLpKq5o9HOf6HU4m.OuyBxUhRYe', 'Danir', '+971345264456', 'customer', 1, '2026-02-06 13:21:58', '2026-02-06 13:21:58', NULL, NULL, NULL, 'New location.', 1, 7, NULL, NULL, NULL, 0.00, NULL),
 (12, 'New1', NULL, 'jose95@exampl1e.com', '$2y$10$7LdKzcl5l6K.CpOm7MAZF.o2SdoSbdH1fcvvSiB06fwbPhnMH2kkW', 'Test Userr', '+971345264456', 'customer', 1, '2026-02-07 15:30:25', '2026-02-07 15:30:25', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
-(14, 'R', '111', 'asmi@email.com', '$2y$10$AUAKwHEF2cruJv9r7YO3VeqDuWf3U04K2r4F4SYR8c8he1npADZG6', 'Ashmita', '+971345264456', 'employee', 1, '2026-02-07 17:28:53', '2026-02-07 17:31:23', NULL, NULL, NULL, 'Something', 1, 0, NULL, 'Cachier', 'Administration', 0.00, '2026-02-01'),
-(43, 'cust_6998b56dd9575', NULL, 'auto_6998b56ded13f@noemail.local', '$2y$10$rYu/vLUmM1G1jeT3lmepxe9Sj6RvvAEbR2zVmO4CHA9igzZhZ/Ibq', 'rrrr', '66666', 'customer', 1, '2026-02-20 19:26:37', '2026-02-20 19:26:37', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
-(44, 'cust_6998d6a05b9a3', NULL, 'auto_6998d6a079bda@noemail.local', '$2y$10$lSmspv5gQhR0XMGMlUtAZuGL1BCGt0n.0h0LgGww8SLaG3KziynLG', 'Otaksi Clients', '5555555', 'customer', 1, '2026-02-20 21:48:16', '2026-02-20 21:48:16', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
-(45, 'cust_6998da3c98d1c', NULL, 'auto_6998da3cb1694@noemail.local', '$2y$10$rjSVV5vQU3FtkmgJGp0rV.j.o8CObLPNAfTuCeJbLrW27AsqgTM1i', 'ttttt', '777777', 'customer', 1, '2026-02-20 22:03:40', '2026-02-20 22:03:40', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL),
-(46, 'cust_6998da6241d0b', NULL, 'auto_6998da625618e@noemail.local', '$2y$10$PPAUbBPqxaDzt4UVVI6igeXh/qStZzZX6zGhVo4JwnI4T3NaxFzJi', 'eeee', '6666', 'customer', 1, '2026-02-20 22:04:18', '2026-02-20 22:04:18', NULL, NULL, NULL, '', 1, 0, NULL, NULL, NULL, 0.00, NULL);
+(14, 'R', '111', 'asmi@email.com', '$2y$10$AUAKwHEF2cruJv9r7YO3VeqDuWf3U04K2r4F4SYR8c8he1npADZG6', 'Ashmita', '+971345264456', 'employee', 1, '2026-02-07 17:28:53', '2026-02-07 17:31:23', NULL, NULL, NULL, 'Something', 1, 0, NULL, 'Cachier', 'Administration', 0.00, '2026-02-01');
 
 -- --------------------------------------------------------
 
@@ -719,7 +555,6 @@ CREATE TABLE `user_sessions` (
 INSERT INTO `user_sessions` (`session_id`, `user_id`, `login_time`, `last_activity`, `ip_address`, `user_agent`) VALUES
 ('19k12eg374lg3su5p319edus0l', 2, '2026-02-06 13:15:00', '2026-02-06 13:15:00', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'),
 ('4550d52e77ade236482646766e886faa', 2, '2026-02-16 15:32:48', '2026-02-16 15:32:48', '172.20.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'),
-('86d1896e834ba19e8230200d2e70e9a0', 2, '2026-02-21 11:17:03', '2026-02-22 17:34:33', '172.20.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36'),
 ('8cb7c0a142e22019d1f7298282758e11', 2, '2026-02-15 21:50:12', '2026-02-16 13:08:42', '172.20.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'),
 ('c3lm8urjfo8qi9kpl1b3p898li', 2, '2026-02-03 14:53:56', '2026-02-03 14:53:56', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'),
 ('c3m6ii021fr9qgekach53ko0j8', 2, '2026-02-06 17:12:31', '2026-02-10 10:26:11', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'),
@@ -910,7 +745,7 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -946,19 +781,19 @@ ALTER TABLE `menu_categories`
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `password_reset_logs`
@@ -970,7 +805,7 @@ ALTER TABLE `password_reset_logs`
 -- AUTO_INCREMENT for table `printer_logs`
 --
 ALTER TABLE `printer_logs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `promotions`
@@ -1000,7 +835,7 @@ ALTER TABLE `testimonials`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables

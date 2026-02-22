@@ -71,7 +71,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <!-- Inventory Management - NEW SECTION -->
+        <!-- Inventory Management - NEW SECTION (commented out)
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="inventory">
                 <i class="bi bi-boxes nav-icon"></i>
@@ -105,6 +105,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </li>
+        -->
 
         <!-- Reservations Menu -->
         <li class="nav-item">

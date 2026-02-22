@@ -144,15 +144,88 @@ $monthly_revenue = getMonthlyRevenue($connection, date('Y'));
                 </div>
             </div>
 
-            <!-- Today's Reservations by Hour -->
+            <!-- Today's Revenue Breakdown -->
             <div class="col-xl-4 col-lg-5 mb-4">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Today's Reservations by Hour</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Today's Revenue Breakdown</h6>
                     </div>
                     <div class="card-body">
-                        <div class="chart-pie pt-4">
-                            <canvas id="hourlyReservationsChart"></canvas>
+                        <div class="revenue-breakdown-box text-center">
+                            <?php
+                            // Fetch today's payment method breakdown directly from database
+                            $today_payment_query = "SELECT 
+                                COALESCE(payment_method, 'unknown') as payment_method,
+                                SUM(total_amount) as total
+                                FROM orders 
+                                WHERE DATE(created_at) = CURDATE() 
+                                AND payment_status = 'paid'
+                                GROUP BY payment_method";
+                            $payment_result = $connection->query($today_payment_query);
+                            $payment_breakdown = [];
+                            $payment_icons = [
+                                'cash' => 'bi-cash-coin text-success',
+                                'card' => 'bi-credit-card-2-front text-primary',
+                                'online' => 'bi-wifi text-info',
+                                'unknown' => 'bi-question-circle text-secondary'
+                            ];
+                            $payment_labels = [
+                                'cash' => 'Cash',
+                                'card' => 'Card',
+                                'online' => 'Online',
+                                'unknown' => 'Other'
+                            ];
+                            $total_today = 0;
+                            while ($row = $payment_result->fetch_assoc()) {
+                                $method = $row['payment_method'] ?: 'unknown';
+                                $payment_breakdown[$method] = $row['total'];
+                                $total_today += $row['total'];
+                            }
+                            // If no payments today, show zeros for all methods
+                            if (empty($payment_breakdown)) {
+                                $payment_breakdown = [
+                                    'cash' => 0,
+                                    'card' => 0,
+                                    'online' => 0
+                                ];
+                            }
+                            ?>
+                            <h4 class="mb-3">Total Collected: <span class="fw-bold text-success">AED <?php echo number_format($total_today, 2); ?></span></h4>
+                            <div class="d-flex flex-column gap-2 align-items-center">
+                                <?php
+                                foreach (['cash', 'card', 'online'] as $method):
+                                    $amount = $payment_breakdown[$method] ?? 0;
+                                    $percentage = $total_today > 0 ? round(($amount / $total_today) * 100, 1) : 0;
+                                ?>
+                                <div class="revenue-method-row bg-light rounded p-3 w-100 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="bi <?php echo $payment_icons[$method]; ?> me-2"></i>
+                                            <span class="fw-bold"><?php echo $payment_labels[$method]; ?>:</span>
+                                        </div>
+                                        <div>
+                                            <span class="fw-bold text-<?php echo $method == 'cash' ? 'success' : ($method == 'card' ? 'primary' : 'info'); ?>">
+                                                AED <?php echo number_format($amount, 2); ?>
+                                            </span>
+                                            <span class="badge bg-secondary ms-2"><?php echo $percentage; ?>%</span>
+                                        </div>
+                                    </div>
+                                    <?php if ($total_today > 0): ?>
+                                    <div class="progress mt-2" style="height: 5px;">
+                                        <div class="progress-bar bg-<?php echo $method == 'cash' ? 'success' : ($method == 'card' ? 'primary' : 'info'); ?>" 
+                                             style="width: <?php echo $percentage; ?>%"></div>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endforeach; ?>
+                                <!-- Summary -->
+                                <div class="mt-3 pt-2 border-top w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Total Transactions:</span>
+                                        <span class="fw-bold"><?php echo array_sum($payment_breakdown) > 0 ? count(array_filter($payment_breakdown)) : 0; ?></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

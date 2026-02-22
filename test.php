@@ -43,3 +43,6 @@ Deprecated: ucfirst(): Passing null to parameter #1 ($string) of type string is 
 
 
 Fatal error: Cannot redeclare isLoggedIn() (previously declared in /var/www/html/admin/includes/functions.php:37) in /var/www/html/includes/functions.php on line 206
+
+
+

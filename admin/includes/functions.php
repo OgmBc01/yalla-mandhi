@@ -33,6 +33,22 @@ function enforce_session_timeout() {
 
 /**
  * Check if logged in
+        // Today's payment method breakdown
+        $today = date('Y-m-d');
+        $sql = "SELECT payment_method, SUM(total_amount) as total FROM orders WHERE DATE(created_at) = '$today' AND payment_status = 'paid' GROUP BY payment_method";
+        $result = $connection->query($sql);
+        $stats['today_cash'] = 0;
+        $stats['today_card'] = 0;
+        $stats['today_debit'] = 0;
+        while ($row = $result->fetch_assoc()) {
+            if ($row['payment_method'] === 'cash') {
+                $stats['today_cash'] = $row['total'] ?? 0;
+            } elseif ($row['payment_method'] === 'card') {
+                $stats['today_card'] = $row['total'] ?? 0;
+            } elseif ($row['payment_method'] === 'online' || $row['payment_method'] === 'debit') {
+                $stats['today_debit'] = $row['total'] ?? 0;
+            }
+        }
  */
 function isLoggedIn() {
     return !empty($_SESSION['user_id']) && !empty($_SESSION['logged_in']);
