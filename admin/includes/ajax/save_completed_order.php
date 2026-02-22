@@ -1,15 +1,14 @@
+<?php
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-<?php
 session_start();
 require_once __DIR__ . '/../../../includes/database.php';
 require_once __DIR__ . '/../../../includes/functions.php';
 
 header('Content-Type: application/json');
-
 
 // Auth check
 if (!isset($_SESSION['user_id'])) {
@@ -51,7 +50,6 @@ try {
     $order_number = generateOrderNumber($connection, $date_prefix);
     $invoice_number = 'INV-' . $date_prefix . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
     
-
     // Get order data from drafts
     $stmt = $connection->prepare("SELECT data FROM pos_order_drafts WHERE id = ?");
     $stmt->bind_param("s", $order_id);
@@ -81,9 +79,9 @@ try {
     }
     
     $taxable_amount = $subtotal - $discount;
-    $tax = $taxable_amount * 0.15; // 15% tax
-    $delivery_fee = ($order_data['type'] === 'delivery') ? 10 : 0;
-    $total = $taxable_amount + $tax + $delivery_fee;
+    $tax = 0; // Tax set to 0
+    $delivery_fee = 0; // Delivery fee set to 0
+    $total = $taxable_amount; // Total is just taxable amount (subtotal - discount)
     $item_count = count($order_data['items'] ?? []);
     
     // Handle customer (find or create)
@@ -95,8 +93,6 @@ try {
     // Set payment status
     $payment_status = 'paid';
     
-
-
     // Prepare order data for insertion - align with SQL table
     $customer_name = $order_data['customer']['name'] ?? 'Guest';
     $customer_phone = $order_data['customer']['phone'] ?? '';
@@ -108,7 +104,7 @@ try {
     $branch_id = 1; // Default branch ID
 
     $sql = "INSERT INTO orders (
-        order_number, invoice_number, customer_name,
+        order_number, invoice_number, customer_id, customer_name,
         customer_name_snapshot, customer_phone, customer_phone_snapshot,
         customer_address, delivery_address_snapshot, order_type, 
         delivery_source, table_number, branch_id, subtotal, 
@@ -116,7 +112,7 @@ try {
         item_count, num_customers, order_status, payment_method, 
         payment_status, payment_reference, punched_by_admin_id, 
         closed_by_admin_id, closed_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), NOW())";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), NOW())";
 
     $stmt = $connection->prepare($sql);
     if (!$stmt) {
@@ -125,37 +121,42 @@ try {
     }
 
     $params = [
-        $order_number ?: '',                      // order_number (s)
-        $invoice_number ?: '',                    // invoice_number (s)
-        $customer_name ?: '',                     // customer_name (s)
-        $customer_name ?: '',                     // customer_name_snapshot (s)
-        $customer_phone ?: '',                    // customer_phone (s)
-        $customer_phone ?: '',                    // customer_phone_snapshot (s)
-        $customer_address ?: '',                  // customer_address (s)
-        $customer_address ?: '',                  // delivery_address_snapshot (s)
-        $order_type ?: '',                        // order_type (s)
-        $delivery_source ?: '',                   // delivery_source (s)
-        $table_number ?: '',                      // table_number (s)
-        $branch_id,                               // branch_id (i)
-        $subtotal,                                // subtotal (d)
-        $discount,                                // discount_amount (d)
-        $tax,                                     // tax_amount (d)
-        $delivery_fee,                            // delivery_fee (d)
-        $total,                                   // total_amount (d)
-        $item_count,                              // item_count (i)
-        $num_customers,                           // num_customers (i)
-        'closed',                                 // order_status (s)
-        $payment_method ?: '',                    // payment_method (s)
-        $payment_status ?: '',                    // payment_status (s)
-        $payment_reference ?: '',                 // payment_reference (s)
-        $user_id,                                 // punched_by_admin_id (i)
-        $user_id,                                 // closed_by_admin_id (i)
+        $order_number,                          // order_number (s)
+        $invoice_number,                        // invoice_number (s)
+        $customer_id,                           // customer_id (i) - can be null
+        $customer_name,                         // customer_name (s)
+        $customer_name,                         // customer_name_snapshot (s)
+        $customer_phone,                        // customer_phone (s)
+        $customer_phone,                        // customer_phone_snapshot (s)
+        $customer_address,                       // customer_address (s)
+        $customer_address,                       // delivery_address_snapshot (s)
+        $order_type,                            // order_type (s)
+        $delivery_source,                        // delivery_source (s)
+        $table_number,                           // table_number (s)
+        $branch_id,                              // branch_id (i)
+        $subtotal,                               // subtotal (d)
+        $discount,                               // discount_amount (d)
+        $tax,                                    // tax_amount (d) - set to 0
+        $delivery_fee,                           // delivery_fee (d) - set to 0
+        $total,                                  // total_amount (d)
+        $item_count,                             // item_count (i)
+        $num_customers,                          // num_customers (i)
+        'closed',                                // order_status (s)
+        $payment_method,                         // payment_method (s)
+        $payment_status,                         // payment_status (s)
+        $payment_reference,                       // payment_reference (s)
+        $user_id,                                // punched_by_admin_id (i)
+        $user_id,                                // closed_by_admin_id (i)
     ];
-    $types = "sssssssssssiddddiiissssii";
-    $types = str_replace(' ', '', $types);
+
+    // Define types string - 26 parameters (25 variables + 1 for customer_id which can be null)
+    $types = "ssissssssssiddddiiissssii";
+    
+    // Count parameters to verify
     if (strlen($types) !== count($params)) {
-        throw new Exception("Type string length (" . strlen($types) . ") does not match parameter count (" . count($params) . ")\nTypes: " . $types . "\nParams: " . print_r($params, true));
+        throw new Exception("Type string length (" . strlen($types) . ") does not match parameter count (" . count($params) . ")");
     }
+    
     $stmt->bind_param($types, ...$params);
 
     if (!$stmt->execute()) {
@@ -344,3 +345,4 @@ function logAudit($connection, $user_id, $action, $entity_type, $entity_id, $old
     $stmt->execute();
     $stmt->close();
 }
+?>

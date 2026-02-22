@@ -77,8 +77,8 @@ try {
     }
     
     $taxable_amount = $subtotal - $discount;
-    $tax = $taxable_amount * 0.15; // 15% tax
-    $delivery_fee = ($order_data['type'] === 'delivery') ? 10 : 0;
+    $tax = 0; // Always 0 as per new logic
+    $delivery_fee = ($order_data['type'] === 'delivery' && isset($order_data['delivery_fee'])) ? floatval($order_data['delivery_fee']) : 0;
     $total = $taxable_amount + $tax + $delivery_fee;
     $item_count = count($order_data['items'] ?? []);
     
@@ -142,8 +142,8 @@ try {
         $branch_id,
         $subtotal,
         $discount,
-        $tax,
-        $delivery_fee,
+        $tax, // always 0
+        $delivery_fee, // from draft or 0
         $total,
         $item_count,
         $num_customers,

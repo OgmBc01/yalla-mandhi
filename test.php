@@ -38,3 +38,8 @@ secondary">
 Warning: Undefined array key "status" in /var/www/html/admin/dashboard.php on line 283
 
 Deprecated: ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/admin/dashboard.php on line 283
+
+
+
+
+Fatal error: Cannot redeclare isLoggedIn() (previously declared in /var/www/html/admin/includes/functions.php:37) in /var/www/html/includes/functions.php on line 206

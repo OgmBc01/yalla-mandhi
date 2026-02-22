@@ -142,11 +142,15 @@ if ($categories && $categories->num_rows > 0) {
             
             <!-- Delivery Fee (conditional) -->
             <div class="summary-row d-flex justify-content-between align-items-center py-2" id="deliveryFeeRow" style="display: none;">
-                <span class="summary-label">
-                    <i class="bi bi-truck me-2" style="color: #2ecc71;"></i>Delivery Fee:
-                </span>
-                <span class="summary-value" id="summaryDeliveryFee">0.00 AED</span>
-            </div>
+                    <span class="summary-label">
+                        <i class="bi bi-truck me-2" style="color: #2ecc71;"></i>Delivery Fee:
+                    </span>
+                    <div class="input-group input-group-sm" style="width: 110px;">
+                        <input type="number" class="form-control form-control-sm" id="deliveryFeeInput" value="0" min="0" step="0.01" style="border-color: #2ecc71; text-align: right; font-weight: 600;">
+                        <span class="input-group-text bg-white" style="border-color: #2ecc71;">AED</span>
+                    </div>
+                    <span class="summary-value ms-2" id="summaryDeliveryFee">0.00 AED</span>
+                </div>
             
             <!-- Divider -->
             <div class="dropdown-divider my-2"></div>
@@ -862,8 +866,10 @@ function calculateFinancials() {
     
     let deliveryFee = 0;
     if (order.type === 'delivery') {
-        deliveryFee = 10;
         $('#deliveryFeeRow').show();
+        // Use the value from the input, default to 0
+        let inputVal = parseFloat($('#deliveryFeeInput').val());
+        deliveryFee = isNaN(inputVal) ? 0 : inputVal;
     } else {
         $('#deliveryFeeRow').hide();
     }
@@ -1047,15 +1053,26 @@ function renderOrder() {
     }
 
     let finances = calculateFinancials();
-    
     $('#summarySubtotal').text(finances.subtotal.toFixed(2) + ' AED');
     $('#summaryDiscount').text('-' + finances.discount.toFixed(2) + ' AED');
     $('#summaryTax').text(finances.tax.toFixed(2) + ' AED');
     $('#summaryDeliveryFee').text(finances.deliveryFee.toFixed(2) + ' AED');
     $('#orderTotal').text(finances.total.toFixed(2) + ' AED');
-    
+    // Set delivery fee input value if delivery
+    if (order.type === 'delivery') {
+        $('#deliveryFeeInput').val(order.delivery_fee !== undefined ? order.delivery_fee : 0);
+    }
     $('#btnSendKitchen, #btnPrint').prop('disabled', order.items.length === 0);
     saveDraftOrders();
+// Delivery fee input handler
+$(document).on('input', '#deliveryFeeInput', function() {
+    let order = orders.find(o => o.id === activeOrderId);
+    if (order && order.type === 'delivery') {
+        let val = parseFloat($(this).val());
+        order.delivery_fee = isNaN(val) ? 0 : val;
+        renderOrder();
+    }
+});
 }
 
 function ordersChanged() {

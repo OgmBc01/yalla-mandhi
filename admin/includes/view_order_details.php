@@ -255,7 +255,17 @@ $status_transitions = [
                                     <?php endif; ?>
                                     <tr>
                                         <th colspan="3" class="text-end">Grand Total:</th>
-                                        <th class="text-end"><?php echo number_format($order['total_amount'], 2); ?> AED</th>
+                                        <th class="text-end">
+                                            <?php
+                                            // Only show subtotal + delivery_fee (if any), no tax
+                                            $delivery_fee = isset($order['delivery_fee']) ? floatval($order['delivery_fee']) : 0;
+                                            $grand_total = $subtotal + $delivery_fee;
+                                            echo number_format($grand_total, 2) . ' AED';
+                                            if ($delivery_fee > 0) {
+                                                echo '<br><span class="badge bg-info">Delivery: ' . number_format($delivery_fee, 2) . ' AED</span>';
+                                            }
+                                            ?>
+                                        </th>
                                     </tr>
                                 </tfoot>
                             </table>

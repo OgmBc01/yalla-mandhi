@@ -35,11 +35,13 @@ if (!empty($data['id'])) {
             WHERE id = ? AND order_status = 'draft'";
         
         $stmt = $connection->prepare($update_sql);
+        $delivery_fee = isset($data['delivery_fee']) ? floatval($data['delivery_fee']) : 0;
+        $tax_amount = 0;
         $stmt->bind_param(
             "ssssssdddddsii",
             $data['type'], $data['delivery_source'], $data['table_number'],
             $data['customer']['name'], $data['customer']['phone'], $data['customer']['address'],
-            $data['subtotal'], $data['tax'], $data['delivery_fee'], $data['discount'], $data['total'],
+            $data['subtotal'], $tax_amount, $delivery_fee, $data['discount'], $data['total'],
             $data['payment_method'], $_SESSION['user_id'], $order_id
         );
         $stmt->execute();
@@ -93,11 +95,13 @@ if (!empty($data['id'])) {
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, NOW(), NOW())";
         
         $stmt = $connection->prepare($insert_sql);
+        $delivery_fee = isset($data['delivery_fee']) ? floatval($data['delivery_fee']) : 0;
+        $tax_amount = 0;
         $stmt->bind_param(
             "sssssssddddddsi",
             $order_number, $data['type'], $data['delivery_source'], $data['table_number'],
             $data['customer']['name'], $data['customer']['phone'], $data['customer']['address'],
-            $data['subtotal'], $data['tax'], $data['delivery_fee'], $data['discount'], $data['total'],
+            $data['subtotal'], $tax_amount, $delivery_fee, $data['discount'], $data['total'],
             $data['payment_method'], $_SESSION['user_id']
         );
         $stmt->execute();

@@ -307,7 +307,13 @@ $payment_status_badges = [
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center"><?php echo $order['item_count']; ?></td>
-                                    <td><strong><?php echo number_format($order['total_amount'], 2); ?> AED</strong></td>
+                                    <td>
+                                        <strong><?php echo number_format($order['total_amount'], 2); ?> AED</strong>
+                                        <?php if ($order['delivery_fee'] > 0): ?>
+                                            <br>
+                                            <span class="badge bg-info">Delivery: <?php echo number_format($order['delivery_fee'], 2); ?> AED</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <span class="badge bg-<?php echo $status_badges[$order['order_status']] ?? 'secondary'; ?>">
                                             <?php echo ucfirst(str_replace('_', ' ', $order['order_status'])); ?>
@@ -348,6 +354,12 @@ $payment_status_badges = [
                                             </button>
                                             <?php endif; ?>
                                         </div>
+                                        <?php if (in_array($order['order_status'], ['completed', 'ready'])): ?>
+                                            <form method="POST" action="orders.php?source=update_delivery_fee&id=<?php echo $order['id']; ?>" class="mt-2">
+                                                <input type="number" step="0.01" min="0" name="delivery_fee" value="<?php echo $order['delivery_fee']; ?>" class="form-control form-control-sm" style="width: 100px; display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-info">Update Delivery</button>
+                                            </form>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
