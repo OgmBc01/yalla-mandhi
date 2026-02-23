@@ -47,6 +47,61 @@ $monthly_revenue = getMonthlyRevenue($connection, date('Y'));
                 <h2 class="h4">Dashboard Overview</h2>
                 <p class="text-muted">Welcome back, <strong><?php echo htmlspecialchars($current_user['username']); ?></strong>! Here's what's happening today at Yalla Al Mandi.</p>
             </div>
+                    <!-- Quick Navigation Shortcuts -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap gap-3 justify-content-start align-items-center">
+                                <a href="orders.php?source=add_order" class="btn btn-outline-success btn-lg d-flex align-items-center gap-2" title="New Order">
+                                    <i class="bi bi-plus-circle"></i> New Order
+                                </a>
+                                <a href="orders.php?source=order_list" class="btn btn-outline-info btn-lg d-flex align-items-center gap-2" title="All Orders">
+                                    <i class="bi bi-card-checklist"></i> All Orders
+                                </a>
+                                <a href="orders.php?source=online_orders" class="btn btn-outline-warning btn-lg d-flex align-items-center gap-2" title="Online Orders">
+                                    <i class="bi bi-globe"></i> Online Orders
+                                </a>
+                                <a href="orders.php?source=kitchen_display" class="btn btn-outline-secondary btn-lg d-flex align-items-center gap-2" title="Kitchen Display">
+                                    <i class="bi bi-tv"></i> Kitchen Display
+                                </a>
+                                <a href="menu_items.php" class="btn btn-outline-warning btn-lg d-flex align-items-center gap-2" title="View Menu Items">
+                                    <i class="bi bi-card-checklist"></i> Menu Items
+                                </a>
+                                <a href="categories.php" class="btn btn-outline-danger btn-lg d-flex align-items-center gap-2" title="Categories">
+                                    <i class="bi bi-tags"></i> Categories
+                                </a>
+                                <a href="customers.php?source=add_customer" class="btn btn-outline-primary btn-lg d-flex align-items-center gap-2" title="Add Customer">
+                                    <i class="bi bi-person-plus"></i> Add Customer
+                                </a>
+                                <a href="customers.php" class="btn btn-outline-success btn-lg d-flex align-items-center gap-2" title="View Customers">
+                                    <i class="bi bi-person-lines-fill"></i> Customers
+                                </a>
+                                <a href="branches.php" class="btn btn-outline-warning btn-lg d-flex align-items-center gap-2" title="View Branches">
+                                    <i class="bi bi-card-checklist"></i> Branches
+                                </a>
+                                <a href="employees.php?source=add_employee" class="btn btn-outline-info btn-lg d-flex align-items-center gap-2" title="Add Employee">
+                                    <i class="bi bi-person-plus"></i> Add Employee
+                                </a>
+                                <a href="employees.php" class="btn btn-outline-warning btn-lg d-flex align-items-center gap-2" title="View Employees">
+                                    <i class="bi bi-person-lines-fill"></i> Employees
+                                </a>
+                                <a href="shifts.php?source=add_shift" class="btn btn-outline-danger btn-lg d-flex align-items-center gap-2" title="Add Shift">
+                                    <i class="bi bi-plus-circle"></i> Add Shift
+                                </a>
+                                <a href="shifts.php" class="btn btn-outline-primary btn-lg d-flex align-items-center gap-2" title="View Shifts">
+                                    <i class="bi bi-card-checklist"></i> Shifts
+                                </a>
+                                <a href="shifts.php?source=attendance" class="btn btn-outline-success btn-lg d-flex align-items-center gap-2" title="Attendance">
+                                    <i class="bi bi-calendar-check"></i> Attendance
+                                </a>
+                                <a href="reports.php" class="btn btn-outline-info btn-lg d-flex align-items-center gap-2" title="Reports">
+                                    <i class="bi bi-graph-up"></i> Reports
+                                </a>
+                                <a href="settings.php" class="btn btn-outline-warning btn-lg d-flex align-items-center gap-2" title="Settings">
+                                    <i class="bi bi-gear"></i> Settings
+                                </a>
+                            </div>
+                        </div>
+                    </div>
         </div>
         
         <!-- Stats Row -->
