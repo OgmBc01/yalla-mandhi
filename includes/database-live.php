@@ -1,4 +1,6 @@
 <?php
+// Set default timezone to UAE
+date_default_timezone_set('Asia/Dubai');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'u545186277_yalla');
 define('DB_PASS', 'Bravo555$$'); 
@@ -14,9 +16,12 @@ function getDBConnection() {
                 throw new Exception("Connection failed: " . $conn->connect_error);
             }
             
-            // Set charset to utf8mb4
             $conn->set_charset("utf8mb4");
             
+            // Set charset to utf8mb4
+            $conn->set_charset("utf8mb4");
+            // Set MySQL timezone to UAE
+            $conn->query("SET time_zone = '+04:00'");
         } catch (Exception $e) {
             error_log("Database connection error: " . $e->getMessage());
             return null;
