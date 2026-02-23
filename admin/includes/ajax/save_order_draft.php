@@ -32,18 +32,19 @@ if (!empty($data['id'])) {
             customer_name_snapshot = ?, customer_phone_snapshot = ?, delivery_address_snapshot = ?,
             subtotal = ?, tax_amount = ?, delivery_fee = ?, discount_amount = ?, total_amount = ?,
             payment_method = ?, updated_at = NOW(), last_updated_by = ?
-            WHERE id = ? AND order_status = 'draft'";
+                , order_status = ? WHERE id = ?";
         
         $stmt = $connection->prepare($update_sql);
         $delivery_fee = isset($data['delivery_fee']) ? floatval($data['delivery_fee']) : 0;
         $tax_amount = 0;
-        $stmt->bind_param(
-            "ssssssdddddsii",
-            $data['type'], $data['delivery_source'], $data['table_number'],
-            $data['customer']['name'], $data['customer']['phone'], $data['customer']['address'],
-            $data['subtotal'], $tax_amount, $delivery_fee, $data['discount'], $data['total'],
-            $data['payment_method'], $_SESSION['user_id'], $order_id
-        );
+            $order_status = $data['order_status'] ?? 'pending';
+            $stmt->bind_param(
+                "ssssssdddddsisi",
+                $data['type'], $data['delivery_source'], $data['table_number'],
+                $data['customer']['name'], $data['customer']['phone'], $data['customer']['address'],
+                $data['subtotal'], $tax_amount, $delivery_fee, $data['discount'], $data['total'],
+                $data['payment_method'], $_SESSION['user_id'], $order_status, $order_id
+            );
         $stmt->execute();
         $stmt->close();
         

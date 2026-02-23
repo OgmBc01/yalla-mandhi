@@ -108,7 +108,7 @@ try {
         item_count, num_customers, order_status, payment_method, 
         payment_status, payment_reference, punched_by_admin_id, 
         closed_by_admin_id, closed_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'closed', ?, 'paid', ?, ?, ?, NOW(), NOW(), NOW())";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completed', ?, 'paid', ?, ?, ?, NOW(), NOW(), NOW())";
     
     $stmt = $connection->prepare($order_sql);
     

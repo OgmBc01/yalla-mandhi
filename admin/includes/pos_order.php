@@ -1628,19 +1628,20 @@ $(document).ready(function() {
         let type = $('#orderTypeSelect').val();
         if(!type) return alert('Select type');
         
-        let order = {
-            id: 'ORD' + Date.now(),
-            type: type,
-            delivery_source: $('#deliverySource').val(),
-            customer: {
-                name: $('#customerName').val() || 'Guest',
-                phone: $('#customerPhone').val() || '',
-                address: $('#customerAddress').val() || ''
-            },
-            table_number: type === 'dine_in' ? $('#tableNumber').val() : null,
-            num_customers: type === 'dine_in' ? $('#numCustomers').val() : null,
-            items: []
-        };
+            let order = {
+                id: 'ORD' + Date.now(),
+                type: type,
+                delivery_source: $('#deliverySource').val(),
+                customer: {
+                    name: $('#customerName').val() || 'Guest',
+                    phone: $('#customerPhone').val() || '',
+                    address: $('#customerAddress').val() || ''
+                },
+                table_number: type === 'dine_in' ? $('#tableNumber').val() : null,
+                num_customers: type === 'dine_in' ? $('#numCustomers').val() : null,
+                items: [],
+                order_status: 'pending'
+            };
         
         orders.push(order);
         activeOrderId = order.id;
@@ -1649,19 +1650,17 @@ $(document).ready(function() {
     });
 
     // Send to kitchen
-    $('#btnSendKitchen').click(function() {
-        if (!activeOrderId) return;
-        
-        let order = orders.find(o => o.id === activeOrderId);
-        if (!order || order.items.length === 0) {
-            alert('No items to send to kitchen');
-            return;
-        }
-        
-        order.status = 'sent_to_kitchen';
-        ordersChanged();
-        alert('Order sent to kitchen!');
-    });
+        $('#btnSendKitchen').click(function() {
+            if (!activeOrderId) return;
+            let order = orders.find(o => o.id === activeOrderId);
+            if (!order || order.items.length === 0) {
+                alert('No items to send to kitchen');
+                return;
+            }
+            order.order_status = 'in_preparation';
+            ordersChanged();
+            alert('Order sent to kitchen!');
+        });
 
     // Print receipt
     $('#btnPrint').click(function() {
@@ -1750,7 +1749,11 @@ $(document).ready(function() {
             openPaymentModal();
         } else {
             // Payment method already selected - close and save order
-            closeOrderAndSave();
+                let order = orders.find(o => o.id === activeOrderId);
+                if (order) {
+                    order.order_status = 'completed';
+                }
+                closeOrderAndSave();
         }
     });
 

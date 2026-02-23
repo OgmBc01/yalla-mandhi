@@ -46,3 +46,5 @@ Fatal error: Cannot redeclare isLoggedIn() (previously declared in /var/www/html
 
 
 
+
+Fatal error: Cannot use positional argument after argument unpacking in /var/www/html/admin/includes/view_all_orders.php on line 83

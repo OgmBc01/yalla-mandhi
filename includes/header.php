@@ -46,7 +46,7 @@ $currentUser = getCurrentUser();
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Yalla Al Mandi | Authentic Yemani Mandi Restaurant">
     <meta name="twitter:description" content="Experience authentic Yemani Mandi in a family-friendly atmosphere. Traditional flavors with modern presentation.">
-    <meta name="twitter:image" content="https://yallaalmandhi.com/resources/img/mandhi.jpg">
+    <meta name="twitter:image" content="https://yallaalmandhi.com/resources/img/menu_items/chicken_madhbi.jpg">
 </head>
 <body>
     <!-- ===== NAVIGATION ===== -->

@@ -7,25 +7,409 @@ if (session_status() === PHP_SESSION_NONE) {
 include 'includes/header.php';
 ?>
 
-    <!-- ===== HERO SECTION ===== -->
-    <section class="hero">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Mandi" class="hero-bg">
-        <div class="hero-content">
-            <h1 class="display-1">Authentic Yemani Mandi</h1>
-            <p class="lead">Experience the rich flavors of traditional Yemani cuisine in a warm, family-friendly atmosphere. Where every meal tells a story.</p>
-            <div class="hero-buttons">
-                <a href="menu.php" class="btn btn-primary btn-lg">
-                    <i class="bi bi-menu-button"></i> View Our Menu
-                </a>
-                <a href="contact.php" class="btn btn-secondary btn-lg">
-                    <i class="bi bi-calendar-check"></i> Book a Table
-                </a>
-                <a href="tel:+971503757274" class="btn btn-outline btn-lg">
-                    <i class="bi bi-telephone"></i> Call Now
-                </a>
+<style>
+/* Hero Slider Styles */
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 3;
+    width: 90%;
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-content .lead {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.dish-description {
+    background: rgba(0,0,0,0.6);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    border-left: 4px solid var(--color-red);
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dish-description i {
+    color: var(--color-red);
+    margin-right: 10px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* Slider Navigation */
+.slider-nav {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.slider-dot.active {
+    background: var(--color-red);
+    transform: scale(1.2);
+    border-color: white;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-arrow:hover {
+    background: var(--color-red);
+}
+
+.slider-arrow.prev {
+    left: 20px;
+}
+
+.slider-arrow.next {
+    right: 20px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-content .lead {
+        font-size: 1rem;
+    }
+    
+    .dish-description {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+    
+    .slider-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .slider-arrow.prev {
+        left: 10px;
+    }
+    
+    .slider-arrow.next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-buttons .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<!-- ===== HERO SLIDER SECTION ===== -->
+<section class="hero">
+    <div class="hero-slider">
+        <!-- Slide 1: Chicken Mandi -->
+            <div class="hero-slide active" data-slide="1">
+                <img src="resources/img/menu_items/chicken_mandi.jpg" 
+                     alt="Chicken Mandi" 
+                     class="hero-bg">
+            <div class="hero-content">
+                <h1>Authentic Chicken Mandi</h1>
+                <p class="lead">Our signature dish, loved by thousands</p>
+                <div class="dish-description">
+                    <i class="bi bi-quote"></i>
+                    Tender chicken marinated in traditional Yemani spices, slow-cooked to perfection over charcoal, served with fragrant basmati rice infused with saffron and topped with caramelized onions and nuts. A true taste of Yemen that melts in your mouth.
+                </div>
+                <div class="hero-buttons">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
+                        <i class="bi bi-menu-button"></i> View Full Menu
+                    </a>
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-calendar-check"></i> Book a Table
+                    </a>
+                </div>
             </div>
         </div>
-    </section>
+        
+        <!-- Slide 2: Mutton Mandi -->
+            <div class="hero-slide" data-slide="2">
+                <img src="resources/img/menu_items/mutton_mandi.jpg" 
+                     alt="Mutton Mandi" 
+                     class="hero-bg">
+            <div class="hero-content">
+                <h1>Succulent Mutton Mandi</h1>
+                <p class="lead">Slow-cooked to perfection</p>
+                <div class="dish-description">
+                    <i class="bi bi-quote"></i>
+                    Premium mutton pieces marinated in a secret blend of Yemani spices, cooked in a traditional tandoor until fork-tender. Served with aromatic mandi rice, roasted nuts, and a side of tangy tomato salsa. Each bite is a journey through Yemen's culinary heritage.
+                </div>
+                <div class="hero-buttons">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
+                        <i class="bi bi-menu-button"></i> View Full Menu
+                    </a>
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-calendar-check"></i> Book a Table
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Chicken Madhbi -->
+            <div class="hero-slide" data-slide="3">
+                <img src="resources/img/menu_items/chicken_madhbi.jpg" 
+                     alt="Chicken Madhbi" 
+                     class="hero-bg">
+            <div class="hero-content">
+                <h1>Traditional Chicken Madhbi</h1>
+                <p class="lead">Grilled to smoky perfection</p>
+                <div class="dish-description">
+                    <i class="bi bi-quote"></i>
+                    Whole chicken split and pressed on hot stones, grilled over charcoal until the skin is crispy and the meat is juicy. Marinated with a unique blend of Yemani spices and served with flatbread, fresh salad, and our signature garlic sauce. A rustic favorite!
+                </div>
+                <div class="hero-buttons">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
+                        <i class="bi bi-menu-button"></i> View Full Menu
+                    </a>
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-calendar-check"></i> Book a Table
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Mutton Madhbi -->
+            <div class="hero-slide" data-slide="4">
+                <img src="resources/img/menu_items/mutton_madhbi.jpg" 
+                     alt="Mutton Madhbi" 
+                     class="hero-bg">
+            <div class="hero-content">
+                <h1>Signature Mutton Madhbi</h1>
+                <p class="lead">A true Yemani delicacy</p>
+                <div class="dish-description">
+                    <i class="bi bi-quote"></i>
+                    Tender mutton chops pressed and grilled on hot stones, locking in all the natural juices and smoky flavors. Marinated with traditional Yemani spices and served with fragrant rice, grilled tomatoes, and a side of tangy yogurt sauce. An unforgettable culinary experience.
+                </div>
+                <div class="hero-buttons">
+                    <a href="menu.php" class="btn btn-primary btn-lg">
+                        <i class="bi bi-menu-button"></i> View Full Menu
+                    </a>
+                    <a href="contact.php" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-calendar-check"></i> Book a Table
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slider Navigation Arrows -->
+    <button class="slider-arrow prev" onclick="changeSlide(-1)">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+    <button class="slider-arrow next" onclick="changeSlide(1)">
+        <i class="bi bi-chevron-right"></i>
+    </button>
+    
+    <!-- Slider Dots -->
+    <div class="slider-nav">
+        <span class="slider-dot active" onclick="currentSlide(1)"></span>
+        <span class="slider-dot" onclick="currentSlide(2)"></span>
+        <span class="slider-dot" onclick="currentSlide(3)"></span>
+        <span class="slider-dot" onclick="currentSlide(4)"></span>
+    </div>
+</section>
+
+<script>
+let slideIndex = 1;
+let autoSlideInterval;
+
+// Initialize slider
+function showSlides(n) {
+    const slides = document.getElementsByClassName("hero-slide");
+    const dots = document.getElementsByClassName("slider-dot");
+    
+    if (n > slides.length) { slideIndex = 1; }
+    if (n < 1) { slideIndex = slides.length; }
+    
+    // Hide all slides
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("active");
+    }
+    
+    // Remove active class from all dots
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+    
+    // Show current slide and activate current dot
+    slides[slideIndex - 1].classList.add("active");
+    dots[slideIndex - 1].classList.add("active");
+    
+    // Reset auto-slide timer
+    resetAutoSlide();
+}
+
+function changeSlide(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+// Auto-slide function
+function startAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        changeSlide(1);
+    }, 5000); // Change slide every 5 seconds
+}
+
+function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+}
+
+// Pause auto-slide when hovering over slider
+document.querySelector('.hero').addEventListener('mouseenter', () => {
+    clearInterval(autoSlideInterval);
+});
+
+document.querySelector('.hero').addEventListener('mouseleave', () => {
+    startAutoSlide();
+});
+
+// Start auto-slide when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    startAutoSlide();
+});
+
+// Touch support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelector('.hero').addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.querySelector('.hero').addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - next slide
+        changeSlide(1);
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - previous slide
+        changeSlide(-1);
+    }
+}
+</script>
 
     <!-- ===== BRAND INTRODUCTION ===== -->
     <section class="section-padding" style="background-color: var(--color-beige);">
@@ -67,98 +451,69 @@ include 'includes/header.php';
                 <p class="lead">Taste our most beloved creations, crafted with generations of expertise.</p>
             </div>
             
-            <?php
-            // Check if we have a database connection
-            if ($connection):
-                // Fetch featured menu items (3 most recent featured dishes)
-                $featured_query = "SELECT mi.*, mc.name as category_name 
-                                FROM menu_items mi 
-                                LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
-                                WHERE mi.is_featured = 1 AND mi.is_available = 1 
-                                ORDER BY mi.created_at DESC 
-                                LIMIT 3";
-                
-                $featured_result = $connection->query($featured_query);
-                
-                if ($featured_result && $featured_result->num_rows > 0):
-                ?>
-                    <div class="menu-grid">
-                        <?php while ($dish = $featured_result->fetch_assoc()): 
-                            // Determine image source
-                            if (!empty($dish['image_url'])) {
-                                // Use web root relative path for images
-                                $dish_image = 'uploads/menu/' . htmlspecialchars($dish['image_url']);
-                                // Check if file exists, otherwise use fallback
-                                if (!file_exists($dish_image)) {
-                                    $dish_image = 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                                }
-                            } else {
-                                // Fallback image
-                                $dish_image = 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                            }
-                            
-                            // Format price
-                            $formatted_price = 'AED ' . number_format($dish['price'], 2);
-                            
-                            // Shorten description if too long
-                            $short_description = !empty($dish['description']) ? 
-                                (strlen($dish['description']) > 120 
-                                    ? substr($dish['description'], 0, 120) . '...' 
-                                    : $dish['description']) 
-                                : 'A delicious signature dish from our kitchen.';?>
-
-                            <div class="menu-card">
-                                <img src="<?php echo $dish_image; ?>" 
-                                    alt="<?php echo htmlspecialchars($dish['name']); ?>" 
-                                    class="menu-img"
-                                    loading="lazy"
-                                    onerror="this.src='https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-                                <div class="menu-content">
-                                    <span class="menu-tag">Signature</span>
-                                    <div class="menu-header">
-                                        <h3 class="menu-title"><?php echo htmlspecialchars($dish['name']); ?></h3>
-                                        <span class="menu-price"><?php echo $formatted_price; ?></span>
-                                    </div>
-                                    <p><?php echo htmlspecialchars($short_description); ?></p>
-                                    
-                                    <?php if (!empty($dish['category_name'])): ?>
-                                        <div class="menu-footer">
-                                            <small class="text-muted">
-                                                <i class="bi bi-tag me-1"></i>
-                                                <?php echo htmlspecialchars($dish['category_name']); ?>
-                                            </small>
+                <?php
+                // Enhanced: Use existing featured dishes code, but with improved image and description handling
+                if (isset($connection) && $connection):
+                    $featured_query = "SELECT mi.*, mc.name as category_name 
+                                    FROM menu_items mi 
+                                    LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
+                                    WHERE mi.is_featured = 1 AND mi.is_available = 1 
+                                    ORDER BY mi.created_at DESC 
+                                    LIMIT 3";
+                    $featured_result = $connection->query($featured_query);
+                    if ($featured_result && $featured_result->num_rows > 0):
+                    ?>
+                        <div class="menu-grid">
+                            <?php while ($dish = $featured_result->fetch_assoc()): 
+                                $dish_image = !empty($dish['image_url']) ? 'uploads/menu/' . htmlspecialchars($dish['image_url']) : 'https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                                $short_description = !empty($dish['description']) ? (strlen($dish['description']) > 120 ? substr($dish['description'], 0, 120) . '...' : $dish['description']) : 'A delicious signature dish from our kitchen.';?>
+                                <div class="menu-card">
+                                    <img src="<?php echo $dish_image; ?>" 
+                                         alt="<?php echo htmlspecialchars($dish['name']); ?>" 
+                                         class="menu-img"
+                                         loading="lazy">
+                                    <div class="menu-content">
+                                        <span class="menu-tag">Signature</span>
+                                        <div class="menu-header">
+                                            <h3 class="menu-title"><?php echo htmlspecialchars($dish['name']); ?></h3>
+                                            <span class="menu-price">AED <?php echo number_format($dish['price'], 2); ?></span>
                                         </div>
-                                    <?php endif; ?>
+                                        <p><?php echo htmlspecialchars($short_description); ?></p>
+                                        <?php if (!empty($dish['category_name'])): ?>
+                                            <div class="menu-footer">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-tag me-1"></i>
+                                                    <?php echo htmlspecialchars($dish['category_name']); ?>
+                                                </small>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
+                            <?php endwhile; ?>
+                        </div>
+                        <div class="text-center" style="margin-top: 40px;">
+                            <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-center py-5">
+                            <div class="mb-4">
+                                <i class="bi bi-egg-fried display-1 text-muted"></i>
                             </div>
-                        <?php endwhile; ?>
-                    </div>
-                    
-                    <div class="text-center" style="margin-top: 40px;">
-                        <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
-                    </div>
+                            <h4 class="mb-3">No Featured Dishes Available</h4>
+                            <p class="text-muted mb-4">Check back soon for our signature creations!</p>
+                            <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
-                    <!-- Fallback if no featured dishes found -->
                     <div class="text-center py-5">
                         <div class="mb-4">
-                            <i class="bi bi-egg-fried display-1 text-muted"></i>
+                            <i class="bi bi-database-exclamation display-1 text-muted"></i>
                         </div>
-                        <h4 class="mb-3">No Featured Dishes Available</h4>
-                        <p class="text-muted mb-4">Check back soon for our signature creations!</p>
+                        <h4 class="mb-3">Featured Dishes Temporarily Unavailable</h4>
+                        <p class="text-muted mb-4">Please visit our full menu to see all our delicious dishes.</p>
                         <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
                     </div>
                 <?php endif; ?>
-            <?php else: ?>
-                <!-- Fallback if database connection failed -->
-                <div class="text-center py-5">
-                    <div class="mb-4">
-                        <i class="bi bi-database-exclamation display-1 text-muted"></i>
-                    </div>
-                    <h4 class="mb-3">Featured Dishes Temporarily Unavailable</h4>
-                    <p class="text-muted mb-4">Please visit our full menu to see all our delicious dishes.</p>
-                    <a href="menu.php" class="btn btn-secondary btn-lg">View Full Menu <i class="bi bi-arrow-right"></i></a>
-                </div>
-            <?php endif; ?>
         </div>
     </section>
 
