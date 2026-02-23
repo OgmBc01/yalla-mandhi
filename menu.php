@@ -19,649 +19,470 @@ include 'includes/header.php';
         </div>
     </section>
 
+    <?php
+    // Category icon mapping
+    $category_icons = [
+        'signature' => 'bi-star-fill',
+        'grills' => 'bi-fire',
+        'rice' => 'bi-egg-fried',
+        'appetizers' => 'bi-basket',
+        'family' => 'bi-people',
+        'kids' => 'bi-emoji-smile',
+        'beverages' => 'bi-cup-straw',
+        'desserts' => 'bi-cake2',
+        'default' => 'bi-tag'
+    ];
+
+    // Fetch all active categories
+    $categories_query = "SELECT 
+        c.*,
+        COUNT(mi.id) as item_count
+        FROM menu_categories c
+        LEFT JOIN menu_items mi ON c.id = mi.category_id AND mi.is_available = 1
+        WHERE c.is_active = 1
+        GROUP BY c.id
+        ORDER BY c.sort_order ASC, c.name ASC";
+
+    $categories_result = $connection->query($categories_query);
+
+    if (!$categories_result) {
+        die('Error fetching categories: ' . $connection->error);
+    }
+
+    // Fetch all menu items
+    $menu_items_query = "SELECT 
+        mi.*,
+        mc.name as category_name
+        FROM menu_items mi
+        JOIN menu_categories mc ON mi.category_id = mc.id
+        WHERE mi.is_available = 1 AND mc.is_active = 1
+        ORDER BY mc.sort_order, mi.name";
+
+    $menu_items_result = $connection->query($menu_items_query);
+
+    if (!$menu_items_result) {
+        die('Error fetching menu items: ' . $connection->error);
+    }
+
+    // Group menu items by category
+    $menu_by_category = [];
+    while ($item = $menu_items_result->fetch_assoc()) {
+        $menu_by_category[$item['category_id']][] = $item;
+    }
+
+    // Function to generate section ID from category name
+    function getSectionId($category_name) {
+        $name = strtolower($category_name);
+        $name = preg_replace('/[^a-z0-9]+/', '-', $name);
+        return trim($name, '-');
+    }
+    ?>
+
+    <style>
+    /* Reduced category button size */
+    .menu-category-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin: 5px 0;
+    }
+
+    .menu-category-btn {
+        padding: 4px 10px !important;
+        font-size: 0.8rem !important;
+        border-radius: 20px !important;
+        white-space: nowrap;
+        border: 1px solid var(--color-red) !important;
+        color: var(--color-red) !important;
+        background: transparent !important;
+    }
+
+    .menu-category-btn i {
+        font-size: 0.8rem;
+        margin-right: 3px;
+    }
+
+    .menu-category-btn:hover,
+    .menu-category-btn.active {
+        background: var(--color-red) !important;
+        color: white !important;
+    }
+
+    /* Reduced section padding */
+    .section-padding {
+        padding: 25px 0 !important;
+    }
+
+    .section-padding:first-of-type {
+        padding-top: 15px !important;
+    }
+
+    /* Menu card styles */
+    .menu-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(196,30,58,0.15);
+    }
+
+    .menu-img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .menu-content {
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-tag {
+        display: inline-block;
+        padding: 3px 8px;
+        background: var(--color-red);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        align-self: flex-start;
+    }
+
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .menu-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-dark-brown);
+        margin: 0;
+    }
+
+    .menu-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-red);
+    }
+
+    .menu-description {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 10px;
+        line-height: 1.4;
+        flex: 1;
+    }
+
+    .inventory-badge {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+        border-radius: 12px;
+        background: var(--color-olive);
+        color: white;
+        display: inline-block;
+        margin-top: 5px;
+        align-self: flex-start;
+    }
+
+    .inventory-badge.low {
+        background: #f39c12;
+    }
+
+    .inventory-badge.out {
+        background: #e74c3c;
+    }
+
+    /* Category navigation sticky */
+    .menu-category-nav {
+        position: sticky;
+        top: 60px;
+        z-index: 100;
+        background: var(--color-beige);
+        padding: 8px 0;
+    }
+
+    /* Menu grid */
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    /* Section title */
+    .display-2 {
+        font-size: 1.8rem !important;
+        margin-bottom: 5px !important;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+        color: var(--color-olive);
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .lead {
+        font-size: 0.95rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .menu-category-nav {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: flex-start;
+            padding: 8px 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .menu-category-btn {
+            flex: 0 0 auto;
+        }
+        
+        .section-padding {
+            padding: 20px 0 !important;
+        }
+        
+        .menu-img {
+            height: 140px;
+        }
+    }
+    </style>
+
     <!-- ===== MENU CATEGORIES NAVIGATION ===== -->
-    <section class="section-padding" style="background-color: var(--color-beige); position: sticky; top: 70px; z-index: 100; padding: 20px 0;">
+    <section class="section-padding" style="background-color: var(--color-beige); position: sticky; top: 60px; z-index: 100; padding: 10px 0;">
+        <div class="container">
+            <div class="text-center mb-1">
+                <h2 style="margin-bottom: 0; font-size: 1.2rem; color: var(--color-red);">Menu Categories</h2>
+            </div>
+            
+            <?php if ($categories_result->num_rows > 0): ?>
+            <div class="menu-category-nav">
+                <?php 
+                $categories_result->data_seek(0);
+                while ($category = $categories_result->fetch_assoc()): 
+                    $icon = isset($category_icons[strtolower($category['name'])]) ? $category_icons[strtolower($category['name'])] : $category_icons['default'];
+                    $section_id = getSectionId($category['name']);
+                ?>
+                <a href="#<?php echo $section_id; ?>" class="btn menu-category-btn" data-category="<?php echo $category['id']; ?>">
+                    <i class="bi <?php echo $icon; ?>"></i> <?php echo htmlspecialchars($category['name']); ?>
+                </a>
+                <?php endwhile; ?>
+            </div>
+            <?php else: ?>
+            <p class="text-center text-muted">No categories available</p>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <?php 
+    // Reset category result pointer for the main sections
+    if ($categories_result->num_rows > 0):
+        $categories_result->data_seek(0);
+        $section_index = 0;
+        while ($category = $categories_result->fetch_assoc()): 
+            $section_id = getSectionId($category['name']);
+            $icon = isset($category_icons[strtolower($category['name'])]) ? $category_icons[strtolower($category['name'])] : $category_icons['default'];
+            $menu_items = isset($menu_by_category[$category['id']]) ? $menu_by_category[$category['id']] : [];
+            $background = ($section_index % 2 == 1) ? 'style="background-color: var(--color-beige);"' : '';
+            $section_index++;
+    ?>
+
+    <!-- ===== <?php echo strtoupper($category['name']); ?> SECTION ===== -->
+    <section id="<?php echo $section_id; ?>" class="section-padding menu-category" <?php echo $background; ?>>
         <div class="container">
             <div class="text-center mb-3">
-                <h2 class="display-3" style="margin-bottom: 0; font-size: 1.5rem;">Menu Categories</h2>
+                <span class="section-subtitle"><?php echo htmlspecialchars($category['description'] ?? 'Our Specialties'); ?></span>
+                <h2 class="display-2"><?php echo htmlspecialchars($category['name']); ?></h2>
+                <?php if (!empty($category['description'])): ?>
+                <p class="lead"><?php echo htmlspecialchars($category['description']); ?></p>
+                <?php endif; ?>
             </div>
             
-            <div class="menu-category-nav">
-                <a href="#signature-Mandi" class="btn btn-outline menu-category-btn active" data-category="signature">
-                    <i class="bi bi-star-fill"></i> Signature Mandi
-                </a>
-                <a href="#grills-bbq" class="btn btn-outline menu-category-btn" data-category="grills">
-                    <i class="bi bi-fire"></i> Grills & BBQ
-                </a>
-                <a href="#rice-dishes" class="btn btn-outline menu-category-btn" data-category="rice">
-                    <i class="bi bi-egg-fried"></i> Rice Dishes
-                </a>
-                <a href="#appetizers" class="btn btn-outline menu-category-btn" data-category="appetizers">
-                    <i class="bi bi-basket"></i> Appetizers
-                </a>
-                <a href="#family-platters" class="btn btn-outline menu-category-btn" data-category="family">
-                    <i class="bi bi-people"></i> Family Platters
-                </a>
-                <a href="#kids-menu" class="btn btn-outline menu-category-btn" data-category="kids">
-                    <i class="bi bi-emoji-smile"></i> Kids Menu
-                </a>
-                <a href="#beverages" class="btn btn-outline menu-category-btn" data-category="beverages">
-                    <i class="bi bi-cup-straw"></i> Beverages
-                </a>
-                <a href="#desserts" class="btn btn-outline menu-category-btn" data-category="desserts">
-                    <i class="bi bi-cake2"></i> Desserts
-                </a>
+            <?php if (empty($menu_items)): ?>
+            <div class="text-center py-3">
+                <p class="text-muted">No items available in this category at the moment.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- ===== SIGNATURE Mandi ===== -->
-    <section id="signature-Mandi" class="section-padding menu-category">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Our Specialty</span>
-                <h2 class="display-2">Signature Mandi</h2>
-                <p class="lead">The heart of Yemani cuisine - slow-cooked to perfection with authentic spices</p>
-            </div>
-            
+            <?php else: ?>
             <div class="menu-grid">
-                <!-- Item 1 -->
+                <?php foreach ($menu_items as $item): 
+                    // Determine stock status
+                    $stock_status = '';
+                    $stock_text = '';
+                    if (!empty($item['track_inventory']) && $item['available_quantity'] !== null) {
+                        if ($item['available_quantity'] <= 0) {
+                            $stock_status = 'out';
+                            $stock_text = 'Out of Stock';
+                        } elseif (!empty($item['is_daily_limited']) && $item['available_quantity'] < 5) {
+                            $stock_status = 'low';
+                            $stock_text = 'Only ' . $item['available_quantity'] . ' left';
+                        }
+                    }
+                ?>
                 <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Traditional Lamb Mandi" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Chef's Special</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Traditional Lamb Mandi</h3>
-                            <span class="menu-price">AED 85</span>
-                        </div>
-                        <p>Slow-cooked tender lamb with aromatic rice, infused with traditional Middle Eastern spices and served with special sauce.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-clock"></i> 45 min preparation
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Chicken Mandi" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Popular</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Chicken Mandi</h3>
-                            <span class="menu-price">AED 65</span>
-                        </div>
-                        <p>Juicy chicken marinated in Yemani spices, cooked with fragrant basmati rice, nuts, and raisins.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-clock"></i> 35 min preparation
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Vegetable Mandi" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Vegetarian</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Vegetable Mandi</h3>
-                            <span class="menu-price">AED 55</span>
-                        </div>
-                        <p>Assorted seasonal vegetables cooked with aromatic rice and traditional Yemani spices.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-clock"></i> 25 min preparation
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Mixed Mandi Platter" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Family Favorite</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Mixed Mandi Platter</h3>
-                            <span class="menu-price">AED 120</span>
-                        </div>
-                        <p>Combination of lamb and chicken Mandi with assorted grilled vegetables and special sauces.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> Serves 2-3
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== GRILLS & BBQ ===== -->
-    <section id="grills-bbq" class="section-padding menu-category" style="background-color: var(--color-beige);">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Grilled to Perfection</span>
-                <h2 class="display-2">Grills & BBQ</h2>
-                <p class="lead">Freshly grilled meats and vegetables with authentic Yemani marinades</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Mixed Grill Platter" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Signature</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Mixed Grill Platter</h3>
-                            <span class="menu-price">AED 95</span>
-                        </div>
-                        <p>Assortment of grilled lamb chops, chicken tikka, kofta, and shish tawook served with grilled vegetables.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> Serves 2
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Shish Tawook" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Shish Tawook</h3>
-                            <span class="menu-price">AED 55</span>
-                        </div>
-                        <p>Marinated chicken chunks grilled on skewers with peppers and onions, served with garlic sauce.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Lamb Chops" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Grilled Lamb Chops</h3>
-                            <span class="menu-price">AED 75</span>
-                        </div>
-                        <p>Tender lamb chops marinated in Yemani spices, grilled to perfection with fresh herbs.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            3 pieces
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Kofta Kebab" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Kofta Kebab</h3>
-                            <span class="menu-price">AED 50</span>
-                        </div>
-                        <p>Minced meat mixed with herbs and spices, shaped and grilled on skewers.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== TRADITIONAL RICE DISHES ===== -->
-    <section id="rice-dishes" class="section-padding menu-category">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Fragrant & Flavorful</span>
-                <h2 class="display-2">Traditional Rice Dishes</h2>
-                <p class="lead">Aromatic rice dishes that are the cornerstone of Yemani cuisine</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Chicken Kabsa" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Signature</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Chicken Kabsa</h3>
-                            <span class="menu-price">AED 65</span>
-                        </div>
-                        <p>Fragrant rice with tender chicken, nuts, raisins, and authentic Arabic spices.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Mandi Rice" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Mandi Rice with Meat</h3>
-                            <span class="menu-price">AED 70</span>
-                        </div>
-                        <p>Traditional Yemeni-style rice with slow-cooked meat, flavored with authentic spices.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Vegetable Biryani</h3>
-                            <span class="menu-price">AED 45</span>
-                        </div>
-                        <p>Fragrant basmati rice cooked with assorted vegetables and mild Yemani spices.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">White Rice with Nuts</h3>
-                            <span class="menu-price">AED 35</span>
-                        </div>
-                        <p>Steamed basmati rice topped with almonds, pine nuts, and raisins.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== APPETIZERS & STARTERS ===== -->
-    <section id="appetizers" class="section-padding menu-category" style="background-color: var(--color-beige);">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Start Your Meal</span>
-                <h2 class="display-2">Appetizers & Starters</h2>
-                <p class="lead">Traditional Yemani starters to awaken your taste buds</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Hummus" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Homemade Hummus</h3>
-                            <span class="menu-price">AED 25</span>
-                        </div>
-                        <p>Creamy chickpea dip with tahini, lemon juice, and garlic, served with fresh bread.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1598214886806-c87b84b7078b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fattoush Salad" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Fattoush Salad</h3>
-                            <span class="menu-price">AED 28</span>
-                        </div>
-                        <p>Fresh mixed vegetables with crispy bread, mint, and pomegranate dressing.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Mutabbal</h3>
-                            <span class="menu-price">AED 28</span>
-                        </div>
-                        <p>Smoky eggplant dip with tahini, yogurt, and garlic.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Kibbeh</h3>
-                            <span class="menu-price">AED 32</span>
-                        </div>
-                        <p>Fried bulgur shells stuffed with minced meat and pine nuts (4 pieces).</p>
-                    </div>
-                </div>
-                
-                <!-- Item 5 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Sambousek</h3>
-                            <span class="menu-price">AED 30</span>
-                        </div>
-                        <p>Crispy pastry triangles stuffed with cheese or meat (6 pieces).</p>
-                    </div>
-                </div>
-                
-                <!-- Item 6 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Appetizer Platter</h3>
-                            <span class="menu-price">AED 55</span>
-                        </div>
-                        <p>Assortment of hummus, mutabbal, fattoush, and fresh bread.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> For sharing
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FAMILY PLATTERS ===== -->
-    <section id="family-platters" class="section-padding menu-category">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Perfect for Sharing</span>
-                <h2 class="display-2">Family Platters</h2>
-                <p class="lead">Generous portions designed for family gatherings and celebrations</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Family Feast" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Most Popular</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Family Feast Platter</h3>
-                            <span class="menu-price">AED 180</span>
-                        </div>
-                        <p>Includes lamb Mandi, chicken Mandi, mixed grill, appetizers, rice, salads, and bread for 4-6 people.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> Serves 4-6
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <span class="menu-tag">Great Value</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Weekend Family Package</h3>
-                            <span class="menu-price">AED 220</span>
-                        </div>
-                        <p>Complete family meal with starters, mains, desserts, and beverages for 5-7 people.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> Serves 5-7
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Grill Lovers Platter</h3>
-                            <span class="menu-price">AED 160</span>
-                        </div>
-                        <p>Assorted grilled meats, vegetables, rice, and sauces for 3-4 people.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> Serves 3-4
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== KIDS MENU ===== -->
-    <section id="kids-menu" class="section-padding menu-category" style="background-color: var(--color-beige);">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Little Chefs</span>
-                <h2 class="display-2">Kids Menu</h2>
-                <p class="lead">Specially designed meals for our younger guests</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Chicken Nuggets & Fries</h3>
-                            <span class="menu-price">AED 35</span>
-                        </div>
-                        <p>Crispy chicken nuggets served with french fries and ketchup.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-emoji-smile"></i> Includes juice box
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Mini Chicken Mandi</h3>
-                            <span class="menu-price">AED 40</span>
-                        </div>
-                        <p>Small portion of our signature chicken Mandi, mild spice level.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Pasta with Cheese</h3>
-                            <span class="menu-price">AED 30</span>
-                        </div>
-                        <p>Creamy cheese pasta with mild seasoning.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Kids Combo Meal</h3>
-                            <span class="menu-price">AED 45</span>
-                        </div>
-                        <p>Choice of main, fries, juice, and a small dessert.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== BEVERAGES ===== -->
-    <section id="beverages" class="section-padding menu-category">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Refreshments</span>
-                <h2 class="display-2">Beverages</h2>
-                <p class="lead">Traditional and modern drinks to complement your meal</p>
-            </div>
-            
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <!-- Hot Beverages -->
-                    <div>
-                        <h3 style="color: var(--color-dark-brown); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--color-red);">Hot Beverages</h3>
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Arabic Coffee</span>
-                                <span style="font-weight: 600;">AED 15</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Turkish Coffee</span>
-                                <span style="font-weight: 600;">AED 15</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Tea with Mint</span>
-                                <span style="font-weight: 600;">AED 12</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span>Karaki Tea</span>
-                                <span style="font-weight: 600;">AED 18</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php if (!empty($item['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($item['image_url']); ?>" 
+                        alt="<?php echo htmlspecialchars($item['name']); ?>" 
+                        class="menu-img"
+                        onerror="this.src='https://via.placeholder.com/400x300?text=<?php echo urlencode($item['name']); ?>'">
+                    <?php else: ?>
+                    <img src="https://via.placeholder.com/400x300?text=<?php echo urlencode($item['name']); ?>" 
+                        alt="<?php echo htmlspecialchars($item['name']); ?>" 
+                        class="menu-img">
+                    <?php endif; ?>
                     
-                    <!-- Cold Beverages -->
-                    <div>
-                        <h3 style="color: var(--color-dark-brown); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--color-red);">Cold Beverages</h3>
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Fresh Lemon Mint</span>
-                                <span style="font-weight: 600;">AED 18</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Jallab</span>
-                                <span style="font-weight: 600;">AED 20</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span>Tamarind Juice</span>
-                                <span style="font-weight: 600;">AED 18</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span>Soft Drinks</span>
-                                <span style="font-weight: 600;">AED 10</span>
-                            </div>
+                    <div class="menu-content">
+                        <?php if (!empty($item['is_featured'])): ?>
+                        <span class="menu-tag">Chef's Special</span>
+                        <?php elseif (!empty($item['is_daily_limited'])): ?>
+                        <span class="menu-tag">Limited</span>
+                        <?php endif; ?>
+                        
+                        <div class="menu-header">
+                            <h3 class="menu-title"><?php echo htmlspecialchars($item['name']); ?></h3>
+                            <span class="menu-price">AED <?php echo number_format($item['price'], 2); ?></span>
                         </div>
+                        
+                        <?php if (!empty($item['description'])): ?>
+                        <p class="menu-description"><?php echo nl2br(htmlspecialchars($item['description'])); ?></p>
+                        <?php endif; ?>
+                        
+                        <?php if ($stock_status): ?>
+                        <div class="inventory-badge <?php echo $stock_status; ?>">
+                            <i class="bi bi-<?php echo $stock_status == 'out' ? 'x-circle' : 'exclamation-triangle'; ?> me-1"></i>
+                            <?php echo $stock_text; ?>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
+                <?php endforeach; ?>
             </div>
+            <?php endif; ?>
         </div>
     </section>
-
-    <!-- ===== DESSERTS ===== -->
-    <section id="desserts" class="section-padding menu-category" style="background-color: var(--color-beige);">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-subtitle">Sweet Endings</span>
-                <h2 class="display-2">Desserts</h2>
-                <p class="lead">Traditional Yemani sweets to complete your dining experience</p>
-            </div>
-            
-            <div class="menu-grid">
-                <!-- Item 1 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Baklava" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Baklava Assortment</h3>
-                            <span class="menu-price">AED 35</span>
-                        </div>
-                        <p>Assorted baklava pieces with pistachio, walnut, and cashew fillings.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1558326567-98ae2405596b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Kunafa" 
-                         class="menu-img">
-                    <div class="menu-content">
-                        <span class="menu-tag">Signature</span>
-                        <div class="menu-header">
-                            <h3 class="menu-title">Kunafa with Cheese</h3>
-                            <span class="menu-price">AED 40</span>
-                        </div>
-                        <p>Traditional Yemani dessert with cheese filling, crispy pastry, and sugar syrup.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 3 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Umm Ali</h3>
-                            <span class="menu-price">AED 30</span>
-                        </div>
-                        <p>Traditional Middle Eastern bread pudding with nuts and raisins.</p>
-                    </div>
-                </div>
-                
-                <!-- Item 4 -->
-                <div class="menu-card">
-                    <div class="menu-content">
-                        <div class="menu-header">
-                            <h3 class="menu-title">Dessert Platter</h3>
-                            <span class="menu-price">AED 65</span>
-                        </div>
-                        <p>Assortment of baklava, kunafa, and umm ali for sharing.</p>
-                        <div style="margin-top: 15px; font-size: 0.9rem; color: var(--color-olive);">
-                            <i class="bi bi-people"></i> For 2-3 people
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <?php endwhile; ?>
+    <?php else: ?>
+    <div class="container py-5">
+        <div class="text-center">
+            <i class="bi bi-emoji-frown display-1 text-muted mb-3"></i>
+            <h3>No Menu Categories Found</h3>
+            <p class="text-muted">Please check back later or contact the administrator.</p>
         </div>
-    </section>
+    </div>
+    <?php endif; ?>
 
     <!-- ===== ORDERING CTA ===== -->
     <section id="order" class="section-padding" style="background: linear-gradient(135deg, var(--color-dark-brown) 0%, var(--color-soft-black) 100%); color: white;">
         <div class="container">
             <div class="text-center">
-                <h2 class="display-3 mb-4" style="color: white;">Ready to Order?</h2>
-                <p class="lead mb-5" style="opacity: 0.9;">
-                    Place your order now through WhatsApp or call us directly. Delivery available in select areas.
+                <h2 class="display-3 mb-4" style="color: white; font-size: 1.8rem;">Ready to Order?</h2>
+                <p class="lead mb-4" style="opacity: 0.9; font-size: 1rem;">
+                    Place your order now through WhatsApp or call us directly.
                 </p>
                 
-                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
-                    <a href="https://wa.me/971503757274" target="_blank" class="btn btn-whatsapp btn-lg">
-                        <i class="bi bi-whatsapp"></i> Order on WhatsApp
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;">
+                    <a href="https://wa.me/971503757274" target="_blank" class="btn btn-whatsapp" style="padding: 8px 20px;">
+                        <i class="bi bi-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="tel:+971503757274" class="btn btn-secondary btn-lg">
-                        <i class="bi bi-telephone"></i> Call to Order
+                    <a href="tel:+971503757274" class="btn btn-secondary" style="padding: 8px 20px;">
+                        <i class="bi bi-telephone"></i> Call
                     </a>
-                    <a href="contact.php" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
-                        <i class="bi bi-calendar-check"></i> Dine-In Reservation
+                    <a href="contact.php" class="btn btn-outline" style="border-color: white; color: white; padding: 8px 20px;">
+                        <i class="bi bi-calendar-check"></i> Reserve
                     </a>
                 </div>
                 
-                <div style="background-color: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: var(--border-radius); max-width: 800px; margin: 0 auto;">
-                    <h4 style="color: white; margin-bottom: 20px;">Delivery Information</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div style="background-color: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: var(--border-radius); max-width: 700px; margin: 0 auto;">
+                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.2rem;">Delivery Information</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
                         <div style="text-align: center;">
-                            <i class="bi bi-clock" style="font-size: 2rem; color: var(--color-red); margin-bottom: 10px;"></i>
-                            <p style="margin-bottom: 5px; font-weight: 600;">Delivery Time</p>
-                            <p style="opacity: 0.8;">45-60 minutes</p>
+                            <i class="bi bi-clock" style="font-size: 1.5rem; color: var(--color-red); margin-bottom: 5px;"></i>
+                            <p style="margin-bottom: 2px; font-weight: 600; font-size: 0.9rem;">Delivery Time</p>
+                            <p style="opacity: 0.8; font-size: 0.85rem;">45-60 min</p>
                         </div>
                         
                         <div style="text-align: center;">
-                            <i class="bi bi-geo-alt" style="font-size: 2rem; color: var(--color-red); margin-bottom: 10px;"></i>
-                            <p style="margin-bottom: 5px; font-weight: 600;">Delivery Areas</p>
-                            <p style="opacity: 0.8;">Al Barsha, Dubai Marina, JLT</p>
+                            <i class="bi bi-geo-alt" style="font-size: 1.5rem; color: var(--color-red); margin-bottom: 5px;"></i>
+                            <p style="margin-bottom: 2px; font-weight: 600; font-size: 0.9rem;">Areas</p>
+                            <p style="opacity: 0.8; font-size: 0.85rem;">Al Barsha, Marina, JLT</p>
                         </div>
                         
                         <div style="text-align: center;">
-                            <i class="bi bi-truck" style="font-size: 2rem; color: var(--color-red); margin-bottom: 10px;"></i>
-                            <p style="margin-bottom: 5px; font-weight: 600;">Delivery Charge</p>
-                            <p style="opacity: 0.8;">AED 15 (Free above AED 100)</p>
+                            <i class="bi bi-truck" style="font-size: 1.5rem; color: var(--color-red); margin-bottom: 5px;"></i>
+                            <p style="margin-bottom: 2px; font-weight: 600; font-size: 0.9rem;">Delivery Fee</p>
+                            <p style="opacity: 0.8; font-size: 0.85rem;">AED 15 (Free > AED 100)</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+    // Smooth scroll for category navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const navBtns = document.querySelectorAll('.menu-category-btn');
+        
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offset = 80; // Adjust for sticky header
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Active category highlight on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.menu-category');
+            const navBtns = document.querySelectorAll('.menu-category-btn');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+                const href = btn.getAttribute('href').substring(1); // Remove #
+                if (href === current) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+    });
+    </script>
 
     <!-- ===== FOOTER ===== -->
     <?php
