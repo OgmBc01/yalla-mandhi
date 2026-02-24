@@ -89,10 +89,16 @@ $avg_daily_sales = round($team_totals['sales'] / $days_in_period, 2);
                         <input type="date" class="form-control" name="end_date" value="<?php echo $end_date; ?>" required>
                     </div>
                     
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary w-100">
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 me-2">
                             <i class="bi bi-filter-circle me-2"></i>Generate Report
                         </button>
+                        <a href="includes/export_report.php?source=staff&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
+                            <i class="bi bi-file-earmark-excel"></i> CSV
+                        </a>
+                        <a href="includes/export_report.php?source=staff&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                            <i class="bi bi-file-earmark-pdf"></i> PDF
+                        </a>
                     </div>
                 </form>
             </div>

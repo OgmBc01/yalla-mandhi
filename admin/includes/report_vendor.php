@@ -151,10 +151,10 @@ foreach ($chart_dates as $date) {
                             <button type="submit" class="btn btn-primary w-100 me-2">
                                 <i class="bi bi-filter-circle me-2"></i>Generate Report
                             </button>
-                            <a href="reports.php?source=vendor&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
+                            <a href="includes/export_report.php?source=vendor&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
                                 <i class="bi bi-file-earmark-excel"></i> CSV
                             </a>
-                            <a href="reports.php?source=vendor&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                            <a href="includes/export_report.php?source=vendor&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
                                 <i class="bi bi-file-earmark-pdf"></i> PDF
                             </a>
                         </div>

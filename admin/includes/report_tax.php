@@ -100,10 +100,16 @@ $tax_rate = 15; // 15% VAT
                         <input type="date" class="form-control" name="end_date" value="<?php echo $end_date; ?>" required>
                     </div>
                     
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary w-100">
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 me-2">
                             <i class="bi bi-filter-circle me-2"></i>Generate Report
                         </button>
+                        <a href="includes/export_report.php?source=tax&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
+                            <i class="bi bi-file-earmark-excel"></i> CSV
+                        </a>
+                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                            <i class="bi bi-file-earmark-pdf"></i> PDF
+                        </a>
                     </div>
                 </form>
             </div>
@@ -265,8 +271,11 @@ $tax_rate = 15; // 15% VAT
                     </div>
                     
                     <div class="d-grid gap-2 mt-3">
-                        <a href="reports.php?source=tax&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success">
+                        <a href="includes/export_report.php?source=tax&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success">
                             <i class="bi bi-file-earmark-excel"></i> Export Tax Report (CSV)
+                        </a>
+                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                            <i class="bi bi-file-earmark-pdf"></i> Export Tax Report (PDF)
                         </a>
                     </div>
                 </div>

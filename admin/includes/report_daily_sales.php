@@ -10,11 +10,18 @@ if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] ?? '', ['admin',
     exit();
 }
 
+// Check if export is requested
+if (isset($_GET['export'])) {
+    // Include the export handler directly
+    require_once 'export_report.php';
+    exit;
+}
+
 // Get date range from URL or set defaults
 $start_date = $_GET['start_date'] ?? date('Y-m-01');
 $end_date = $_GET['end_date'] ?? date('Y-m-d');
 
-// Fetch daily sales data
+// Fetch daily sales data - FIXED GROUP BY
 $daily_query = "SELECT 
     DATE(created_at) as sale_date,
     DAYNAME(created_at) as day_name,
@@ -58,6 +65,7 @@ while ($row = $daily_result->fetch_assoc()) {
     $total_card += $row['card_revenue'];
     $total_online += $row['online_revenue'];
 }
+$stmt->close();
 
 // Calculate averages
 $avg_daily_orders = count($daily_data) > 0 ? round($total_orders / count($daily_data), 1) : 0;
@@ -66,8 +74,12 @@ $avg_daily_revenue = count($daily_data) > 0 ? round($total_revenue / count($dail
 
 <div class="main-content">
     <div class="container-fluid">
+        <!-- Page Title -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="page-title"><i class="bi bi-calendar-day me-2"></i>Daily Sales Report</h1>
+        </div>
+
         <!-- Date Range Filter -->
-        <h2 class="page-title">Daily Sales Report</h2>
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <form method="GET" action="" class="row g-3 align-items-end">
@@ -90,10 +102,12 @@ $avg_daily_revenue = count($daily_data) > 0 ? round($total_revenue / count($dail
                     </div>
                     
                     <div class="col-md-4 text-end">
-                        <a href="reports.php?source=daily&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
+                        <a href="includes/export_report.php?source=daily&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" 
+                           class="btn btn-success me-2" target="_blank">
                             <i class="bi bi-file-earmark-excel"></i> CSV
                         </a>
-                        <a href="reports.php?source=daily&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                        <a href="includes/export_report.php?source=daily&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" 
+                           class="btn btn-danger" target="_blank">
                             <i class="bi bi-file-earmark-pdf"></i> PDF
                         </a>
                     </div>
@@ -151,7 +165,7 @@ $avg_daily_revenue = count($daily_data) > 0 ? round($total_revenue / count($dail
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-report">
+                    <table class="table table-hover table-report" id="dailySalesTable">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -223,6 +237,15 @@ $avg_daily_revenue = count($daily_data) > 0 ? round($total_revenue / count($dail
 </div>
 
 <style>
+.page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #c41e3a;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    text-shadow: 0 2px 8px rgba(196,30,58,0.08);
+}
+
 .table-report th {
     background: #f8f9fa;
     color: #2c3e50;
@@ -235,5 +258,15 @@ $avg_daily_revenue = count($daily_data) > 0 ? round($total_revenue / count($dail
 .badge {
     font-size: 0.8rem;
     padding: 0.35em 0.65em;
+}
+
+/* Card styles */
+.card.bg-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.card.bg-success { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.card.bg-info { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.card.bg-warning { background: linear-gradient(135deg, #fdc830 0%, #f37335 100%); }
+
+.text-white-50 {
+    color: rgba(255,255,255,0.7) !important;
 }
 </style>

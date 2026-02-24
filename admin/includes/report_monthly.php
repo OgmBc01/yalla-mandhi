@@ -124,8 +124,11 @@ $orders_growth = $comparison['previous_orders'] > 0
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-filter-circle me-2"></i>Apply Filter
                         </button>
-                        <a href="reports.php?source=monthly&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success">
+                        <a href="includes/export_report.php?source=monthly&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2" target="_blank">
                             <i class="bi bi-file-earmark-excel"></i> Export CSV
+                        </a>
+                        <a href="includes/export_report.php?source=monthly&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger" target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> Export PDF
                         </a>
                     </div>
                 </form>

@@ -1,17 +1,23 @@
 <?php
-session_start();
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Get database connection
 require_once __DIR__ . '/../../includes/database.php';
-require_once __DIR__ . '/../../includes/functions.php';
+$connection = getDBConnection();
 
 // Auth check
 if (!isset($_SESSION['user_id'])) {
     die('Unauthorized');
 }
 
-$report_type = $_GET['report_type'] ?? $_POST['report_type'] ?? '';
-$format = $_GET['format'] ?? $_POST['format'] ?? 'csv';
-$start_date = $_GET['start_date'] ?? $_POST['start_date'] ?? date('Y-m-01');
-$end_date = $_GET['end_date'] ?? $_POST['end_date'] ?? date('Y-m-d');
+// Get parameters from URL
+$report_type = $_GET['source'] ?? $_GET['report_type'] ?? '';
+$format = $_GET['export'] ?? $_GET['format'] ?? 'csv';
+$start_date = $_GET['start_date'] ?? date('Y-m-01');
+$end_date = $_GET['end_date'] ?? date('Y-m-d');
 
 if (!$report_type) {
     die('Report type not specified');
@@ -20,7 +26,7 @@ if (!$report_type) {
 // Remove any prefixes
 $report_type = str_replace(['-tab', 'source='], '', $report_type);
 
-// Map report type to query and title
+// Map report type to query and title - FIXED GROUP BY for all queries
 $report_config = [
     'daily' => [
         'title' => 'Daily Sales Report',
@@ -40,13 +46,14 @@ $report_config = [
             FROM orders 
             WHERE DATE(created_at) BETWEEN ? AND ?
             AND order_status IN ('completed', 'closed')
-            GROUP BY DATE(created_at)
-            ORDER BY Date DESC"
+            GROUP BY DATE(created_at), DAYNAME(created_at)
+            ORDER BY `Date` DESC"
     ],
     'monthly' => [
         'title' => 'Monthly Summary Report',
         'filename' => 'monthly_summary',
         'query' => "SELECT 
+            DATE_FORMAT(created_at, '%Y-%m') as 'Month_Key',
             DATE_FORMAT(created_at, '%M %Y') as 'Month',
             COUNT(*) as 'Orders',
             SUM(total_amount) as 'Revenue',
@@ -57,8 +64,8 @@ $report_config = [
             FROM orders 
             WHERE DATE(created_at) BETWEEN ? AND ?
             AND order_status IN ('completed', 'closed')
-            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
-            ORDER BY DATE_FORMAT(created_at, '%Y-%m') DESC"
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m'), DATE_FORMAT(created_at, '%M %Y')
+            ORDER BY `Month_Key` DESC"
     ],
     'items' => [
         'title' => 'Item Performance Report',
@@ -74,7 +81,7 @@ $report_config = [
             WHERE DATE(o.created_at) BETWEEN ? AND ?
             AND o.order_status IN ('completed', 'closed')
             GROUP BY oi.item_name_snapshot
-            ORDER BY 'Quantity Sold' DESC"
+            ORDER BY `Quantity Sold` DESC"
     ],
     'payment' => [
         'title' => 'Payment Method Report',
@@ -90,7 +97,7 @@ $report_config = [
             AND order_status IN ('completed', 'closed')
             AND payment_method IS NOT NULL
             GROUP BY payment_method
-            ORDER BY 'Total Amount' DESC"
+            ORDER BY `Total Amount` DESC"
     ],
     'vendor' => [
         'title' => 'Vendor Reconciliation Report',
@@ -108,7 +115,7 @@ $report_config = [
             AND delivery_source IN ('noon', 'deliveroo', 'keeta', 'smile')
             AND order_status IN ('completed', 'closed')
             GROUP BY delivery_source
-            ORDER BY 'Gross Sales' DESC"
+            ORDER BY `Gross Sales` DESC"
     ],
     'staff' => [
         'title' => 'Staff Performance Report',
@@ -125,14 +132,15 @@ $report_config = [
                 AND DATE(o.created_at) BETWEEN ? AND ?
                 AND o.order_status IN ('completed', 'closed')
             WHERE u.role IN ('admin', 'super-admin', 'manager', 'cashier')
-            GROUP BY u.id
+            GROUP BY u.id, u.full_name
             HAVING Orders > 0
-            ORDER BY 'Total Sales' DESC"
+            ORDER BY `Total Sales` DESC"
     ],
     'tax' => [
         'title' => 'Tax Report',
         'filename' => 'tax_report',
         'query' => "SELECT 
+            DATE_FORMAT(created_at, '%Y-%m') as 'Month_Key',
             DATE_FORMAT(created_at, '%M %Y') as 'Month',
             COUNT(*) as 'Transactions',
             SUM(subtotal) as 'Subtotal',
@@ -142,8 +150,8 @@ $report_config = [
             FROM orders 
             WHERE DATE(created_at) BETWEEN ? AND ?
             AND order_status IN ('completed', 'closed')
-            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
-            ORDER BY DATE_FORMAT(created_at, '%Y-%m') DESC"
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m'), DATE_FORMAT(created_at, '%M %Y')
+            ORDER BY `Month_Key` DESC"
     ]
 ];
 
@@ -168,11 +176,19 @@ $headers = [];
 if ($result && $result->num_rows > 0) {
     // Get column names from first row
     $firstRow = $result->fetch_assoc();
+    // Remove Month_Key from headers if it exists (internal use only)
+    if (isset($firstRow['Month_Key'])) {
+        unset($firstRow['Month_Key']);
+    }
     $headers = array_keys($firstRow);
     $data[] = $firstRow;
     
     // Get remaining rows
     while ($row = $result->fetch_assoc()) {
+        // Remove Month_Key from row if it exists
+        if (isset($row['Month_Key'])) {
+            unset($row['Month_Key']);
+        }
         $data[] = $row;
     }
 }
@@ -181,15 +197,31 @@ $stmt->close();
 // Handle export based on format
 if ($format == 'csv') {
     exportCSV($title, $headers, $data, $start_date, $end_date, $filename);
+
 } else {
     // Default to HTML printable version
     exportHTML($title, $headers, $data, $start_date, $end_date, $filename);
 }
 
+// Ensure no output before headers for CSV
+if ($format === 'csv') {
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+}
+
 function exportCSV($title, $headers, $data, $start_date, $end_date, $filename) {
+    // Clear any output buffers
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    
     // Set headers for CSV download
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="' . $filename . '.csv"');
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
     
     // Create output stream
     $output = fopen('php://output', 'w');
@@ -229,6 +261,11 @@ function exportCSV($title, $headers, $data, $start_date, $end_date, $filename) {
 }
 
 function exportHTML($title, $headers, $data, $start_date, $end_date, $filename) {
+    // Clear any output buffers
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    
     ?>
     <!DOCTYPE html>
     <html lang="en">

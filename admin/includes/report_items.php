@@ -91,10 +91,16 @@ $stmt->close();
                         <input type="date" class="form-control" name="end_date" value="<?php echo $end_date; ?>" required>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex gap-2">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-filter-circle me-2"></i>Generate Report
                         </button>
+                        <a href="includes/export_report.php?source=items&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success" target="_blank">
+                            <i class="bi bi-file-earmark-excel"></i> CSV
+                        </a>
+                        <a href="includes/export_report.php?source=items&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger" target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> PDF
+                        </a>
                     </div>
                 </form>
             </div>
