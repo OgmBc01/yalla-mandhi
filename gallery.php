@@ -4,7 +4,7 @@ include 'includes/header.php';
 
     <!-- ===== HERO BANNER ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Restaurant Interior" class="hero-bg">
+        <img src="resources/img/restaurant_dining/gallery.jpg" alt="Yalla Al Mandi Gallery" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Our Gallery</h1>
             <p class="lead">A visual journey through our authentic Yemani cuisine, warm ambiance, and memorable moments.</p>

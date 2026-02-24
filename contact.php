@@ -4,7 +4,7 @@ include 'includes/header.php';
 
     <!-- ===== HERO BANNER ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Restaurant Interior" class="hero-bg">
+        <img src="resources/img/restaurant_dining/reservation.jpg" alt="Restaurant Interior" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Contact & Reservations</h1>
             <p class="lead">Get in touch with us for reservations, inquiries, or to book your next event.</p>

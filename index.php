@@ -570,7 +570,7 @@ function handleSwipe() {
         <div class="container">
             <div class="row" style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
                 <div class="col" style="flex: 1; min-width: 300px;">
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    <img src="resources/img/restaurant_dining/flagship_branch.jpg" 
                          alt="Restaurant Interior" 
                          style="border-radius: var(--border-radius); box-shadow: var(--box-shadow); width: 100%; height: auto;">
                 </div>

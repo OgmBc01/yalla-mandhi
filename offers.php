@@ -4,7 +4,7 @@ include 'includes/header.php';
 
     <!-- ===== HERO BANNER ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Special Offers Banner" class="hero-bg">
+        <img src="resources/img/menu_items/mutton_burma.jpg" alt="Special Offers Banner" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Special Offers & Promotions</h1>
             <p class="lead">Exclusive deals and discounts on authentic Yemani cuisine. Limited time offers for our valued guests.</p>

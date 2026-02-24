@@ -4,7 +4,7 @@ include 'includes/header.php';
 
     <!-- ===== HERO BANNER ===== -->
     <section class="hero">
-        <img src="https://images.unsplash.com/photo-1554672408-730436b60dde?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Traditional Yemani Cooking" class="hero-bg">
+        <img src="resources/img/restaurant_dining/about.jpg" alt="Traditional Yemani Cooking" class="hero-bg">
         <div class="hero-content">
             <h1 class="display-1">Our Story & Heritage</h1>
             <p class="lead">Generations of authentic Yemani flavors, brought to life with modern elegance.</p>
@@ -21,7 +21,7 @@ include 'includes/header.php';
             
             <div class="row" style="display: flex; align-items: center; gap: 30px; margin-bottom: 80px; flex-wrap: wrap;">
                 <div class="col" style="flex: 1; min-width: 300px;">
-                    <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    <img src="resources/img/menu_items/mutton_shuwa.jpg" 
                          alt="Family Recipe Book" 
                          style="border-radius: var(--border-radius); box-shadow: var(--box-shadow); width: 100%; height: auto;">
                 </div>
@@ -188,7 +188,7 @@ include 'includes/header.php';
                 
                 <div class="col" style="flex: 1; min-width: 300px;">
                     <div style="border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow-hover);">
-                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                        <img src="resources/img/restaurant_dining/tradition_contemporary.jpg" 
                              alt="Modern Yemani Cuisine Presentation" 
                              style="width: 100%; height: auto;">
                     </div>
