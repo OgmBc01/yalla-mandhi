@@ -107,7 +107,7 @@ $tax_rate = 15; // 15% VAT
                         <a href="includes/export_report.php?source=tax&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success me-2">
                             <i class="bi bi-file-earmark-excel"></i> CSV
                         </a>
-                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger" target="_blank">
                             <i class="bi bi-file-earmark-pdf"></i> PDF
                         </a>
                     </div>
@@ -274,7 +274,7 @@ $tax_rate = 15; // 15% VAT
                         <a href="includes/export_report.php?source=tax&export=csv&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-success">
                             <i class="bi bi-file-earmark-excel"></i> Export Tax Report (CSV)
                         </a>
-                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger">
+                        <a href="includes/export_report.php?source=tax&export=pdf&start_date=<?php echo $start_date; ?>&end_date=<?php echo $end_date; ?>" class="btn btn-danger" target="_blank">
                             <i class="bi bi-file-earmark-pdf"></i> Export Tax Report (PDF)
                         </a>
                     </div>

@@ -29,13 +29,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <!-- POS / Orders Menu - ENHANCED -->
+        <?php
+        // Determine if any POS & Orders submenu is active
+        $orders_sources = ['add_order','order_list','online_orders'];
+        $orders_active = ($current_page == 'orders.php') && ((isset($_GET['source']) && in_array($_GET['source'], $orders_sources)) || (!isset($_GET['source']) || $_GET['source'] == 'pos_view' || $_GET['source'] == 'pos'));
+        ?>
         <li class="nav-item">
-            <a class="nav-link menu-toggle-btn <?php echo (in_array($current_page, ['orders.php']) && (!isset($_GET['source']) || $_GET['source'] == 'pos_view' || $_GET['source'] == 'pos')) ? 'active' : ''; ?>" href="#" data-menu="orders">
+            <a class="nav-link menu-toggle-btn <?php echo $orders_active ? 'active' : ''; ?>" href="#" data-menu="orders">
                 <i class="bi bi-cart nav-icon"></i>
                 <span class="nav-text">POS & Orders</span>
                 <i class="bi bi-chevron-right menu-toggle"></i>
             </a>
-            <ul class="sub-menu" id="orders-menu">
+            <ul class="sub-menu<?php echo $orders_active ? ' show' : ''; ?>" id="orders-menu">
                 <li class="nav-item">
                     <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'add_order') ? 'active' : ''; ?>" href="orders.php?source=add_order">
                         <i class="bi bi-plus-circle nav-icon"></i>
@@ -58,6 +63,129 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link" href="orders.php?status=pending">
                         <i class="bi bi-clock-history nav-icon"></i>
                         <span class="nav-text">Pending Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Employee Management -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="employees">
+                <i class="bi bi-person-badge nav-icon"></i>
+                <span class="nav-text">Employee Management</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="employees-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="employees.php?source=add_employee">
+                        <i class="bi bi-person-plus nav-icon"></i>
+                        <span class="nav-text">Add Employee</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="employees.php">
+                        <i class="bi bi-person-lines-fill nav-icon"></i>
+                        <span class="nav-text">View All Employees</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Shift Management -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="shifts">
+                <i class="bi bi-clock-history nav-icon"></i>
+                <span class="nav-text">Shift Management</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="shifts-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=add_shift">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Shift</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Shifts</span>
+                    </a>
+                </li>
+                <!-- In sidebar.php -->
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=attendance">
+                        <i class="bi bi-calendar-check nav-icon"></i>
+                        <span class="nav-text">Attendance</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+        <!-- Reports Menu -->
+        <?php
+        // Determine if any Reports & Analytics submenu is active
+        $reports_sources = ['dashboard','daily','monthly','items','payment','vendor','staff','tax','export'];
+        $reports_active = ($current_page == 'reports.php') && (isset($_GET['source']) && in_array($_GET['source'], $reports_sources));
+        ?>
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn <?php echo ($current_page == 'reports.php' && (isset($_GET['source']) && in_array($_GET['source'], $reports_sources))) ? 'active' : ''; ?>" href="#" data-menu="reports">
+                <i class="bi bi-graph-up nav-icon"></i>
+                <span class="nav-text">Reports & Analytics</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu<?php echo $reports_active ? ' show' : ''; ?>" id="reports-menu">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'dashboard') ? 'active' : ''; ?>" href="reports.php?source=dashboard">
+                        <i class="bi bi-speedometer2 nav-icon"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'daily') ? 'active' : ''; ?>" href="reports.php?source=daily">
+                        <i class="bi bi-calendar-day nav-icon"></i>
+                        <span class="nav-text">Daily Sales</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'monthly') ? 'active' : ''; ?>" href="reports.php?source=monthly">
+                        <i class="bi bi-calendar-month nav-icon"></i>
+                        <span class="nav-text">Monthly Summary</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'items') ? 'active' : ''; ?>" href="reports.php?source=items">
+                        <i class="bi bi-box-seam nav-icon"></i>
+                        <span class="nav-text">Item Performance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'payment') ? 'active' : ''; ?>" href="reports.php?source=payment">
+                        <i class="bi bi-credit-card nav-icon"></i>
+                        <span class="nav-text">Payment Methods</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'vendor') ? 'active' : ''; ?>" href="reports.php?source=vendor">
+                        <i class="bi bi-truck nav-icon"></i>
+                        <span class="nav-text">Vendor Reconciliation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'staff') ? 'active' : ''; ?>" href="reports.php?source=staff">
+                        <i class="bi bi-person-badge nav-icon"></i>
+                        <span class="nav-text">Staff Performance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'tax') ? 'active' : ''; ?>" href="reports.php?source=tax">
+                        <i class="bi bi-percent nav-icon"></i>
+                        <span class="nav-text">Tax Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'export') ? 'active' : ''; ?>" href="reports.php?source=export">
+                        <i class="bi bi-download nav-icon"></i>
+                        <span class="nav-text">Export Reports</span>
                     </a>
                 </li>
             </ul>
@@ -107,6 +235,36 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
         -->
 
+        <!-- Customers Menu -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="customers">
+                <i class="bi bi-people nav-icon"></i>
+                <span class="nav-text">Customers</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="customers-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="customers.php?source=add_customer">
+                        <i class="bi bi-person-plus nav-icon"></i>
+                        <span class="nav-text">Add Customer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="customers.php">
+                        <i class="bi bi-person-lines-fill nav-icon"></i>
+                        <span class="nav-text">View All</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="loyalty.php">
+                        <i class="bi bi-star-fill nav-icon"></i>
+                        <span class="nav-text">Loyalty Program</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        
         <!-- Reservations Menu -->
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="reservations">
@@ -166,35 +324,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link" href="categories.php?source=add_category">
                         <i class="bi bi-plus-circle nav-icon"></i>
                         <span class="nav-text">Add Category</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- Customers Menu -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="customers">
-                <i class="bi bi-people nav-icon"></i>
-                <span class="nav-text">Customers</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="customers-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="customers.php?source=add_customer">
-                        <i class="bi bi-person-plus nav-icon"></i>
-                        <span class="nav-text">Add Customer</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="customers.php">
-                        <i class="bi bi-person-lines-fill nav-icon"></i>
-                        <span class="nav-text">View All</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="loyalty.php">
-                        <i class="bi bi-star-fill nav-icon"></i>
-                        <span class="nav-text">Loyalty Program</span>
                     </a>
                 </li>
             </ul>
@@ -292,59 +421,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li>
 
-        <!-- Employee Management -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="employees">
-                <i class="bi bi-person-badge nav-icon"></i>
-                <span class="nav-text">Employee Management</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="employees-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="employees.php?source=add_employee">
-                        <i class="bi bi-person-plus nav-icon"></i>
-                        <span class="nav-text">Add Employee</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="employees.php">
-                        <i class="bi bi-person-lines-fill nav-icon"></i>
-                        <span class="nav-text">View All Employees</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- Shift Management -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="shifts">
-                <i class="bi bi-clock-history nav-icon"></i>
-                <span class="nav-text">Shift Management</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="shifts-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php?source=add_shift">
-                        <i class="bi bi-plus-circle nav-icon"></i>
-                        <span class="nav-text">Add Shift</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php">
-                        <i class="bi bi-card-checklist nav-icon"></i>
-                        <span class="nav-text">View All Shifts</span>
-                    </a>
-                </li>
-                <!-- In sidebar.php -->
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php?source=attendance">
-                        <i class="bi bi-calendar-check nav-icon"></i>
-                        <span class="nav-text">Attendance</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         <!-- Shift Schedule Dropdown -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#shiftMenu" data-bs-toggle="collapse" data-bs-target="#shiftMenu">
@@ -377,71 +453,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </ul>
             </div>
         </li>
-
-<!-- Reports Menu -->
-<li class="nav-item">
-    <a class="nav-link menu-toggle-btn <?php echo (in_array($current_page, ['reports.php'])) ? 'active' : ''; ?>" href="#" data-menu="reports">
-        <i class="bi bi-graph-up nav-icon"></i>
-        <span class="nav-text">Reports & Analytics</span>
-        <i class="bi bi-chevron-right menu-toggle"></i>
-    </a>
-    <ul class="sub-menu" id="reports-menu">
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'dashboard') ? 'active' : ''; ?>" href="reports.php?source=dashboard">
-                <i class="bi bi-speedometer2 nav-icon"></i>
-                <span class="nav-text">Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'daily') ? 'active' : ''; ?>" href="reports.php?source=daily">
-                <i class="bi bi-calendar-day nav-icon"></i>
-                <span class="nav-text">Daily Sales</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'monthly') ? 'active' : ''; ?>" href="reports.php?source=monthly">
-                <i class="bi bi-calendar-month nav-icon"></i>
-                <span class="nav-text">Monthly Summary</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'items') ? 'active' : ''; ?>" href="reports.php?source=items">
-                <i class="bi bi-box-seam nav-icon"></i>
-                <span class="nav-text">Item Performance</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'payment') ? 'active' : ''; ?>" href="reports.php?source=payment">
-                <i class="bi bi-credit-card nav-icon"></i>
-                <span class="nav-text">Payment Methods</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'vendor') ? 'active' : ''; ?>" href="reports.php?source=vendor">
-                <i class="bi bi-truck nav-icon"></i>
-                <span class="nav-text">Vendor Reconciliation</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'staff') ? 'active' : ''; ?>" href="reports.php?source=staff">
-                <i class="bi bi-person-badge nav-icon"></i>
-                <span class="nav-text">Staff Performance</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'tax') ? 'active' : ''; ?>" href="reports.php?source=tax">
-                <i class="bi bi-percent nav-icon"></i>
-                <span class="nav-text">Tax Report</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'export') ? 'active' : ''; ?>" href="reports.php?source=export">
-                <i class="bi bi-download nav-icon"></i>
-                <span class="nav-text">Export Reports</span>
-            </a>
-        </li>
-    </ul>
-</li>
 
         <!-- Settings -->
         <li class="nav-item">

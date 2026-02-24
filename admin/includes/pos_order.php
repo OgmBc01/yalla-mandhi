@@ -1649,30 +1649,55 @@ $(document).ready(function() {
         $('#initOrderModal').modal('hide');
     });
 
-    // Send to kitchen
-        $('#btnSendKitchen').click(function() {
-            if (!activeOrderId) return;
-            let order = orders.find(o => o.id === activeOrderId);
-            if (!order || order.items.length === 0) {
-                alert('No items to send to kitchen');
-                return;
-            }
-            order.order_status = 'in_preparation';
-            ordersChanged();
-            alert('Order sent to kitchen!');
-        });
 
-    // Print receipt
-    $('#btnPrint').click(function() {
+    // --- QZ Tray Integration for Printing Receipts ---
+    // Add QZ Tray JS (if not already included in the page)
+    if (typeof qz === 'undefined') {
+        var qzScript = document.createElement('script');
+        qzScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/qz-tray/2.1.0/qz-tray.js';
+        document.head.appendChild(qzScript);
+    }
+
+    function printReceiptQZ(orderId, type) {
+        const printerName = type === 'kitchen' ? 'XP-80C' : 'POS-80C';
+        const url = `includes/print_receipt.php?id=${orderId}&type=${type}`;
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                if (!window.qz) { alert('QZ Tray not available!'); return; }
+                qz.websocket.connect().then(() => qz.printers.find(printerName))
+                .then(printer => {
+                    var config = qz.configs.create(printer, { encoding: 'UTF-8' });
+                    var printData = [{ type: 'raw', format: 'plain', data: data }];
+                    return qz.print(config, printData);
+                })
+                .catch(e => alert('QZ Print Error: ' + e));
+            });
+    }
+
+    // Print Receipt (Counter)
+    $('#btnPrint').off('click').on('click', function() {
         if (!activeOrderId) return;
-        
         let order = orders.find(o => o.id === activeOrderId);
         if (!order || order.items.length === 0) {
             alert('No items to print');
             return;
         }
-        
-        alert('Print receipt!');
+        printReceiptQZ(order.id, 'counter');
+    });
+
+    // Send to Kitchen (Kitchen Printer)
+    $('#btnSendKitchen').off('click').on('click', function() {
+        if (!activeOrderId) return;
+        let order = orders.find(o => o.id === activeOrderId);
+        if (!order || order.items.length === 0) {
+            alert('No items to send to kitchen');
+            return;
+        }
+        printReceiptQZ(order.id, 'kitchen');
+        order.order_status = 'in_preparation';
+        ordersChanged();
+        alert('Order sent to kitchen!');
     });
 
     // Discount handlers
