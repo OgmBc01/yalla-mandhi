@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     <link rel="stylesheet" href="resources/css/style.css">
 
 </head>
-<body class="auth-page">
+<body class="auth-page signup-bg">
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">

@@ -521,20 +521,38 @@ body.profile-page {
 }
 
 /* ===== AUTH PAGES STYLES (reset-password, forgot-password, etc.) ===== */
-body.auth-page {
-  background: #f8f8f8 url('../img/bg-auth.jpg') no-repeat center center fixed;
+body.auth-page.login-bg {
+  background: #222 url('../img/restaurant_dining/login_bg.jpeg') no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+}
+body.auth-page.signup-bg {
+  background: #222 url('../img/restaurant_dining/sign_up_bg.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+body.auth-page.login-bg::before,
+body.auth-page.signup-bg::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20, 20, 20, 0.68); /* true dark overlay, image still visible */
+  z-index: 0;
+  pointer-events: none;
 }
 .auth-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(248, 248, 248, 0.92);
+  background: rgba(255,255,255,0.10);
   padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 .auth-card {
-  background: #fff;
+  background: #9e9e9eb1;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   padding: 2.5rem 2.5rem 2rem 2.5rem;
@@ -633,7 +651,7 @@ body.auth-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(248, 248, 248, 0.92);
+  background: rgba(43, 43, 43, 0.41);
   padding: 2rem 1rem;
   margin-top: 60px;
 }
