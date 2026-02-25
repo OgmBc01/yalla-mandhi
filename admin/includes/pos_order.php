@@ -1451,32 +1451,31 @@ function closeOrderAndSave() {
         success: function(response) {
             console.log('Success response:', response); // Debug log
             if (response.success) {
+                // Attach db_order_id to the closed order before removing
+                let closedOrder = orders.find(o => o.id === activeOrderId);
+                if (closedOrder && response.order_id) {
+                    closedOrder.db_order_id = response.order_id;
+                }
                 // Remove order from active orders
                 orders = orders.filter(o => o.id !== activeOrderId);
-                
                 // Set active order to next available
                 if (orders.length > 0) {
                     activeOrderId = orders[0].id;
                 } else {
                     activeOrderId = null;
                 }
-                
                 // Update UI
                 ordersChanged();
-                
                 // Show success modal
                 $('#successOrderNumber').text('Order #' + response.order_number);
                 let successModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
                 successModal.show();
-                
                 // Reset payment button
                 resetPaymentButton();
-                
                 // Clear from localStorage
                 let localOrders = JSON.parse(localStorage.getItem('pos_orders') || '[]');
                 localOrders = localOrders.filter(o => o.id !== activeOrderId);
                 localStorage.setItem('pos_orders', JSON.stringify(localOrders));
-                
             } else {
                 alert('Error: ' + response.message);
                 btn.html('<i class="bi bi-check2-circle me-2"></i>Save & Close Order');
@@ -1658,86 +1657,39 @@ $(document).ready(function() {
 
 
 
-    // --- QZ Tray Integration for Printing Receipts ---
-    // Improved: Wait for QZ Tray script to load before printing
-    let qzTrayLoaded = false;
-    let qzTrayLoading = false;
-    function ensureQZTrayLoaded(callback) {
-        if (window.qz) {
-            qzTrayLoaded = true;
-            callback();
-            return;
-        }
-        if (qzTrayLoading) {
-            setTimeout(() => ensureQZTrayLoaded(callback), 200);
-            return;
-        }
-        qzTrayLoading = true;
-        var qzScript = document.createElement('script');
-        qzScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/qz-tray/2.1.0/qz-tray.js';
-        qzScript.onload = function() {
-            qzTrayLoaded = true;
-            callback();
-        };
-        qzScript.onerror = function() {
-            // Try loading from local QZ Tray websocket server as fallback
-            var localScript = document.createElement('script');
-            localScript.src = 'https://localhost:8181/qz-tray.js';
-            localScript.onload = function() {
-                qzTrayLoaded = true;
-                callback();
-            };
-            localScript.onerror = function() {
-                alert('Failed to load QZ Tray script from both CDN and local server.\nPlease ensure QZ Tray is running and accessible.');
-            };
-            document.head.appendChild(localScript);
-        };
-        document.head.appendChild(qzScript);
+// --- PRINT RECEIPT FUNCTIONS (Simplified) ---
+function printReceipt(orderId, type) {
+    // Open print preview in new tab
+    // Always allow printing for both open and closed orders
+    const url = `includes/print_receipt.php?id=${orderId}&type=${type}`;
+    window.open(url, '_blank', 'width=600,height=800,scrollbars=yes');
+}
+
+// Print Receipt (Counter)
+$('#btnPrint').off('click').on('click', function() {
+    if (!activeOrderId) return;
+    let order = orders.find(o => o.id === activeOrderId);
+    if (!order || order.items.length === 0) {
+        alert('No items to print');
+        return;
     }
+    printReceipt(order.id, 'counter');
+});
 
-    function printReceiptQZ(orderId, type) {
-        ensureQZTrayLoaded(function() {
-            const printerName = type === 'kitchen' ? 'XP-80C' : 'POS-80C';
-            const url = `includes/print_receipt.php?id=${orderId}&type=${type}`;
-            fetch(url)
-                .then(res => res.text())
-                .then(data => {
-                    if (!window.qz) { alert('QZ Tray not available!'); return; }
-                    qz.websocket.connect().then(() => qz.printers.find(printerName))
-                    .then(printer => {
-                        var config = qz.configs.create(printer, { encoding: 'UTF-8' });
-                        var printData = [{ type: 'raw', format: 'plain', data: data }];
-                        return qz.print(config, printData);
-                    })
-                    .catch(e => alert('QZ Print Error: ' + e));
-                });
-        });
+// Send to Kitchen (Kitchen Printer)
+$('#btnSendKitchen').off('click').on('click', function() {
+    if (!activeOrderId) return;
+    let order = orders.find(o => o.id === activeOrderId);
+    if (!order || order.items.length === 0) {
+        alert('No items to send to kitchen');
+        return;
     }
+    printReceipt(order.id, 'kitchen');
+    order.order_status = 'in_preparation';
+    ordersChanged();
+});
 
-    // Print Receipt (Counter)
-    $('#btnPrint').off('click').on('click', function() {
-        if (!activeOrderId) return;
-        let order = orders.find(o => o.id === activeOrderId);
-        if (!order || order.items.length === 0) {
-            alert('No items to print');
-            return;
-        }
-        printReceiptQZ(order.id, 'counter');
-    });
 
-    // Send to Kitchen (Kitchen Printer)
-    $('#btnSendKitchen').off('click').on('click', function() {
-        if (!activeOrderId) return;
-        let order = orders.find(o => o.id === activeOrderId);
-        if (!order || order.items.length === 0) {
-            alert('No items to send to kitchen');
-            return;
-        }
-        printReceiptQZ(order.id, 'kitchen');
-        order.order_status = 'in_preparation';
-        ordersChanged();
-        alert('Order sent to kitchen!');
-    });
 
     // Discount handlers
     $('#discountAmount').on('input', function() {
