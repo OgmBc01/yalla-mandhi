@@ -373,7 +373,7 @@ $payment_status_badges = [
                                                     title="Print Receipt">
                                                 <i class="bi bi-printer"></i>
                                             </button>
-                                            <?php if (in_array($current_user_role, ['admin', 'super-admin'])): ?>
+                                            <?php if ($current_user_role === 'super-admin'): ?>
                                             <button type="button" class="btn btn-outline-danger" 
                                                     onclick="showDeleteConfirm(<?php echo $order['id']; ?>, '<?php echo $order['order_number']; ?>')"
                                                     title="Delete" <?php echo !in_array($order['order_status'], ['draft', 'cancelled']) ? 'disabled' : ''; ?>>
@@ -443,7 +443,9 @@ $payment_status_badges = [
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <?php if ($current_user_role === 'super-admin'): ?>
                 <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Order</button>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -474,6 +476,11 @@ $(document).ready(function() {
 });
 
 function showDeleteConfirm(orderId, orderNumber) {
+    // Only allow super-admin to delete/cancel order
+    <?php if ($current_user_role !== 'super-admin'): ?>
+        alert('Only Super Admin can delete/cancel an order.');
+        return;
+    <?php endif; ?>
     deleteOrderId = orderId;
     document.getElementById('deleteOrderNumber').textContent = orderNumber;
     deleteModal.show();

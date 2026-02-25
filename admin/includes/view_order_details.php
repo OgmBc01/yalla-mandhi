@@ -112,7 +112,33 @@ $status_transitions = [
                     <a href="orders.php?source=edit_order&id=<?php echo $order_id; ?>" class="btn btn-warning me-2">
                         <i class="bi bi-pencil"></i> Edit Order
                     </a>
+                    <?php if ($current_user_role === 'super-admin'): ?>
+                        <button class="btn btn-danger me-2" onclick="cancelOrder()">
+                            <i class="bi bi-x-circle"></i> Cancel Order
+                        </button>
+                    <?php endif; ?>
                 <?php endif; ?>
+                </script>
+                <script>
+                function cancelOrder() {
+                    if (!confirm('Are you sure you want to cancel this order?')) return;
+                    $.ajax({
+                        url: 'includes/ajax/cancel_order.php',
+                        method: 'POST',
+                        data: { order_id: <?php echo $order_id; ?> },
+                        success: function(response) {
+                            if (response.success) {
+                                location.reload();
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        },
+                        error: function() {
+                            alert('Server error occurred');
+                        }
+                    });
+                }
+                </script>
                 <button class="btn btn-success" onclick="printReceipt('counter')">
                     <i class="bi bi-printer"></i> Print Receipt
                 </button>
@@ -307,10 +333,11 @@ $status_transitions = [
                         <?php if (!empty($status_transitions[$order['order_status']])): ?>
                         <div class="d-grid gap-2">
                             <?php foreach ($status_transitions[$order['order_status']] as $next_status): ?>
-                            <button class="btn btn-outline-<?php echo $status_badges[$next_status] ?? 'primary'; ?>"
-                                    onclick="updateOrderStatus('<?php echo $next_status; ?>')">
-                                Mark as <?php echo ucfirst(str_replace('_', ' ', $next_status)); ?>
-                            </button>
+                                <?php if ($next_status === 'cancelled' && $current_user_role !== 'super-admin') continue; ?>
+                                <button class="btn btn-outline-<?php echo $status_badges[$next_status] ?? 'primary'; ?>"
+                                        onclick="updateOrderStatus('<?php echo $next_status; ?>')">
+                                    Mark as <?php echo ucfirst(str_replace('_', ' ', $next_status)); ?>
+                                </button>
                             <?php endforeach; ?>
                         </div>
                         <?php else: ?>

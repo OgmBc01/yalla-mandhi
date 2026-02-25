@@ -1105,6 +1105,11 @@ function resetPaymentButton() {
 }
 
 function removeItem(i) {
+    // Allow both admin and super-admin to remove/cancel order items
+    <?php if (!in_array($_SESSION['role'], ['admin', 'super-admin'])): ?>
+        showNotification('Only Admin or Super Admin can remove items.', 'danger');
+        return;
+    <?php endif; ?>
     let order = orders.find(o => o.id === activeOrderId);
     if (order && order.items) {
         order.items.splice(i, 1);
@@ -1355,12 +1360,15 @@ function showNotification(message, type = 'success') {
 }
 
 window.showDeleteModal = function(orderId) {
+    // Only allow super-admin to delete/cancel order
+    <?php if ($_SESSION['role'] !== 'super-admin'): ?>
+        showNotification('Only Super Admin can delete/cancel an order.', 'danger');
+        return;
+    <?php endif; ?>
     let order = orders.find(o => o.id === orderId);
     if (!order) return;
-    
     let customerName = order.customer && order.customer.name ? order.customer.name : 'Guest';
     let itemCount = order.items ? order.items.length : 0;
-    
     $('#deleteOrderDetails').html(`
         <strong>Order #${orderId.substr(-6)}</strong><br>
         Type: ${order.type.toUpperCase()}<br>
@@ -1368,7 +1376,6 @@ window.showDeleteModal = function(orderId) {
         Items: ${itemCount}<br>
         Total: ${calculateOrderTotal(order).toFixed(2)} AED
     `);
-    
     $('#confirmDeleteBtn').data('order-id', orderId);
     $('#deleteOrderModal').modal('show');
 };
