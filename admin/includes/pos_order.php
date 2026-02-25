@@ -1650,29 +1650,61 @@ $(document).ready(function() {
     });
 
 
+
     // --- QZ Tray Integration for Printing Receipts ---
-    // Add QZ Tray JS (if not already included in the page)
-    if (typeof qz === 'undefined') {
+    // Improved: Wait for QZ Tray script to load before printing
+    let qzTrayLoaded = false;
+    let qzTrayLoading = false;
+    function ensureQZTrayLoaded(callback) {
+        if (window.qz) {
+            qzTrayLoaded = true;
+            callback();
+            return;
+        }
+        if (qzTrayLoading) {
+            setTimeout(() => ensureQZTrayLoaded(callback), 200);
+            return;
+        }
+        qzTrayLoading = true;
         var qzScript = document.createElement('script');
         qzScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/qz-tray/2.1.0/qz-tray.js';
+        qzScript.onload = function() {
+            qzTrayLoaded = true;
+            callback();
+        };
+        qzScript.onerror = function() {
+            // Try loading from local QZ Tray websocket server as fallback
+            var localScript = document.createElement('script');
+            localScript.src = 'https://localhost:8181/qz-tray.js';
+            localScript.onload = function() {
+                qzTrayLoaded = true;
+                callback();
+            };
+            localScript.onerror = function() {
+                alert('Failed to load QZ Tray script from both CDN and local server.\nPlease ensure QZ Tray is running and accessible.');
+            };
+            document.head.appendChild(localScript);
+        };
         document.head.appendChild(qzScript);
     }
 
     function printReceiptQZ(orderId, type) {
-        const printerName = type === 'kitchen' ? 'XP-80C' : 'POS-80C';
-        const url = `includes/print_receipt.php?id=${orderId}&type=${type}`;
-        fetch(url)
-            .then(res => res.text())
-            .then(data => {
-                if (!window.qz) { alert('QZ Tray not available!'); return; }
-                qz.websocket.connect().then(() => qz.printers.find(printerName))
-                .then(printer => {
-                    var config = qz.configs.create(printer, { encoding: 'UTF-8' });
-                    var printData = [{ type: 'raw', format: 'plain', data: data }];
-                    return qz.print(config, printData);
-                })
-                .catch(e => alert('QZ Print Error: ' + e));
-            });
+        ensureQZTrayLoaded(function() {
+            const printerName = type === 'kitchen' ? 'XP-80C' : 'POS-80C';
+            const url = `includes/print_receipt.php?id=${orderId}&type=${type}`;
+            fetch(url)
+                .then(res => res.text())
+                .then(data => {
+                    if (!window.qz) { alert('QZ Tray not available!'); return; }
+                    qz.websocket.connect().then(() => qz.printers.find(printerName))
+                    .then(printer => {
+                        var config = qz.configs.create(printer, { encoding: 'UTF-8' });
+                        var printData = [{ type: 'raw', format: 'plain', data: data }];
+                        return qz.print(config, printData);
+                    })
+                    .catch(e => alert('QZ Print Error: ' + e));
+                });
+        });
     }
 
     // Print Receipt (Counter)
