@@ -199,7 +199,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <!-- Inventory Management - NEW SECTION (commented out)
         <li class="nav-item">
             <a class="nav-link menu-toggle-btn" href="#" data-menu="inventory">
                 <i class="bi bi-boxes nav-icon"></i>
@@ -231,9 +230,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span class="nav-text">Low Stock Alert</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventory.php?source=add_supplier">
+                        <i class="bi bi-truck nav-icon"></i>
+                        <span class="nav-text">Add Supplier</span>
+                    </a>
+                </li>
             </ul>
         </li>
-        -->
+       
 
         <!-- Customers Menu -->
         <li class="nav-item">
