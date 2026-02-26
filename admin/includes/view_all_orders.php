@@ -362,17 +362,6 @@ $payment_status_badges = [
                                                class="btn btn-outline-info" title="View">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <?php if ($order['order_status'] == 'draft' || $order['order_status'] == 'pending'): ?>
-                                            <a href="orders.php?source=edit_order&id=<?php echo $order['id']; ?>" 
-                                               class="btn btn-outline-warning" title="Edit">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <?php endif; ?>
-                                            <button type="button" class="btn btn-outline-success" 
-                                                    onclick="printReceipt(<?php echo $order['id']; ?>, 'counter')"
-                                                    title="Print Receipt">
-                                                <i class="bi bi-printer"></i>
-                                            </button>
                                             <?php if ($current_user_role === 'super-admin'): ?>
                                             <button type="button" class="btn btn-outline-danger" 
                                                     onclick="showDeleteConfirm(<?php echo $order['id']; ?>, '<?php echo $order['order_number']; ?>')"

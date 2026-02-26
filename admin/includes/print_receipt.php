@@ -23,9 +23,6 @@ if (!isset($_SESSION['user_id'])) {
 $raw_id = $_GET['id'] ?? '';
 $receipt_type = isset($_GET['type']) ? $_GET['type'] : 'counter';
 
-// Debug info (remove in production)
-// echo "<!-- Debug: order_id=$raw_id, type=$receipt_type -->";
-
 if (!$raw_id) {
     die("Invalid order ID: " . htmlspecialchars($raw_id));
 }
@@ -107,8 +104,8 @@ if ($connection->query("SHOW TABLES LIKE 'printer_logs'")->num_rows > 0) {
 // Restaurant info
 $restaurant_name = "YALLA AL MANDI";
 $restaurant_phone = "+971 50 375 7274";
-$restaurant_vat = "VAT: 123456789";
-$address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Community Village, Dubai.";
+$trn = "TRN: 105144729800003";
+$address = "Shop No.:08 Royal Class Building, Dubai Investment Park 1, Green Community Village, Dubai.";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,7 +148,8 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             padding: 3mm;
             font-size: 10pt;
-            line-height: 1.3;
+            line-height: 1.4;
+            font-weight: normal;
         }
         
         /* Thermal printer specific - 72mm width */
@@ -200,26 +198,34 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
             text-align: center;
             margin-bottom: 3mm;
             padding-bottom: 2mm;
-            border-bottom: 1px dashed #c41e3a;
+            border-bottom: 2px solid #c41e3a;
         }
         
         .receipt-header h1 {
-            font-size: 14pt;
-            font-weight: bold;
+            font-size: 18pt;
+            font-weight: 900;
             color: #c41e3a;
-            margin-bottom: 1mm;
+            margin-bottom: 2mm;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         
         .receipt-header h2 {
-            font-size: 12pt;
-            font-weight: bold;
+            font-size: 14pt;
+            font-weight: 800;
             color: #f39c12;
             margin-bottom: 1mm;
+            text-transform: uppercase;
         }
         
-        .receipt-header p {
-            font-size: 9pt;
-            color: #666;
+        .receipt-header .trn {
+            font-size: 10pt;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2mm;
+            border-top: 1px dashed #999;
+            border-bottom: 1px dashed #999;
+            padding: 2mm 0;
         }
         
         .receipt-info {
@@ -231,111 +237,171 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
         .info-row {
             display: flex;
             justify-content: space-between;
-            font-size: 9pt;
-            margin-bottom: 1mm;
+            font-size: 10pt;
+            margin-bottom: 1.5mm;
+            font-weight: 500;
         }
         
         .info-label {
-            font-weight: bold;
-            color: #555;
+            font-weight: 700;
+            color: #333;
         }
         
         .info-value {
-            color: #333;
+            color: #000;
+            font-weight: 600;
             text-align: right;
         }
         
         .items-table {
             width: 100%;
-            margin-bottom: 3mm;
+            margin-bottom: 4mm;
             border-collapse: collapse;
         }
         
         .items-table th {
             text-align: left;
-            font-size: 9pt;
-            padding: 1mm 0;
-            border-bottom: 1px solid #ddd;
+            font-size: 10pt;
+            font-weight: 800;
+            padding: 1.5mm 0;
+            border-bottom: 2px solid #c41e3a;
             color: #c41e3a;
+            text-transform: uppercase;
         }
         
         .items-table td {
-            padding: 1mm 0;
-            font-size: 9pt;
+            padding: 1.5mm 0;
+            font-size: 10pt;
+            font-weight: 500;
         }
         
         .items-table .item-name {
-            font-weight: bold;
+            font-weight: 700;
             width: 50%;
         }
         
         .items-table .item-qty {
             text-align: center;
             width: 15%;
+            font-weight: 600;
         }
         
         .items-table .item-price {
             text-align: right;
             width: 17%;
+            font-weight: 600;
         }
         
         .items-table .item-total {
             text-align: right;
             width: 18%;
+            font-weight: 700;
         }
         
         .item-notes {
-            font-size: 8pt;
+            font-size: 9pt;
             color: #f39c12;
             font-style: italic;
+            font-weight: 600;
             padding-left: 2mm;
         }
         
         .totals {
-            margin-top: 3mm;
-            padding-top: 2mm;
-            border-top: 1px dashed #c41e3a;
+            margin-top: 4mm;
+            padding-top: 3mm;
+            border-top: 2px solid #c41e3a;
+            border-bottom: 2px solid #c41e3a;
+            padding-bottom: 3mm;
+            margin-bottom: 3mm;
         }
         
         .total-row {
             display: flex;
             justify-content: space-between;
-            font-size: 9pt;
-            margin-bottom: 1mm;
+            font-size: 11pt;
+            margin-bottom: 2mm;
+            font-weight: 600;
         }
         
         .grand-total {
-            font-size: 11pt;
-            font-weight: bold;
+            font-size: 14pt;
+            font-weight: 900;
             color: #c41e3a;
-            margin-top: 2mm;
-            padding-top: 2mm;
-            border-top: 1px solid #ddd;
+            margin-top: 3mm;
+            padding-top: 3mm;
+            border-top: 2px solid #f39c12;
+        }
+        
+        .grand-total span:last-child {
+            font-size: 16pt;
+            font-weight: 900;
         }
         
         .payment-info {
             margin-top: 3mm;
             padding: 2mm;
-            background: #f8f9fa;
+            background: #f0f0f0;
             border-radius: 2mm;
-            font-size: 9pt;
+            font-size: 10pt;
+            font-weight: 600;
+        }
+        
+        .payment-info .info-row {
+            margin-bottom: 1mm;
         }
         
         .footer {
             text-align: center;
-            margin-top: 3mm;
-            padding-top: 2mm;
-            border-top: 1px dashed #c41e3a;
-            font-size: 8pt;
+            margin-top: 4mm;
+            padding-top: 3mm;
+            border-top: 2px solid #c41e3a;
+            font-size: 9pt;
             color: #666;
+        }
+        
+        .footer p {
+            margin-bottom: 1mm;
+        }
+        
+        .footer .thank-you {
+            font-size: 16pt;
+            font-weight: 900;
+            color: #c41e3a;
+            margin: 3mm 0 2mm;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Bolder address section for counter receipt */
+        .branch-info {
+            margin-top: 3mm;
+            font-size: 9pt;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            border-top: 1px solid #c41e3a;
+            border-bottom: 1px solid #c41e3a;
+            padding: 2mm;
+            background: #fafafa;
+        }
+        
+        .branch-info .address {
+            font-weight: 700;
+            margin-bottom: 1mm;
+        }
+        
+        .branch-info .phone {
+            font-weight: 800;
+            color: #c41e3a;
         }
         
         .vendor-badge {
             background: #f39c12;
             color: white;
-            padding: 1px 3px;
+            padding: 1px 4px;
             border-radius: 2px;
-            font-size: 8pt;
+            font-size: 9pt;
+            font-weight: 600;
             display: inline-block;
         }
         
@@ -347,8 +413,8 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
             color: white;
             border: none;
             border-radius: 2mm;
-            font-size: 11pt;
-            font-weight: bold;
+            font-size: 12pt;
+            font-weight: 700;
             cursor: pointer;
             margin: 3mm 0;
             text-align: center;
@@ -364,12 +430,17 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
         
         .kitchen-only {
             background: #fff3cd;
-            border-left: 3px solid #ffc107;
+            border-left: 4px solid #ffc107;
             padding: 2mm;
             margin-bottom: 3mm;
-            font-weight: bold;
+            font-weight: 700;
             text-align: center;
-            font-size: 10pt;
+            font-size: 11pt;
+            color: #856404;
+        }
+        
+        .kitchen-only i {
+            margin-right: 2mm;
         }
         
         /* Ensure no admin elements interfere */
@@ -383,15 +454,14 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
 <body>
     <div class="receipt-container">
         <?php if ($receipt_type == 'kitchen'): ?>
-            <!-- KITCHEN RECEIPT -->
+            <!-- KITCHEN RECEIPT (No address here) -->
             <div class="kitchen-only">
                 <i class="bi bi-egg-fried"></i> KITCHEN COPY - FOR PREPARATION ONLY
             </div>
             
             <div class="receipt-header">
-                <h1><?php echo $restaurant_name; ?></h1>
-                <h2>KITCHEN ORDER</h2>
-                <p><?php echo $address; ?></p>
+                <h2><?php echo $restaurant_name; ?></h2>
+                <div class="trn"><?php echo $trn; ?></div>
             </div>
             
             <div class="receipt-info">
@@ -501,11 +571,10 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
             </div>
             
         <?php else: ?>
-            <!-- COUNTER / CUSTOMER RECEIPT -->
+            <!-- COUNTER / CUSTOMER RECEIPT (With address and phone here) -->
             <div class="receipt-header">
                 <h1><?php echo $restaurant_name; ?></h1>
-                <p><?php echo $address; ?></p>
-                <p>Tel: <?php echo $restaurant_phone; ?></p>
+                <div class="trn"><?php echo $trn; ?></div>
             </div>
             
             <div class="receipt-info">
@@ -678,17 +747,24 @@ $address = "Shop No.:00 Royal Class Building, Dubai Investment Park 1, Green Com
                     <span class="info-label">Status:</span>
                     <span class="info-value">
                         <?php if (($order['payment_status'] ?? '') == 'paid'): ?>
-                        <span style="color: #27ae60;">✓ Paid</span>
+                        <span style="color: #27ae60; font-weight: 700;">✓ PAID</span>
                         <?php else: ?>
-                        <span style="color: #e74c3c;">⨯ <?php echo ucfirst($order['payment_status'] ?? 'pending'); ?></span>
+                        <span style="color: #e74c3c; font-weight: 700;">⨯ <?php echo strtoupper($order['payment_status'] ?? 'pending'); ?></span>
                         <?php endif; ?>
                     </span>
                 </div>
             </div>
             
+            <!-- Branch Address & Phone - Bolder and Only on Counter Receipt -->
+            <div class="branch-info">
+                <div class="address"><i class="bi bi-geo-alt-fill me-1"></i> <?php echo $address; ?></div>
+                <div class="phone"><i class="bi bi-telephone-fill me-1"></i> <?php echo $restaurant_phone; ?></div>
+            </div>
+            
+            <!-- Thank You Message - Big and Bold -->
             <div class="footer">
-                <p>Thank you for choosing <?php echo $restaurant_name; ?>!</p>
-                <p><?php echo $restaurant_vat; ?></p>
+                <div class="thank-you">Thank You!</div>
+                <div style="font-weight: 600; margin: 2mm 0;">Visit Us Again</div>
             </div>
         <?php endif; ?>
         

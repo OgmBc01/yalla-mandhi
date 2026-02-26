@@ -108,15 +108,10 @@ $status_transitions = [
                 <a href="orders.php?source=order_list" class="btn btn-secondary me-2">
                     <i class="bi bi-arrow-left"></i> Back to List
                 </a>
-                <?php if ($order['order_status'] != 'closed'): ?>
-                    <a href="orders.php?source=edit_order&id=<?php echo $order_id; ?>" class="btn btn-warning me-2">
-                        <i class="bi bi-pencil"></i> Edit Order
-                    </a>
-                    <?php if ($current_user_role === 'super-admin'): ?>
-                        <button class="btn btn-danger me-2" onclick="cancelOrder()">
-                            <i class="bi bi-x-circle"></i> Cancel Order
-                        </button>
-                    <?php endif; ?>
+                <?php if ($order['order_status'] != 'closed' && $current_user_role === 'super-admin'): ?>
+                    <button class="btn btn-danger me-2" onclick="cancelOrder()">
+                        <i class="bi bi-x-circle"></i> Cancel Order
+                    </button>
                 <?php endif; ?>
                 </script>
                 <script>

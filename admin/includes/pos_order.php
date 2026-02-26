@@ -25,14 +25,14 @@ if ($categories && $categories->num_rows > 0) {
 }
 ?>
 
-<div class="main-content">
-<div class="container-fluid">
+<div class="main-content" style="height:100vh;min-height:0;display:flex;flex-direction:column;">
+<div class="container-fluid" style="flex:1 1 auto;display:flex;flex-direction:column;min-height:0;">
 
 <!-- ================= HEADER ================= -->
 
 <!-- Page Title -->
-<div class="mt-3 mb-2">
-    <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin-bottom:0.2em; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
+<div style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0;">
+    <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin:0; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
 </div>
 
 <!-- Active Orders Card with Breakdown (compact, above row) -->
@@ -82,27 +82,29 @@ if ($categories && $categories->num_rows > 0) {
 
     <!-- 3️⃣ ORDER PANEL -->
     <div class="order-panel">
-        <table class="table table-bordered mb-2">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th width="70">Qty</th>
-                    <th width="100">Price</th>
-                    <th width="100">Total</th>
-                    <th width="40"></th>
-                </tr>
-            </thead>
-            <tbody id="orderItemsBody">
-                <tr class="empty-row">
-                    <td colspan="5" class="text-center text-muted">
-                        Create or select an order to begin
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="order-items-table-wrapper">
+            <table class="table table-bordered mb-2" style="margin-bottom:0;">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th width="70">Qty</th>
+                        <th width="100">Price</th>
+                        <th width="100">Total</th>
+                        <th width="40"></th>
+                    </tr>
+                </thead>
+                <tbody id="orderItemsBody">
+                    <tr class="empty-row">
+                        <td colspan="5" class="text-center text-muted">
+                            Create or select an order to begin
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <!-- ================= ENHANCED FINANCIAL SUMMARY ================= -->
-        <div class="financial-summary mt-3">
+        <div class="financial-summary">
             <!-- Subtotal -->
             <div class="summary-row d-flex justify-content-between align-items-center py-2">
                 <span class="summary-label">
@@ -454,11 +456,12 @@ if ($categories && $categories->num_rows > 0) {
 
 <style>
 .pos-container{
-    display:flex;
-    height:calc(100vh - 180px);
-    background:#fff;
-    border-radius:8px;
-    overflow:hidden;
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
 }
 .category-panel{
     width:220px;
@@ -497,15 +500,21 @@ if ($categories && $categories->num_rows > 0) {
     border-color:#c41e3a;
 }
 .order-panel{
-    flex:1;
-    padding:10px;
-    display:flex;
-    flex-direction:column;
-    border-left:1px solid #ddd;
-    min-height:0;
-    overflow-y:auto;
-    max-height:calc(100vh - 220px);
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
+    min-height: 0;
+    overflow: hidden;
+    max-height: calc(100vh - 220px);
 }
+.order-items-table-wrapper {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
 .order-tab{
     padding:6px 12px;
     background:#eee;
@@ -547,24 +556,57 @@ if ($categories && $categories->num_rows > 0) {
 }
 .financial-summary {
     background: #fff;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 12px 12px 0 0;
+    padding: 6px 8px 4px 8px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
     border: 1px solid #e0e0e0;
+    border-bottom: none;
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
+    z-index: 10;
+    margin-top: auto;
+}
+/* Compact table row and quantity cell styles */
+.order-panel td.qty-cell {
+    vertical-align: top;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: center;
+}
+.qty-btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+.qty-value {
+    display: block;
+    font-weight: bold;
+    margin: 0 auto 2px auto;
+}
+.order-panel td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    vertical-align: middle;
 }
 .summary-row {
     transition: all 0.2s ease;
+    margin-bottom: 2px;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
 }
 .summary-row:hover {
     background-color: #f8f9fa;
     border-radius: 6px;
 }
 .summary-label {
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     color: #2c3e50;
 }
 .summary-value {
-    font-size: 1rem;
+    font-size: 0.97rem;
     font-weight: 600;
     color: #2c3e50;
 }
@@ -579,6 +621,7 @@ if ($categories && $categories->num_rows > 0) {
 .discount-presets {
     display: flex;
     align-items: center;
+    margin-top: 2px;
     flex-wrap: wrap;
     gap: 5px;
 }
@@ -1016,22 +1059,20 @@ function renderOrder() {
         if (!item.name) item.name = 'Unknown Item';
         if (!item.price) item.price = 0;
         if (!item.qty) item.qty = 1;
-        
         let line = item.qty * item.price;
-        
         body.append(`
             <tr>
-                <td style="font-size:1.15rem; font-weight:700; color:#222;">${item.name}</td>
-                <td>
-                    <div class="input-group input-group-sm justify-content-center">
-                        <button class="btn btn-qty-minus btn-sm" data-index="${i}" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;border:none;width:32px;">-</button>
-                        <span class="form-control text-center border-0" style="width:40px;background:transparent;">${item.qty}</span>
-                        <button class="btn btn-qty-plus btn-sm" data-index="${i}" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;width:32px;">+</button>
+                <td style="font-size:1.05rem; font-weight:600; color:#222;">${item.name}</td>
+                <td class="qty-cell">
+                    <div class="qty-btn-group">
+                        <button type="button" class="btn btn-sm btn-qty-minus" data-index="${i}" style="padding:2px 6px;"><i class="bi bi-dash"></i></button>
+                        <button type="button" class="btn btn-sm btn-qty-plus" data-index="${i}" style="padding:2px 6px;"><i class="bi bi-plus"></i></button>
                     </div>
+                    <span class="qty-value">${item.qty}</span>
                 </td>
                 <td>${item.price.toFixed(2)}</td>
                 <td>${line.toFixed(2)}</td>
-                <td><button class="btn btn-sm btn-danger" onclick="removeItem(${i})">×</button></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeItem(${i})"><i class="bi bi-trash"></i></button></td>
             </tr>
         `);
     });
