@@ -30,15 +30,14 @@ if ($categories && $categories->num_rows > 0) {
 
 <!-- ================= HEADER ================= -->
 
-<!-- Page Title -->
-<div style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0;">
-    <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin:0; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
-</div>
-
 <!-- Active Orders Card with Breakdown (compact, above row) -->
 <div id="activeOrdersCard" class="card shadow-sm mb-2" style="max-width:100%; border-radius:12px; border:1px solid #f39c12; background:linear-gradient(135deg,#fffbe6,#fff);">
     <div class="card-body py-2 px-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <!-- Page Title -->
+            <div style="margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0;">
+                <h1 style="font-size:2rem; font-weight:800; color:#c41e3a; letter-spacing:1px; margin:0; text-shadow:0 2px 8px rgba(196,30,58,0.08);">Punch Orders</h1>
+            </div>
             <div style="font-size:1.05rem; color:#c41e3a; font-weight:600;">Active Orders: <span id="activeOrdersCount" style="font-size:1.5rem; font-weight:700; color:#f39c12;">0</span></div>
             <div id="ordersTypeBreakdown" class="d-flex flex-wrap gap-2"></div>
         </div>

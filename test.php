@@ -2857,3 +2857,9 @@ Is this possible?
 Notice: session_start(): Ignoring session_start() because a session is already active in /var/www/html/admin/includes/print_receipt.php on line 2
 
 Fatal error: Uncaught mysqli_sql_exception: Data truncated for column 'receipt_type' at row 1 in /var/www/html/admin/includes/print_receipt.php:94 Stack trace: #0 /var/www/html/admin/includes/print_receipt.php(94): mysqli_stmt->execute() #1 /var/www/html/admin/orders.php(53): include('/var/www/html/a...') #2 {main} thrown in /var/www/html/admin/includes/print_receipt.php on line 94
+
+
+
+Yes please, additionally, in expense_report.php or another different page, I want to be able to see the actual report of the days', months' and years' total profit, after subtracting the total sales from the months' and years total expenses. If you can add that, it will be great. I believe you already have my orders table shema and structure.
+
+Also, currently I am having inventory related tables in my db with the below schema, check and see if its aligned with what you are suggesting, if not give me a way out whether to update the current, or remove it and create new
