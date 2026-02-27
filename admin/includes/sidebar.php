@@ -28,7 +28,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <!-- POS / Orders Menu - ENHANCED -->
         <?php
         // Determine if any POS & Orders submenu is active
         $orders_sources = ['add_order','order_list','online_orders'];
@@ -86,36 +85,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link" href="employees.php">
                         <i class="bi bi-person-lines-fill nav-icon"></i>
                         <span class="nav-text">View All Employees</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- Shift Management -->
-        <li class="nav-item">
-            <a class="nav-link menu-toggle-btn" href="#" data-menu="shifts">
-                <i class="bi bi-clock-history nav-icon"></i>
-                <span class="nav-text">Shift Management</span>
-                <i class="bi bi-chevron-right menu-toggle"></i>
-            </a>
-            <ul class="sub-menu" id="shifts-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php?source=add_shift">
-                        <i class="bi bi-plus-circle nav-icon"></i>
-                        <span class="nav-text">Add Shift</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php">
-                        <i class="bi bi-card-checklist nav-icon"></i>
-                        <span class="nav-text">View All Shifts</span>
-                    </a>
-                </li>
-                <!-- In sidebar.php -->
-                <li class="nav-item">
-                    <a class="nav-link" href="shifts.php?source=attendance">
-                        <i class="bi bi-calendar-check nav-icon"></i>
-                        <span class="nav-text">Attendance</span>
                     </a>
                 </li>
             </ul>
@@ -191,12 +160,64 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </li>
 
-        <!-- Kitchen Display - NEW -->
+        <!-- Expenses Module -->
         <li class="nav-item">
-            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'kitchen_display') ? 'active' : ''; ?>" href="orders.php?source=kitchen_display">
-                <i class="bi bi-tv nav-icon"></i>
-                <span class="nav-text">Kitchen Display</span>
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="expenses">
+                <i class="bi bi-receipt nav-icon"></i>
+                <span class="nav-text">Expenses</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
             </a>
+            <ul class="sub-menu" id="expenses-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php?source=add_expense">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Expense</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Expenses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php?source=expense_categories">
+                        <i class="bi bi-tags nav-icon"></i>
+                        <span class="nav-text">Categories</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php?source=recurring_expenses">
+                        <i class="bi bi-arrow-repeat nav-icon"></i>
+                        <span class="nav-text">Recurring Expenses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php?source=profit_report">
+                        <i class="bi bi-pie-chart-fill nav-icon"></i>
+                        <span class="nav-text">Profit & Loss</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expenses.php?source=pending_approval">
+                        <i class="bi bi-clock-history nav-icon"></i>
+                        <span class="nav-text">Pending Approval</span>
+                        <?php
+                        // Optional: Show count of pending expenses
+                        if (isset($connection)) {
+                            $pending_query = "SELECT COUNT(*) as count FROM expenses WHERE payment_status = 'pending'";
+                            $pending_result = $connection->query($pending_query);
+                            if ($pending_result) {
+                                $pending_count = $pending_result->fetch_assoc()['count'];
+                                if ($pending_count > 0) {
+                                    echo '<span class="badge bg-danger ms-2">' . $pending_count . '</span>';
+                                }
+                            }
+                        }
+                        ?>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="nav-item">
@@ -238,7 +259,44 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </li>
-       
+
+        <!-- Kitchen Display - NEW -->
+        <li class="nav-item">
+            <a class="nav-link <?php echo (isset($_GET['source']) && $_GET['source'] == 'kitchen_display') ? 'active' : ''; ?>" href="orders.php?source=kitchen_display">
+                <i class="bi bi-tv nav-icon"></i>
+                <span class="nav-text">Kitchen Display</span>
+            </a>
+        </li>
+
+                <!-- Shift Management -->
+        <li class="nav-item">
+            <a class="nav-link menu-toggle-btn" href="#" data-menu="shifts">
+                <i class="bi bi-clock-history nav-icon"></i>
+                <span class="nav-text">Shift Management</span>
+                <i class="bi bi-chevron-right menu-toggle"></i>
+            </a>
+            <ul class="sub-menu" id="shifts-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=add_shift">
+                        <i class="bi bi-plus-circle nav-icon"></i>
+                        <span class="nav-text">Add Shift</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php">
+                        <i class="bi bi-card-checklist nav-icon"></i>
+                        <span class="nav-text">View All Shifts</span>
+                    </a>
+                </li>
+                <!-- In sidebar.php -->
+                <li class="nav-item">
+                    <a class="nav-link" href="shifts.php?source=attendance">
+                        <i class="bi bi-calendar-check nav-icon"></i>
+                        <span class="nav-text">Attendance</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <!-- Customers Menu -->
         <li class="nav-item">
